@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .card{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 180px;
+            height: 80px;
+            background: #dedede;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hello vuejs 3</h1>
+    <section id="contact">
+       <div class="card-container">
+        <div class="card" @mouseover="onLogEvent">Mouse Over</div>
+        <div class="card" @mouseleave="onLogEvent"></div>
+        <div class="card" @doubleclick="onLogEvent"></div>
+        <div class="card"></div>
+       </div>
+    </section>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
