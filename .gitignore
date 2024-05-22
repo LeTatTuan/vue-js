@@ -1,0 +1,14 @@
+node_modules
+.DS_Store
+dist
+dist-ssr
+*.local
+.env
+yarn.lock
+package-lock.json
+
+src/data/*
+src/plugins/*
+src/router/*
+src/services/*
+src/stores/*
