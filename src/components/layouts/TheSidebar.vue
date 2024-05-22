@@ -84,14 +84,14 @@
   </div>
 </template>
 <script setup>
-import { ref, computed, onBeforeMount } from 'vue'
-import { authStore } from '@/stores/auth.store'
-import { useRoute } from 'vue-router'
-const route = useRoute()
-const isDashboard = computed(() => route.name === 'dashboard')
-const isUsers = computed(() => route.name === 'users')
-const user = computed(() => authStore.value.user)
+import { computed, onBeforeMount } from 'vue';
+import { authStore } from '@/stores/auth.store';
+import { useRoute } from 'vue-router';
+const route = useRoute();
+const isDashboard = computed(() => route.name === 'dashboard');
+const isUsers = computed(() => route.name === 'users');
+const user = computed(() => authStore.value.user);
 onBeforeMount(() => {
-  console.log(user.value, route)
-})
+  console.log(user.value, route);
+});
 </script>

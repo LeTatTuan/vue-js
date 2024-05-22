@@ -7,6 +7,7 @@ module.exports = {
   plugins: ['vue'],
   rules: {
     'prettier/prettier': 'off',
-    // 'semi': ['error', 'always'],
+    'semi': ['error', 'always'],
+    'vue/multi-word-component-names': 'off',
   },
-}
+};

@@ -205,17 +205,7 @@
     <TabGroup>
       <div class="bg-white border rounded-lg shadow sm:col-span-2">
         <div
-          class="
-            flex flex-col
-            space-y-2
-            items-center
-            px-4
-            mb-2
-            py-2
-            border-b-2
-            text-gray-600
-            sm:flex-row sm:justify-between
-          "
+          class="flex flex-col space-y-2 items-center px-4 mb-2 py-2 border-b-2 text-gray-600 sm:flex-row sm:justify-between"
         >
           <h3 class="tracking-wider">Top Author</h3>
           <TabList class="flex space-x-1">
@@ -366,18 +356,7 @@
               <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
                 <a
                   href="#"
-                  class="
-                    relative
-                    inline-flex
-                    items-center
-                    px-2
-                    rounded-l-md
-                    border border-gray-300
-                    text-sm
-                    font-medium
-                    text-gray-500
-                    hover:bg-gray-50
-                  "
+                  class="relative inline-flex items-center px-2 rounded-l-md border border-gray-300 text-sm font-medium text-gray-500 hover:bg-gray-50"
                 >
                   <span class="sr-only">Previous</span>
                   <svg
@@ -394,145 +373,48 @@
                 <a
                   href="#"
                   aria-current="page"
-                  class="
-                    z-10
-                    bg-indigo-50
-                    border-indigo-500
-                    text-indigo-600
-                    relative
-                    inline-flex
-                    items-center
-                    px-4
-                    py-1
-                    border
-                    text-sm
-                    font-medium
-                  "
+                  class="z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-1 border text-sm font-medium"
                 >
                   1
                 </a>
                 <a
                   href="#"
-                  class="
-                    border-gray-300
-                    text-gray-500
-                    hover:bg-gray-50
-                    relative
-                    inline-flex
-                    items-center
-                    px-4
-                    py-1
-                    border
-                    text-sm
-                    font-medium
-                  "
+                  class="border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-1 border text-sm font-medium"
                 >
                   2
                 </a>
                 <a
                   href="#"
-                  class="
-                    border-gray-300
-                    text-gray-500
-                    hover:bg-gray-50
-                    hidden
-                    md:inline-flex
-                    relative
-                    items-center
-                    px-4
-                    py-1
-                    border
-                    text-sm
-                    font-medium
-                  "
+                  class="border-gray-300 text-gray-500 hover:bg-gray-50 hidden md:inline-flex relative items-center px-4 py-1 border text-sm font-medium"
                 >
                   3
                 </a>
                 <span
-                  class="
-                    relative
-                    inline-flex
-                    items-center
-                    px-4
-                    py-1
-                    border border-gray-300
-                    text-sm
-                    font-medium
-                    text-gray-700
-                  "
+                  class="relative inline-flex items-center px-4 py-1 border border-gray-300 text-sm font-medium text-gray-700"
                 >
                   ...
                 </span>
                 <a
                   href="#"
-                  class="
-                    border-gray-300
-                    text-gray-500
-                    hover:bg-gray-50
-                    hidden
-                    md:inline-flex
-                    relative
-                    items-center
-                    px-4
-                    py-1
-                    border
-                    text-sm
-                    font-medium
-                  "
+                  class="border-gray-300 text-gray-500 hover:bg-gray-50 hidden md:inline-flex relative items-center px-4 py-1 border text-sm font-medium"
                 >
                   8
                 </a>
                 <a
                   href="#"
-                  class="
-                    border-gray-300
-                    text-gray-500
-                    hover:bg-gray-50
-                    relative
-                    inline-flex
-                    items-center
-                    px-4
-                    py-1
-                    border
-                    text-sm
-                    font-medium
-                  "
+                  class="border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-1 border text-sm font-medium"
                 >
                   9
                 </a>
                 <a
                   href="#"
-                  class="
-                    border-gray-300
-                    text-gray-500
-                    hover:bg-gray-50
-                    relative
-                    inline-flex
-                    items-center
-                    px-4
-                    py-1
-                    border
-                    text-sm
-                    font-medium
-                  "
+                  class="border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-1 border text-sm font-medium"
                 >
                   10
                 </a>
                 <a
                   href="#"
-                  class="
-                    relative
-                    inline-flex
-                    items-center
-                    px-2
-                    py-1
-                    rounded-r-md
-                    border border-gray-300
-                    text-sm
-                    font-medium
-                    text-gray-500
-                    hover:bg-gray-50
-                  "
+                  class="relative inline-flex items-center px-2 py-1 rounded-r-md border border-gray-300 text-sm font-medium text-gray-500 hover:bg-gray-50"
                 >
                   <span class="sr-only">Next</span>
                   <svg
@@ -555,10 +437,10 @@
 </template>
 
 <script>
-import VueApexCharts from 'vue3-apexcharts'
-import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
-import topAuthors from '@/data/home/topAuthors.json'
-import recentSales from '@/data/home/recentSales.json'
+import VueApexCharts from 'vue3-apexcharts';
+import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue';
+import topAuthors from '@/data/home/topAuthors.json';
+import recentSales from '@/data/home/recentSales.json';
 
 export default {
   components: {
@@ -584,14 +466,14 @@ export default {
       xaxis: {
         categories: ['Aug 1', 'Aug 2', 'Aug 3', 'Aug 4', 'Aug 5', 'Aug 6', 'Aug 7'],
       },
-    }
+    };
 
     const pageViewSeries = [
       {
         name: 'Page view',
         data: [3087, 4403, 3456, 2864, 4956, 6023, 7063],
       },
-    ]
+    ];
 
     const sessionsOptions = {
       chart: {
@@ -601,9 +483,9 @@ export default {
       legend: {
         position: 'bottom',
       },
-    }
+    };
 
-    const sessionsSeries = [70.9, 27.2, 1.9]
+    const sessionsSeries = [70.9, 27.2, 1.9];
 
     return {
       pageViewOptions,
@@ -612,7 +494,7 @@ export default {
       sessionsSeries,
       topAuthors,
       recentSales,
-    }
+    };
   },
-}
+};
 </script>

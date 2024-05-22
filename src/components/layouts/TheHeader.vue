@@ -1,7 +1,7 @@
 <template>
   <div class="fixed top-0 left-0 h-[72px] w-full bg-white z-50 flex justify-between items-center px-5">
     <div></div>
-    <div class="flex items-center gap-5" v-if="authStore.user">
+    <div v-if="authStore.user" class="flex items-center gap-5">
       <p>Số dư: {{ authStore.user.balance }}</p>
       <p>Hello, {{ authStore.user.name }}</p>
       <img
@@ -13,5 +13,5 @@
   </div>
 </template>
 <script setup>
-import { authStore } from '@/stores/auth.store'
+import { authStore } from '@/stores/auth.store';
 </script>

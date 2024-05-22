@@ -172,39 +172,39 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { initAuthStore } from '@/stores/auth.store'
-import { registerApi } from '@/services/auth.service'
-import { useNotification } from '@kyvg/vue3-notification'
-const notification = useNotification()
-const router = useRouter()
-const name = ref('')
-const email = ref('')
-const password = ref('')
-const confirmPassword = ref('')
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { initAuthStore } from '@/stores/auth.store';
+import { registerApi } from '@/services/auth.service';
+import { useNotification } from '@kyvg/vue3-notification';
+const notification = useNotification();
+const router = useRouter();
+const name = ref('');
+const email = ref('');
+const password = ref('');
+const confirmPassword = ref('');
 const submit = async () => {
   try {
     if (password.value.trim() != confirmPassword.value.trim()) {
       notification.notify({
         type: 'error',
         title: 'Mật khẩu xác nhận không khớp',
-      })
-      return
+      });
+      return;
     }
     await registerApi({ name: name.value.trim(), email: email.value.trim(), password: password.value.trim() })
       .then((res) => {
-        const data = res['data']
-        localStorage.setItem('access_token', data.tokens.access.token)
-        localStorage.setItem('refresh_token', data.tokens.refresh.token)
+        const data = res['data'];
+        localStorage.setItem('access_token', data.tokens.access.token);
+        localStorage.setItem('refresh_token', data.tokens.refresh.token);
       })
       .catch((error) => {
-        console.log(error)
-      })
-    await initAuthStore()
-    router.push('/users')
+        console.log(error);
+      });
+    await initAuthStore();
+    router.push('/users');
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};
 </script>

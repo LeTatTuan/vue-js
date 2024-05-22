@@ -1,16 +1,16 @@
 <script setup>
-import { RouterView, useRoute } from 'vue-router'
-import { computed } from 'vue'
-import authLayout from '@/layouts/authLayout.vue'
-import emptyLayout from '@/layouts/emptyLayout.vue'
+import { RouterView, useRoute } from 'vue-router';
+import { computed } from 'vue';
+import authLayout from '@/layouts/authLayout.vue';
+import emptyLayout from '@/layouts/emptyLayout.vue';
 const layout = computed(() => {
   switch (useRoute().meta.layout) {
     case 'empty':
-      return emptyLayout
+      return emptyLayout;
     default:
-      return authLayout
+      return authLayout;
   }
-})
+});
 </script>
 <template>
   <Notifications />

@@ -3,31 +3,12 @@
     <h4 class="text-gray-700">Horizontal</h4>
     <div class="max-w-sm w-full lg:max-w-full lg:flex mt-6">
       <div
-        class="
-          h-48
-          lg:h-auto lg:w-48
-          flex-none
-          bg-cover
-          rounded-t
-          lg:rounded-t-none lg:rounded-l
-          text-center
-          overflow-hidden
-        "
+        class="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden"
         style="background-image: url('https://picsum.photos/id/0/192/213')"
         title="Woman holding a mug"
       ></div>
       <div
-        class="
-          border-r border-b border-l border-gray-400
-          lg:border-l-0 lg:border-t lg:border-gray-400
-          bg-white
-          rounded-b
-          lg:rounded-b-none lg:rounded-r
-          p-4
-          flex flex-col
-          justify-between
-          leading-normal
-        "
+        class="border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal"
       >
         <div class="mb-8">
           <p class="text-sm text-gray-600 flex items-center">
@@ -63,5 +44,5 @@
 <script>
 export default {
   name: 'CardHorizontal',
-}
+};
 </script>

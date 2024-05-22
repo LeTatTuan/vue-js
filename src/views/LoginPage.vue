@@ -132,31 +132,31 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { initAuthStore } from '@/stores/auth.store'
-import { login } from '@/services/auth.service'
-import { useNotification } from '@kyvg/vue3-notification'
-const notification = useNotification()
-const router = useRouter()
-const email = ref('')
-const password = ref('')
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { initAuthStore } from '@/stores/auth.store';
+import { login } from '@/services/auth.service';
+import { useNotification } from '@kyvg/vue3-notification';
+const notification = useNotification();
+const router = useRouter();
+const email = ref('');
+const password = ref('');
 const submit = async () => {
   try {
     await login({ email: email.value, password: password.value }).then((res) => {
-      const data = res['data']
-      localStorage.setItem('access_token', data.tokens.access.token)
-      localStorage.setItem('refresh_token', data.tokens.refresh.token)
-    })
-    await initAuthStore()
-    router.push('/')
+      const data = res['data'];
+      localStorage.setItem('access_token', data.tokens.access.token);
+      localStorage.setItem('refresh_token', data.tokens.refresh.token);
+    });
+    await initAuthStore();
+    router.push('/');
   } catch (error) {
     notification.notify({
       type: 'error',
       title: 'Đăng nhập thất bại, vui lòng kiểm tra lại thông tin đăng nhập',
       text: error.response.data.message,
-    })
-    console.log(error)
+    });
+    console.log(error);
   }
-}
+};
 </script>

@@ -46,18 +46,18 @@
   </div>
 </template>
 <script setup>
-import { onBeforeMount, ref } from 'vue'
+import { onBeforeMount, ref } from 'vue';
 const props = defineProps({
   show: Boolean,
   user: Object,
-})
-const emits = defineEmits(['close', 'updateUser'])
-const userData = ref(null)
+});
+const emits = defineEmits(['close', 'updateUser']);
+const userData = ref(null);
 onBeforeMount(() => {
-  userData.value = { ...props.user }
-  console.log(userData.value.balance)
-})
+  userData.value = { ...props.user };
+  console.log(userData.value.balance);
+});
 const submit = () => {
-  emits('updateUser', userData.value)
-}
+  emits('updateUser', userData.value);
+};
 </script>

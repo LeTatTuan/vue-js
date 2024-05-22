@@ -19,42 +19,42 @@
       </table>
     </div>
   </div>
-  <PopupDetailUser v-if="userChoosed" :user="userChoosed" @close="closePopupDetailUser" @updateUser="updateUser" />
+  <PopupDetailUser v-if="userChoosed" :user="userChoosed" @close="closePopupDetailUser" @update-user="updateUser" />
 </template>
 <script setup>
-import { ref, onBeforeMount } from 'vue'
-import PopupDetailUser from '@/components/Users/PopupDetailUser.vue'
-import { getUsersApi, updateUserApi } from '@/services/user.service'
-import { useNotification } from '@kyvg/vue3-notification'
+import { ref, onBeforeMount } from 'vue';
+import PopupDetailUser from '@/components/Users/PopupDetailUser.vue';
+import { getUsersApi, updateUserApi } from '@/services/user.service';
+import { useNotification } from '@kyvg/vue3-notification';
 
-const notification = useNotification()
+const notification = useNotification();
 
-const users = ref([])
+const users = ref([]);
 onBeforeMount(() => {
-  fetchUsers()
-})
+  fetchUsers();
+});
 const fetchUsers = async () => {
   try {
     await getUsersApi().then((res) => {
-      users.value = res['data']['data']
-    })
+      users.value = res['data']['data'];
+    });
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
-const userChoosed = ref(null)
+};
+const userChoosed = ref(null);
 const closePopupDetailUser = () => {
-  userChoosed.value = null
-}
+  userChoosed.value = null;
+};
 const updateUser = async (user) => {
-  const index = users.value.findIndex((item) => item.id === user.id)
+  const index = users.value.findIndex((item) => item.id === user.id);
   await updateUserApi(user.id, {
     name: user.name,
     email: user.email,
     role: user.role,
   })
     .then((res) => {
-      users.value[index] = res['data']
+      users.value[index] = res['data'];
     })
     .catch((error) => {
       if (error.code == 'ERR_BAD_REQUEST') {
@@ -62,11 +62,11 @@ const updateUser = async (user) => {
           type: 'error',
           title: 'Cập nhật thông tin lỗi',
           text: error.response.data.message,
-        })
+        });
       }
-    })
-  userChoosed.value = null
-}
+    });
+  userChoosed.value = null;
+};
 </script>
 <style scoped>
 table {

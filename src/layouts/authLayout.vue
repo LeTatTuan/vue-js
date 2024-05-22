@@ -16,9 +16,9 @@
 </template>
 
 <script>
-import TheSidebar from '@/components/layouts/TheSidebar.vue'
-import TheHeader from '@/components/layouts/TheHeader.vue'
-import TheFooter from '@/components/layouts/TheFooter.vue'
+import TheSidebar from '@/components/layouts/TheSidebar.vue';
+import TheHeader from '@/components/layouts/TheHeader.vue';
+import TheFooter from '@/components/layouts/TheFooter.vue';
 
 export default {
   components: {
@@ -26,5 +26,5 @@ export default {
     TheHeader,
     TheFooter,
   },
-}
+};
 </script>

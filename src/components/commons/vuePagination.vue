@@ -8,10 +8,10 @@ export default {
   },
   methods: {
     toPage(val) {
-      this.$emit('changePage', val)
+      this.$emit('changePage', val);
     },
   },
-}
+};
 </script>
 <template>
   <div v-if="meta" class="pagination-container">
