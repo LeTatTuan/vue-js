@@ -1,20 +1,19 @@
 <template>
   <div class="px-5 py-5">
-    <div class="bg-white rounded-[10px] p-2">
+    <p class="font-bold text-xl">Tài khoản</p>
+    <div class="bg-white rounded-[10px] p-2 mt-5">
       <table>
         <tr>
           <th>ID</th>
           <th>TÊN</th>
           <th>EMAIL</th>
           <th>ROLE</th>
-          <th>SỐ DƯ</th>
         </tr>
         <tr v-for="user in users" :key="user.id" @click="userChoosed = user">
           <td>{{ user.id }}</td>
           <td>{{ user.name }}</td>
           <td>{{ user.email }}</td>
-          <td>{{ user.role }}</td>
-          <td>{{ user.balance }}</td>
+          <td>{{ user.roles }}</td>
         </tr>
       </table>
     </div>
@@ -35,6 +34,7 @@ onBeforeMount(() => {
 });
 const fetchUsers = async () => {
   try {
+    console.log('fetching users');
     await getUsersApi().then((res) => {
       users.value = res['data']['data'];
     });

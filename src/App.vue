@@ -1,15 +1,11 @@
 <script setup>
 import { RouterView, useRoute } from 'vue-router';
 import { computed } from 'vue';
-import authLayout from '@/layouts/authLayout.vue';
-import emptyLayout from '@/layouts/emptyLayout.vue';
+const route = useRoute();
+
 const layout = computed(() => {
-  switch (useRoute().meta.layout) {
-    case 'empty':
-      return emptyLayout;
-    default:
-      return authLayout;
-  }
+  console.log(route);
+  return (route.meta.layout || 'default') + '-layout';
 });
 </script>
 <template>

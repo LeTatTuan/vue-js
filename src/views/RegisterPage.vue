@@ -175,7 +175,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { initAuthStore } from '@/stores/auth.store';
-import { registerApi } from '@/services/auth.service';
+import { register } from '@/services';
 import { useNotification } from '@kyvg/vue3-notification';
 const notification = useNotification();
 const router = useRouter();
@@ -192,18 +192,23 @@ const submit = async () => {
       });
       return;
     }
-    await registerApi({ name: name.value.trim(), email: email.value.trim(), password: password.value.trim() })
-      .then((res) => {
+    await register({ name: name.value.trim(), email: email.value.trim(), password: password.value.trim() }).then(
+      (res) => {
         const data = res['data'];
         localStorage.setItem('access_token', data.tokens.access.token);
         localStorage.setItem('refresh_token', data.tokens.refresh.token);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      }
+    );
     await initAuthStore();
     router.push('/users');
   } catch (error) {
+    if (error.response?.data?.message) {
+      notification.notify({
+        type: 'error',
+        title: 'Đăng ký thất bại',
+        text: error.response.data.message,
+      });
+    }
     console.log(error);
   }
 };

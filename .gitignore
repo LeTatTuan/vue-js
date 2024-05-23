@@ -7,7 +7,7 @@ dist-ssr
 yarn.lock
 package-lock.json
 
-# src/data/*
+src/data/*
 # src/plugins/*
 # src/router/*
 # src/services/*

@@ -11,7 +11,7 @@ axiosApiInstance.interceptors.request.use(
     const access_token = localStorage.getItem('access_token');
 
     config.headers = {
-      Authorization: `Bear ${access_token}`,
+      Authorization: `Bearer ${access_token}`,
       Accept: 'application/json',
       'Content-Type': 'application/x-www-form-urlencoded',
     };
@@ -40,7 +40,7 @@ axiosApiInstance.interceptors.response.use(
         const token = await refreshAccessToken();
         localStorage.setItem('access_token', token.accessToken);
         localStorage.setItem('refresh_token', token.refreshToken);
-        axios.defaults.headers.common['Authorization'] = `Bear ${token.accessToken}`;
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token.accessToken}`;
         return axiosApiInstance(originalRequest);
       } catch (error) {
         console.log(error, 'ERROR', originalRequest.url);

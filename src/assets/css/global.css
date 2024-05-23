@@ -1,4 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100;9..40,200;9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800;9..40,900;9..40,1000&display=swap');
+:root {
+	--border-color: #363636;
+	--bg-hover: #1b1b1d;
+	--bg-primary: #1b1b1d;
+	--green-primary: #16b67c;
+	--gray-hover: #2e2e2e;
+  --shadow-primary: 0px 4px 35px 0px rgba(0, 0, 0, 0.08);
+}
+
 body {
 	font-size: .875rem;
 	font-weight: 400;
+	font-family: 'DM Sans', sans-serif;
+}
+
+textarea {
+	resize: none;
+	box-shadow: none;
+	border: none;
+}
+textarea:focus {
+	outline: none;
+	border: none;
+	box-shadow: none;
+}
+input {
+  box-shadow: none;
+}
+input:focus {
+  border: 1px solid #2563eb !important;
+  box-shadow: none !important;
+  /* transition: all 0.3s ease-in-out; */
+}
+::-webkit-scrollbar {width: 10px; height: 4px; background: #e2e2e2; }
+::-webkit-scrollbar-thumb { background-color: #777777; -webkit-border-radius: 1ex; }
+::-webkit-scrollbar-thumb:hover { background-color: #797979; cursor: pointer; }
+.resize-animation {
+	transition: all .2s ease-in-out;
+}
+
+.fadeIn {
+  animation-name: fadeIn;
+  animation-duration: .3s;
+  animation-fill-mode: both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.gb-shadow {
+  box-shadow: var(--shadow-primary);
+}
+
+.product-card-shadow {
+  box-shadow: 0px 1px 4px 0px rgb(83 83 83 / 24%);
+}
+.underlined {
+  /*   background: red; */
+    position: relative;
+  }
+  
+  .underline-mask:after {
+    content: '';
+    position: absolute;
+    top: 95%;
+    width: 150%;
+    aspect-ratio: 3 / 1;
+    left: 50%;
+    transform: translate(-50%, 0);
+    border-radius: 50%;
+    border: 4px solid hsl(280 80% 50%);
+    /* Use a conic gradient mask to hide and show the bits you want */
+    --spread: 140deg;
+    --start: 290deg;
+    mask: conic-gradient(from var(--start), white 0 var(--spread), transparent var(--spread));
+  }
+  
+  
+  .underline-overflow {
+    display: inline-block;
+    /* A little extra padding and overflow hidden   */
+    overflow: hidden;
+    padding-bottom: clamp(1rem, 2vmin, 2rem);
+  }
+  .underline-overflow:after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    height: 150%;
+    aspect-ratio: 2.5 / 1;
+    left: 50%;
+    transform: translate(-50%, -10%);
+    border-radius: 50%;
+    border: 6px solid hsl(10 80% 50%);
+  }
+  
+  .underline-clip:after {
+    content: '';
+    position: absolute;
+    top: 95%;
+    width: 150%;
+    aspect-ratio: 3 / 1;
+    left: 50%;
+    transform: translate(-50%, 0);
+    border-radius: 50%;
+    border: 6px solid hsl(130 80% 50%);
+    /* Use a clip-path to hide and show the bits you want */
+    clip-path: polygon(0 0, 50% 50%, 100% 0);
+  }
+
+.truncate-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+}
+/* w-full rounded-md border-[1px] border-[#ebebeb] */
+.inp-common {
+  border: 1px solid #ebebeb;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  width: 100%;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: #4b5563;
+  background-color: #fff;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-background-clip: text;
+    transition: background-color 5000s ease-in-out 0s;
 }
