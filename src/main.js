@@ -1,4 +1,5 @@
 import { createApp } from 'vue';
+import { createPinia } from 'pinia';
 import router from '@/router';
 import App from './App.vue';
 import './assets/css/tailwind.css';
@@ -10,8 +11,10 @@ import emptyLayout from '@/layouts/emptyLayout.vue';
 
 const initApp = async () => {
   await initAuthStore();
+  const pinia = createPinia();
   const app = createApp(App);
   app.use(router);
+  app.use(pinia);
   app.component('DefaultLayout', authLayout);
   app.component('EmptyLayout', emptyLayout);
   app.use(Notifications);

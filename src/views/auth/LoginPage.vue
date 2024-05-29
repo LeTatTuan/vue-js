@@ -125,54 +125,23 @@
       </form>
 
       <div class="mt-2 text-sm text-gray-600">
-        Chưa có tài khoản?
-        <a href="/register" class="font-medium text-indigo-600 hover:text-indigo-500">Tạo tài khoản</a>
+        Not registered yet?
+        <a href="/register" class="font-medium text-indigo-600 hover:text-indigo-500">Create an account</a>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { initAuthStore } from '@/stores';
-import { login, loginGGApi } from '@/services';
+import { login } from '@/services';
 import { useNotification } from '@kyvg/vue3-notification';
 const notification = useNotification();
 const router = useRouter();
 const email = ref('');
 const password = ref('');
-
-const googleLoginBtn = ref();
-onMounted(() => {
-  console.log('onBeforeMount');
-  const gClientId = '539910609167-67i01tcoja47s71qshaeodhcc69d5u99.apps.googleusercontent.com';
-  window.google.accounts.id.initialize({
-    client_id: gClientId,
-    scope: 'email profile openid',
-    callback: handleCredentialResponse,
-    auto_select: true,
-  });
-  window.google.accounts.id.renderButton(googleLoginBtn.value, { theme: 'outline', size: 'large', width: '400' });
-  window.google.accounts.id.prompt();
-});
-const handleCredentialResponse = async (res) => {
-  try {
-    await loginGGApi({ credential: res.credential }).then((res) => {
-      const data = res['data'];
-      localStorage.setItem('access_token', data.tokens.access.token);
-      localStorage.setItem('refresh_token', data.tokens.refresh.token);
-    });
-    await initAuthStore();
-    router.push('/');
-  } catch (error) {
-    notification.notify({
-      type: 'error',
-      title: 'Đăng nhập thất bại, vui lòng kiểm tra lại thông tin đăng nhập',
-      text: error.response.data.message,
-    });
-  }
-};
 
 const submit = async () => {
   try {
@@ -183,6 +152,8 @@ const submit = async () => {
       localStorage.setItem('refresh_token', data.metadata.refreshToken);
     });
     await initAuthStore();
+    email.value = '';
+    password.value = '';
     router.push('/');
   } catch (error) {
     notification.notify({

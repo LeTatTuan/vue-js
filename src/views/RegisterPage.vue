@@ -165,7 +165,7 @@
       </form>
 
       <div class="mt-2 text-sm text-gray-600">
-        Not registered yet? <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">Create an account</a>
+        Already have an account? <a href="/login" class="font-medium text-indigo-600 hover:text-indigo-500">Log in </a>
       </div>
     </div>
   </div>
