@@ -22,3 +22,8 @@ export const getActiveUsers = async () => {
 export const getRevenues = async () => {
     return await axiosApiInstance.get('/payments/revenues');
 };
+
+export const getRecentTransactions = async () => {
+    return await axiosApiInstance.get('/transactions');
+};
+
