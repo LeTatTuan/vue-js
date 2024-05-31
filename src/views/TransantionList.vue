@@ -1,8 +1,18 @@
 <script setup>
+import vuePaginationVue from '@/components/commons/vuePagination.vue';
 import { getRecentTransactions } from '@/services';
 import { onBeforeMount, ref } from 'vue';
 
 const transactions = ref([]);
+const currentPage = ref(1);
+const totalPages = ref(0);
+const totalResults = ref(0);
+const meta = ref({
+  current_page: null,
+  total_pages: null,
+  prev_page: null,
+  next_page: null,
+});
 
 onBeforeMount(() => {
   fetchTransactions();
@@ -11,7 +21,16 @@ const fetchTransactions = async () => {
   try {
     console.log('fetching transactions');
     await getRecentTransactions().then((res) => {
-      transactions.value = res['data']['metadata'];
+      transactions.value = res['data']['metadata']['data'];
+      totalPages.value = res['data']['metadata']['totalPages'];
+      totalResults.value = res['data']['metadata']['totalResults'];
+      currentPage.value = res['data']['metadata']['page'];
+      meta.value = {
+        current_page: currentPage.value,
+        total_pages: totalPages.value,
+        prev_page: currentPage.value == 1 ? null : currentPage.value - 1,
+        next_page: currentPage.value == totalPages.value ? null : currentPage.value + 1,
+      };
       console.log(transactions);
     });
   } catch (error) {
@@ -42,7 +61,7 @@ const fetchTransactions = async () => {
           <td>{{ transaction.bundleId }}</td>
           <td>{{ transaction.storefront }}</td>
           <td>{{ transaction.productId }}</td>
-          <td>{{ transaction.totalCost }}</td>
+          <td>{{ transaction.totalCostStr }}</td>
           <td>{{ transaction.purchaseDate }}</td>
           <td>{{ transaction.expiresDate }}</td>
           <td class="text-right">
@@ -52,6 +71,8 @@ const fetchTransactions = async () => {
       </table>
     </div>
   </div>
+
+  <vuePaginationVue :meta="meta" />
 </template>
 
 <style scoped>

@@ -13,6 +13,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div v-if="meta" class="pagination-container">
     <p style="margin-right: 15px">Page {{ meta.current_page }}/{{ meta.total_pages }}</p>
@@ -54,6 +55,7 @@ export default {
   display: flex;
   gap: 5px;
   align-items: center;
+  justify-content: center;
 }
 .page {
   display: flex;
@@ -64,7 +66,7 @@ export default {
   border-radius: 50%;
 }
 .page:hover {
-  background: #f5f6f7;
+  background: #ff9999;
   transition: 0.2s;
   cursor: pointer;
 }
@@ -77,6 +79,6 @@ export default {
   align-items: center;
   width: 30px;
   height: 30px;
-  color: #fff;
+  color: #33ccff;
 }
 </style>

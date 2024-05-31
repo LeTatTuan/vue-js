@@ -1,5 +1,5 @@
 <template>
-  <div v-if="authStore.isLoggedIn" class="flex min-h-screen">
+  <div class="flex min-h-screen">
     <div class="flex flex-col flex-grow bg-[#f4f6f9]">
       <the-header />
 

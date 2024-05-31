@@ -66,35 +66,28 @@ const revenues = [
 
 onBeforeMount(() => {
   fetchData();
-  console.log('check: ', activeSubs);
-  console.log('check: ', revenues);
 });
 const fetchData = async () => {
   try {
     await getActiveTrials().then((res) => {
-      console.log('activeTrials: ', res);
       activeTrials.value = res['data']['metadata']['active_trials_formatted'];
       revenues[0].no_attribute = activeTrials.value;
     });
     await getActiveSubs().then((res) => {
-      console.log('activeSubs: ', res);
       activeSubs.value = res['data']['metadata']['active_subs_formatted'];
       revenues[1].no_attribute = activeSubs.value;
     });
     await getRevenues().then((res) => {
-      console.log('monthlyRecurringRevenue: ', res);
       monthlyRecurringRevenue.value = res['data']['metadata']['revenue_formatted'];
       revenueData.value = res['data']['metadata']['revenue_formatted'];
       revenues[2].no_attribute = monthlyRecurringRevenue.value;
       revenues[3].no_attribute = revenueData.value;
     });
     await getNewCustomers().then((res) => {
-      console.log('newCustomers: ', res);
       newCustomers.value = res['data']['metadata']['new_customers_formatted'];
       revenues[4].no_attribute = newCustomers.value;
     });
     await getActiveUsers().then((res) => {
-      console.log('activeUsers: ', res);
       activeUsers.value = res['data']['metadata']['active_users_formatted'];
       revenues[5].no_attribute = activeUsers.value;
     });

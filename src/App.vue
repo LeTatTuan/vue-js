@@ -1,18 +1,14 @@
 <script setup>
 import { RouterView, useRoute } from 'vue-router';
 import { computed } from 'vue';
-const route = useRoute();
-
-const layout = computed(() => {
-  console.log(route);
-  return (route.meta.layout || 'default') + '-layout';
-});
+import authLayout from '@/layouts/authLayout.vue';
 </script>
+
 <template>
   <Notifications />
-  <component :is="layout">
+  <authLayout>
     <router-view />
-  </component>
+  </authLayout>
 </template>
 
 <style scoped>

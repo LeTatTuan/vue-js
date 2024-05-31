@@ -8,6 +8,3 @@
     <div>&copy; {{ new Date().getFullYear() }} Nine to Night</div>
   </footer>
 </template>
-
-<script>
-</script>

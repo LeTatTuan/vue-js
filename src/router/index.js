@@ -5,22 +5,8 @@ const routes = [
   {
     path: '/',
     name: 'dashboard',
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, layout: 'auth' },
     component: () => import('@/views/Dashboard.vue'),
-    children: [
-      {
-        path: '/users',
-        name: 'users',
-        meta: { requiresAuth: true, roles: ['ADMIN'] },
-        component: () => import('@/views/UserList.vue'),
-      },
-    ]
-  },
-  {
-    path: '/users',
-    name: 'users',
-    meta: { requiresAuth: true, roles: ['ADMIN'] },
-    component: () => import('@/views/UserList.vue'),
   },
   {
     path: '/login',
