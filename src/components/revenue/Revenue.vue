@@ -18,12 +18,12 @@
 import { getActiveSubs, getActiveTrials, getActiveUsers, getNewCustomers, getRevenues } from '@/services';
 import { onBeforeMount, onMounted, onUpdated, ref } from 'vue';
 import CardItem from './CardItem.vue';
-const activeTrials = ref(null);
-const activeSubs = ref(null);
-const monthlyRecurringRevenue = ref(null);
-const revenueData = ref(null);
-const newCustomers = ref(null);
-const activeUsers = ref(null);
+const activeTrials = ref('');
+const activeSubs = ref('');
+const monthlyRecurringRevenue = ref('');
+const revenueData = ref('');
+const newCustomers = ref('');
+const activeUsers = ref('');
 
 const revenues = [
   {

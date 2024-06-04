@@ -4,7 +4,7 @@ import { getRecentTransactions } from '@/services';
 import { onBeforeMount, ref } from 'vue';
 
 const transactions = ref([]);
-const currentPage = ref(1);
+const currentPage = ref(10);
 const totalPages = ref(0);
 const totalResults = ref(0);
 const meta = ref({
@@ -20,7 +20,7 @@ onBeforeMount(() => {
 const fetchTransactions = async () => {
   try {
     console.log('fetching transactions');
-    await getRecentTransactions().then((res) => {
+    await getRecentTransactions(currentPage.value).then((res) => {
       transactions.value = res['data']['metadata']['data'];
       totalPages.value = res['data']['metadata']['totalPages'];
       totalResults.value = res['data']['metadata']['totalResults'];
@@ -28,14 +28,21 @@ const fetchTransactions = async () => {
       meta.value = {
         current_page: currentPage.value,
         total_pages: totalPages.value,
-        prev_page: currentPage.value == 1 ? null : currentPage.value - 1,
-        next_page: currentPage.value == totalPages.value ? null : currentPage.value + 1,
+        prev_page: currentPage.value == 1 ? currentPage.value : currentPage.value - 1,
+        next_page: currentPage.value == totalPages.value ? totalPages.value : currentPage.value + 1,
       };
-      console.log(transactions);
+      console.log(meta);
     });
   } catch (error) {
     console.log(error);
   }
+};
+
+const handlePageChange = (page) => {
+  console.log('current page from child: ', page);
+  currentPage.value = page;
+  console.log('current page from parent: ', currentPage.value);
+  fetchTransactions();
 };
 </script>
 
@@ -50,6 +57,7 @@ const fetchTransactions = async () => {
           <th>Store</th>
           <th>Product</th>
           <th>Revenue</th>
+          <th>Free Trial</th>
           <th>Purchased</th>
           <th>Expiration</th>
           <th>Renewal</th>
@@ -62,6 +70,9 @@ const fetchTransactions = async () => {
           <td>{{ transaction.storefront }}</td>
           <td>{{ transaction.productId }}</td>
           <td>{{ transaction.totalCostStr }}</td>
+          <td class="text-center">
+            <input type="checkbox" :checked="transaction.offerType === 1" disabled />
+          </td>
           <td>{{ transaction.purchaseDate }}</td>
           <td>{{ transaction.expiresDate }}</td>
           <td class="text-right">
@@ -72,7 +83,7 @@ const fetchTransactions = async () => {
     </div>
   </div>
 
-  <vuePaginationVue :meta="meta" />
+  <vuePaginationVue :meta="meta" @change-page="handlePageChange" />
 </template>
 
 <style scoped>
