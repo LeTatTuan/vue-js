@@ -11,7 +11,7 @@ export const logout = () => {
 export const authStore = ref({
   user: null,
   isLoggedIn: false,
-  logout
+  logout,
 });
 
 export const initAuthStore = async () => {

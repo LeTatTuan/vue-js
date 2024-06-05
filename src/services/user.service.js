@@ -9,7 +9,9 @@ export const updateUserApi = async (id, data) => {
   return await axiosApiInstance.patch(`/users/${id}`, data);
 };
 export const changeBalance = async (userID, balance) => {
-  return await axiosApiInstance.patch(`/users/${userID}/change-balance`, { balance: balance });
+  return await axiosApiInstance.patch(`/users/${userID}/change-balance`, {
+    balance: balance,
+  });
 };
 
 export const getListInfomationsApi = async () => {

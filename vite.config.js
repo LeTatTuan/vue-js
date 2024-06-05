@@ -1,9 +1,9 @@
-import path from "path";
-import vue from "@vitejs/plugin-vue";
-import { defineConfig } from "vite";
+import path from 'path';
+import vue from '@vitejs/plugin-vue';
+import { defineConfig } from 'vite';
 
-import tailwind from "tailwindcss";
-import autoprefixer from "autoprefixer";
+import tailwind from 'tailwindcss';
+import autoprefixer from 'autoprefixer';
 
 export default defineConfig({
   css: {
@@ -14,7 +14,7 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      '@': path.resolve(__dirname, './src'),
     },
   },
 });

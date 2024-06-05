@@ -7,7 +7,12 @@
       <p>Địa chỉ nhận : {{ information.location }}</p>
       <p>
         Trạng thái :
-        <span :class="{ ' text-green-500': information.isSend, 'text-yellow-500': !information.isSend }">
+        <span
+          :class="{
+            ' text-green-500': information.isSend,
+            'text-yellow-500': !information.isSend,
+          }"
+        >
           {{ information.isSend ? 'Đã xử lý' : 'Đang xử lý' }}
         </span>
       </p>

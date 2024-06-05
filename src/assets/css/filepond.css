@@ -136,7 +136,9 @@
 }
 .filepond--root[data-style-panel-layout~='circle']
   .filepond--file
-  .filepond--file-action-button[data-align*='bottom']:not([data-align*='center']) {
+  .filepond--file-action-button[data-align*='bottom']:not(
+    [data-align*='center']
+  ) {
   margin-bottom: 0.325em;
 }
 .filepond--root[data-style-panel-layout~='circle']
