@@ -6,7 +6,6 @@ export function cn(...inputs) {
 }
 
 export const formatDate = (date, addTime = null) => {
-  // Get individual date components
   const day = ('0' + date.getDate()).slice(-2);
   const month = ('0' + (date.getMonth() + 1)).slice(-2);
   const year = date.getFullYear().toString().slice(-2);
@@ -19,8 +18,8 @@ export const formatDate = (date, addTime = null) => {
 
 export const formatCurrency = (value) => {
   return `$${value.toFixed(2)}`;
-}
+};
 
 export const formatString = (value) => {
   return value.toLocaleString('en-US');
-}
+};

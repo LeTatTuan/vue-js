@@ -6,8 +6,9 @@
           v-for="revenue in revenues"
           :key="revenue.id"
           :title="revenue.title"
-          :no_attribute="revenue.no_attribute"
-          :time_description="revenue.time_description"
+          :no-attribute="revenue.noAttribute"
+          :no-attribute-str="revenue.noAttributeStr"
+          :time-description="revenue.timeDescription"
           :icon="revenue.icon"
         />
       </template>
@@ -16,21 +17,10 @@
 </template>
 
 <script setup>
-import {
-  getActiveSubs,
-  getActiveTrials,
-  getActiveUsers,
-  getNewCustomers,
-  getRevenues,
-} from '@/services';
+import { getActiveSubs, getActiveTrials, getActiveUsers, getNewCustomers, getRevenues } from '@/services';
 import { onBeforeMount, onMounted, onUpdated, ref } from 'vue';
 import CardItem from './CardItem.vue';
-import {
-  DollarSign,
-  Activity,
-  UserRoundPlus,
-  UserRoundCheck,
-} from 'lucide-vue-next';
+import { DollarSign, Activity, UserRoundPlus, UserRoundCheck } from 'lucide-vue-next';
 
 const activeTrials = ref('');
 const activeSubs = ref('');
@@ -43,43 +33,49 @@ const revenues = [
   {
     id: 1,
     title: 'Active Trials',
-    no_attribute: null,
-    time_description: 'Last 28 days',
+    noAttribute: null,
+    noAttributeStr: null,
+    timeDescription: 'Last 28 days',
     icon: DollarSign,
   },
   {
     id: 2,
     title: 'Active Subcriptions',
-    no_attribute: null,
-    time_description: 'Last 28 days',
+    noAttribute: null,
+    noAttributeStr: null,
+    timeDescription: 'Last 28 days',
     icon: DollarSign,
   },
   {
     id: 3,
     title: 'MRR',
-    no_attribute: null,
-    time_description: 'Monthly Recurring Revenue',
+    noAttribute: null,
+    noAttributeStr: null,
+    timeDescription: 'Monthly Recurring Revenue',
     icon: Activity,
   },
   {
     id: 4,
     title: 'Revenue',
-    no_attribute: null,
-    time_description: 'Last 28 days',
+    noAttribute: null,
+    noAttributeStr: null,
+    timeDescription: 'Last 28 days',
     icon: Activity,
   },
   {
     id: 5,
     title: 'New Customers',
-    no_attribute: null,
-    time_description: 'Last 28 days',
+    noAttribute: null,
+    noAttributeStr: null,
+    timeDescription: 'Last 28 days',
     icon: UserRoundPlus,
   },
   {
     id: 6,
     title: 'Active Users',
-    no_attribute: null,
-    time_description: 'Last 28 days',
+    noAttribute: null,
+    noAttributeStr: null,
+    timeDescription: 'Last 28 days',
     icon: UserRoundCheck,
   },
 ];
@@ -90,27 +86,33 @@ onBeforeMount(() => {
 const fetchData = async () => {
   try {
     await getActiveTrials().then((res) => {
-      activeTrials.value = res['data']['metadata']['active_trials_formatted'];
-      revenues[0].no_attribute = activeTrials.value;
+      activeTrials.value = res['data']['metadata'];
+      revenues[0].noAttribute = activeTrials.value['active_trials'];
+      revenues[0].noAttributeStr = activeTrials.value['active_trials_formatted'];
     });
     await getActiveSubs().then((res) => {
-      activeSubs.value = res['data']['metadata']['active_subs_formatted'];
-      revenues[1].no_attribute = activeSubs.value;
+      activeSubs.value = res['data']['metadata'];
+      revenues[1].noAttribute = activeSubs.value['active_subs'];
+      revenues[1].noAttributeStr = activeSubs.value['active_subs_formatted'];
     });
     await getRevenues().then((res) => {
-      monthlyRecurringRevenue.value =
-        res['data']['metadata']['revenue_formatted'];
-      revenueData.value = res['data']['metadata']['revenue_formatted'];
-      revenues[2].no_attribute = monthlyRecurringRevenue.value;
-      revenues[3].no_attribute = revenueData.value;
+      monthlyRecurringRevenue.value = res['data']['metadata'];
+      revenues[2].noAttribute = monthlyRecurringRevenue.value['revenue'];
+      revenues[2].noAttributeStr = monthlyRecurringRevenue.value['revenue_formatted'];
+
+      revenueData.value = res['data']['metadata'];
+      revenues[3].noAttribute = revenueData.value['revenue'];
+      revenues[3].noAttributeStr = revenueData.value['revenue_formatted'];
     });
     await getNewCustomers().then((res) => {
-      newCustomers.value = res['data']['metadata']['new_customers_formatted'];
-      revenues[4].no_attribute = newCustomers.value;
+      newCustomers.value = res['data']['metadata'];
+      revenues[4].noAttribute = newCustomers.value['new_customers'];
+      revenues[4].noAttributeStr = newCustomers.value['new_customers_formatted'];
     });
     await getActiveUsers().then((res) => {
-      activeUsers.value = res['data']['metadata']['active_users_formatted'];
-      revenues[5].no_attribute = activeUsers.value;
+      activeUsers.value = res['data']['metadata'];
+      revenues[5].noAttribute = activeUsers.value['active_users'];
+      revenues[5].noAttributeStr = activeUsers.value['active_users_formatted'];
     });
   } catch (error) {
     console.log(error);

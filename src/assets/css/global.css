@@ -89,11 +89,7 @@ input:focus {
   /* Use a conic gradient mask to hide and show the bits you want */
   --spread: 140deg;
   --start: 290deg;
-  mask: conic-gradient(
-    from var(--start),
-    white 0 var(--spread),
-    transparent var(--spread)
-  );
+  mask: conic-gradient(from var(--start), white 0 var(--spread), transparent var(--spread));
 }
 
 .underline-overflow {

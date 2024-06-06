@@ -4,28 +4,15 @@
 
     <div class="flex items-center space-x-1 text-xs">
       <a href="#" class="font-bold text-indigo-700">Home</a>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-2 w-2"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M9 5l7 7-7 7"
-        />
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-2 w-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
       </svg>
       <span class="text-gray-600">Dashboard</span>
     </div>
   </div>
 
   <div class="grid grid-cols-1 gap-4 px-4 mt-8 sm:grid-cols-4 sm:px-8">
-    <div
-      class="flex items-center bg-white border rounded-sm overflow-hidden shadow"
-    >
+    <div class="flex items-center bg-white border rounded-sm overflow-hidden shadow">
       <div class="p-4 bg-green-400">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -48,9 +35,7 @@
       </div>
     </div>
 
-    <div
-      class="flex items-center bg-white border rounded-sm overflow-hidden shadow"
-    >
+    <div class="flex items-center bg-white border rounded-sm overflow-hidden shadow">
       <div class="p-4 bg-blue-400">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -73,9 +58,7 @@
       </div>
     </div>
 
-    <div
-      class="flex items-center bg-white border rounded-sm overflow-hidden shadow"
-    >
+    <div class="flex items-center bg-white border rounded-sm overflow-hidden shadow">
       <div class="p-4 bg-indigo-400">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -98,9 +81,7 @@
       </div>
     </div>
 
-    <div
-      class="flex items-center bg-white border rounded-sm overflow-hidden shadow"
-    >
+    <div class="flex items-center bg-white border rounded-sm overflow-hidden shadow">
       <div class="p-4 bg-red-400">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -127,22 +108,12 @@
   <div class="grid grid-cols-1 px-4 gap-4 mt-8 sm:grid-cols-3 sm:px-8">
     <div class="px-4 py-2 bg-white border rounded-md overflow-hidden shadow">
       <h3 class="text-xl text-gray-600 mb-4">Page View</h3>
-      <apexchart
-        type="area"
-        :height="300"
-        :options="pageViewOptions"
-        :series="pageViewSeries"
-      ></apexchart>
+      <apexchart type="area" :height="300" :options="pageViewOptions" :series="pageViewSeries"></apexchart>
     </div>
 
     <div class="px-4 py-2 bg-white border rounded-md overflow-hidden shadow">
       <h3 class="text-xl text-gray-600 mb-4">Sessions by device</h3>
-      <apexchart
-        type="donut"
-        :height="300"
-        :options="sessionsOptions"
-        :series="sessionsSeries"
-      ></apexchart>
+      <apexchart type="donut" :height="300" :options="sessionsOptions" :series="sessionsSeries"></apexchart>
     </div>
 
     <div class="grid grid-rows-2 gap-4">
@@ -155,26 +126,18 @@
               <table class="table-auto min-w-full divide-y divide-gray-200">
                 <thead>
                   <tr>
-                    <th
-                      scope="col"
-                      class="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
+                    <th scope="col" class="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Post Title
                     </th>
 
-                    <th
-                      scope="col"
-                      class="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
+                    <th scope="col" class="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Views
                     </th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 text-sm text-gray-500">
                   <tr>
-                    <td class="py-1">
-                      Create an Admin Panel with Vue.js and Tailwind CSS
-                    </td>
+                    <td class="py-1">Create an Admin Panel with Vue.js and Tailwind CSS</td>
                     <td class="py-1 text-sm text-gray-500">1,672</td>
                   </tr>
                   <tr>
@@ -200,24 +163,15 @@
               <table class="min-w-full divide-y divide-gray-200">
                 <thead>
                   <tr>
-                    <th
-                      scope="col"
-                      class="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
+                    <th scope="col" class="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Name
                     </th>
 
-                    <th
-                      scope="col"
-                      class="py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
+                    <th scope="col" class="py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Commit
                     </th>
 
-                    <th
-                      scope="col"
-                      class="py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
+                    <th scope="col" class="py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Issue
                     </th>
                   </tr>
@@ -225,42 +179,18 @@
                 <tbody class="divide-y divide-gray-200 text-sm text-gray-500">
                   <tr>
                     <td class="py-1 whitespace-nowrap">Seto Kuslaksono</td>
-                    <td
-                      class="py-1 text-right whitespace-nowrap text-sm text-gray-500"
-                    >
-                      41
-                    </td>
-                    <td
-                      class="py-1 text-right whitespace-nowrap text-sm text-gray-500"
-                    >
-                      12
-                    </td>
+                    <td class="py-1 text-right whitespace-nowrap text-sm text-gray-500">41</td>
+                    <td class="py-1 text-right whitespace-nowrap text-sm text-gray-500">12</td>
                   </tr>
                   <tr>
                     <td class="py-1 whitespace-nowrap">Some Dude</td>
-                    <td
-                      class="py-1 text-right whitespace-nowrap text-sm text-gray-500"
-                    >
-                      22
-                    </td>
-                    <td
-                      class="py-1 text-right whitespace-nowrap text-sm text-gray-500"
-                    >
-                      15
-                    </td>
+                    <td class="py-1 text-right whitespace-nowrap text-sm text-gray-500">22</td>
+                    <td class="py-1 text-right whitespace-nowrap text-sm text-gray-500">15</td>
                   </tr>
                   <tr>
                     <td class="py-1 whitespace-nowrap">It Could Be You</td>
-                    <td
-                      class="py-1 text-right whitespace-nowrap text-sm text-gray-500"
-                    >
-                      12
-                    </td>
-                    <td
-                      class="py-1 text-right whitespace-nowrap text-sm text-gray-500"
-                    >
-                      4
-                    </td>
+                    <td class="py-1 text-right whitespace-nowrap text-sm text-gray-500">12</td>
+                    <td class="py-1 text-right whitespace-nowrap text-sm text-gray-500">4</td>
                   </tr>
                 </tbody>
               </table>
@@ -312,11 +242,7 @@
               <tbody>
                 <tr v-for="author in topAuthor" :key="author.username">
                   <td class="flex items-center py-2">
-                    <img
-                      class="inline-block h-12 w-12 rounded-full ring-2 ring-white"
-                      :src="author.avatar"
-                      alt=""
-                    />
+                    <img class="inline-block h-12 w-12 rounded-full ring-2 ring-white" :src="author.avatar" alt="" />
                     <div class="px-4">
                       <div>{{ author.name }}</div>
                       <div class="font-bold text-sm">
@@ -329,9 +255,7 @@
                     <div class="text-sm">Post Views</div>
                   </td>
                   <td class="hidden py-2 space-x-2 text-right sm:table-cell">
-                    <button
-                      class="p-1 rounded-md bg-green-500 text-white hover:bg-green-600"
-                    >
+                    <button class="p-1 rounded-md bg-green-500 text-white hover:bg-green-600">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         class="h-4 w-4"
@@ -347,9 +271,7 @@
                         />
                       </svg>
                     </button>
-                    <button
-                      class="p-1 rounded-md bg-red-500 text-white hover:bg-red-600"
-                    >
+                    <button class="p-1 rounded-md bg-red-500 text-white hover:bg-red-600">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         class="h-4 w-4"
@@ -375,52 +297,31 @@
     </TabGroup>
 
     <div class="bg-white border rounded-lg shadow sm:col-span-3">
-      <div
-        class="flex justify-between items-center px-4 py-2 mb-2 border-b-2 text-gray-600"
-      >
+      <div class="flex justify-between items-center px-4 py-2 mb-2 border-b-2 text-gray-600">
         <h3 class="tracking-wider">Recent Sales</h3>
-        <button
-          class="border rounded-sm bg-gray-200 px-4 py-2 text-xs hover:bg-gray-300"
-        >
-          View All
-        </button>
+        <button class="border rounded-sm bg-gray-200 px-4 py-2 text-xs hover:bg-gray-300">View All</button>
       </div>
       <div class="px-4">
         <table class="table-fixed min-w-full divide-y divide-gray-200">
           <thead>
             <tr>
-              <th
-                scope="col"
-                class="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
+              <th scope="col" class="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Order ID
               </th>
 
-              <th
-                scope="col"
-                class="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
+              <th scope="col" class="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Item
               </th>
 
-              <th
-                scope="col"
-                class="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
+              <th scope="col" class="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Amount
               </th>
 
-              <th
-                scope="col"
-                class="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
+              <th scope="col" class="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Status
               </th>
 
-              <th
-                scope="col"
-                class="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
+              <th scope="col" class="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Action
               </th>
             </tr>
@@ -431,15 +332,9 @@
               <td class="py-4 whitespace-nowrap text-sm text-gray-500">
                 {{ sales.item }}
               </td>
+              <td class="py-4 whitespace-nowrap text-sm text-gray-500">${{ sales.amount }}</td>
               <td class="py-4 whitespace-nowrap text-sm text-gray-500">
-                ${{ sales.amount }}
-              </td>
-              <td class="py-4 whitespace-nowrap text-sm text-gray-500">
-                <span
-                  class="px-2 py-1 rounded text-xs text-white"
-                  :class="sales.labelClass"
-                  >{{ sales.status }}</span
-                >
+                <span class="px-2 py-1 rounded text-xs text-white" :class="sales.labelClass">{{ sales.status }}</span>
               </td>
               <td class="py-4 whitespace-nowrap text-sm text-blue-600">
                 <a href="#">View Detail</a>
@@ -448,12 +343,8 @@
           </tbody>
         </table>
 
-        <div
-          class="py-2 flex items-center justify-between border-t border-gray-200"
-        >
-          <div
-            class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between"
-          >
+        <div class="py-2 flex items-center justify-between border-t border-gray-200">
+          <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
             <div>
               <p class="text-sm text-gray-500">
                 Showing
@@ -466,10 +357,7 @@
               </p>
             </div>
             <div>
-              <nav
-                class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
-                aria-label="Pagination"
-              >
+              <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
                 <a
                   href="#"
                   class="relative inline-flex items-center px-2 rounded-l-md border border-gray-300 text-sm font-medium text-gray-500 hover:bg-gray-50"
@@ -482,12 +370,7 @@
                     viewBox="0 0 24 24"
                     stroke="currentColor"
                   >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M15 19l-7-7 7-7"
-                    />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                   </svg>
                 </a>
                 <!-- Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" -->
@@ -545,12 +428,7 @@
                     viewBox="0 0 24 24"
                     stroke="currentColor"
                   >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9 5l7 7-7 7"
-                    />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                   </svg>
                 </a>
               </nav>
@@ -590,15 +468,7 @@ export default {
         enabled: false,
       },
       xaxis: {
-        categories: [
-          'Aug 1',
-          'Aug 2',
-          'Aug 3',
-          'Aug 4',
-          'Aug 5',
-          'Aug 6',
-          'Aug 7',
-        ],
+        categories: ['Aug 1', 'Aug 2', 'Aug 3', 'Aug 4', 'Aug 5', 'Aug 6', 'Aug 7'],
       },
     };
 

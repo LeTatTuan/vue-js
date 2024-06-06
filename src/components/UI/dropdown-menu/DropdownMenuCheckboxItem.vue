@@ -1,12 +1,8 @@
 <script setup>
-import { computed } from "vue";
-import {
-  DropdownMenuCheckboxItem,
-  DropdownMenuItemIndicator,
-  useForwardPropsEmits,
-} from "radix-vue";
-import { Check } from "lucide-vue-next";
-import { cn } from "@/lib/utils";
+import { computed } from 'vue';
+import { DropdownMenuCheckboxItem, DropdownMenuItemIndicator, useForwardPropsEmits } from 'radix-vue';
+import { Check } from 'lucide-vue-next';
+import { cn } from '@/lib/utils';
 
 const props = defineProps({
   checked: { type: [Boolean, String], required: false },
@@ -16,7 +12,7 @@ const props = defineProps({
   as: { type: null, required: false },
   class: { type: null, required: false },
 });
-const emits = defineEmits(["select", "update:checked"]);
+const emits = defineEmits(['select', 'update:checked']);
 
 const delegatedProps = computed(() => {
   const { class: _, ...delegated } = props;
@@ -33,7 +29,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits);
     :class="
       cn(
         'relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-slate-100 focus:text-slate-900 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 dark:focus:bg-slate-800 dark:focus:text-slate-50',
-        props.class,
+        props.class
       )
     "
   >

@@ -49,8 +49,7 @@
   color: rgba(196, 78, 71, 1);
 }
 /* disable for Safari as mix-blend-mode causes the overflow:hidden of the parent container to not work */
-@supports (-webkit-marquee-repetition: infinite) and
-  ((-o-object-fit: fill) or (object-fit: fill)) {
+@supports (-webkit-marquee-repetition: infinite) and ((-o-object-fit: fill) or (object-fit: fill)) {
   .filepond--image-preview-overlay-idle {
     mix-blend-mode: normal;
   }
@@ -112,23 +111,19 @@
   top: 0;
   will-change: transform;
 }
-.filepond--root[data-style-panel-layout~='integrated']
-  .filepond--image-preview-wrapper {
+.filepond--root[data-style-panel-layout~='integrated'] .filepond--image-preview-wrapper {
   border-radius: 0;
 }
-.filepond--root[data-style-panel-layout~='integrated']
-  .filepond--image-preview {
+.filepond--root[data-style-panel-layout~='integrated'] .filepond--image-preview {
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.filepond--root[data-style-panel-layout~='circle']
-  .filepond--image-preview-wrapper {
+.filepond--root[data-style-panel-layout~='circle'] .filepond--image-preview-wrapper {
   border-radius: 99999rem;
 }
-.filepond--root[data-style-panel-layout~='circle']
-  .filepond--image-preview-overlay {
+.filepond--root[data-style-panel-layout~='circle'] .filepond--image-preview-overlay {
   top: auto;
   bottom: 0;
   -webkit-transform: scaleY(-1);
@@ -136,19 +131,13 @@
 }
 .filepond--root[data-style-panel-layout~='circle']
   .filepond--file
-  .filepond--file-action-button[data-align*='bottom']:not(
-    [data-align*='center']
-  ) {
+  .filepond--file-action-button[data-align*='bottom']:not([data-align*='center']) {
   margin-bottom: 0.325em;
 }
-.filepond--root[data-style-panel-layout~='circle']
-  .filepond--file
-  [data-align*='left'] {
+.filepond--root[data-style-panel-layout~='circle'] .filepond--file [data-align*='left'] {
   left: calc(50% - 3em);
 }
-.filepond--root[data-style-panel-layout~='circle']
-  .filepond--file
-  [data-align*='right'] {
+.filepond--root[data-style-panel-layout~='circle'] .filepond--file [data-align*='right'] {
   right: calc(50% - 3em);
 }
 .filepond--root[data-style-panel-layout~='circle']

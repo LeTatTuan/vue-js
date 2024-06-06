@@ -1,20 +1,14 @@
 <template>
   <div class="min-h-screen flex items-center justify-center bg-gray-50 px-4">
     <div class="max-w-md w-full">
-      <h2 class="text-center text-2xl font-bold text-gray-800 mb-6">
-        Sign in to your dashboard
-      </h2>
+      <h2 class="text-center text-2xl font-bold text-gray-800 mb-6">Sign in to your dashboard</h2>
 
       <div class="flex justify-center">
         <div ref="googleLoginBtn" class=""></div>
         <button
           class="hidden w-full justify-center py-3 px-4 border border-gray-300 font-medium rounded-md text-gray-900 bg-white focus:outline-none"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 48 48"
-            class="h-6 w-6 mr-2"
-          >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="h-6 w-6 mr-2">
             <g>
               <path
                 fill="#EA4335"
@@ -112,21 +106,11 @@
               type="checkbox"
               class="h-4 w-4 text-indigo-600 focus:ring-0 border-gray-300 rounded cursor-pointer"
             />
-            <label
-              for="remember-me"
-              class="ml-2 block text-sm text-gray-900 cursor-pointer"
-            >
-              Remember me
-            </label>
+            <label for="remember-me" class="ml-2 block text-sm text-gray-900 cursor-pointer"> Remember me </label>
           </div>
 
           <div class="text-sm">
-            <a
-              href="#"
-              class="font-medium text-indigo-600 hover:text-indigo-500"
-            >
-              Forgot your password?
-            </a>
+            <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500"> Forgot your password? </a>
           </div>
         </div>
 
@@ -142,11 +126,7 @@
 
       <div class="mt-2 text-sm text-gray-600">
         Not registered yet?
-        <a
-          href="/register"
-          class="font-medium text-indigo-600 hover:text-indigo-500"
-          >Create an account</a
-        >
+        <a href="/register" class="font-medium text-indigo-600 hover:text-indigo-500">Create an account</a>
       </div>
     </div>
   </div>
@@ -165,14 +145,12 @@ const password = ref('');
 
 const submit = async () => {
   try {
-    await login({ email: email.value, password: password.value }).then(
-      (res) => {
-        const data = res['data'];
-        console.log(data);
-        localStorage.setItem('access_token', data.metadata.accessToken);
-        localStorage.setItem('refresh_token', data.metadata.refreshToken);
-      }
-    );
+    await login({ email: email.value, password: password.value }).then((res) => {
+      const data = res['data'];
+      console.log(data);
+      localStorage.setItem('access_token', data.metadata.accessToken);
+      localStorage.setItem('refresh_token', data.metadata.refreshToken);
+    });
     await initAuthStore();
     email.value = '';
     password.value = '';

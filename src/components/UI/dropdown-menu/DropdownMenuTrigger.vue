@@ -1,5 +1,5 @@
 <script setup>
-import { DropdownMenuTrigger, useForwardProps } from "radix-vue";
+import { DropdownMenuTrigger, useForwardProps } from 'radix-vue';
 
 const props = defineProps({
   disabled: { type: Boolean, required: false },

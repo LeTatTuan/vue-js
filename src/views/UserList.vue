@@ -18,12 +18,7 @@
       </table>
     </div>
   </div>
-  <PopupDetailUser
-    v-if="userChoosed"
-    :user="userChoosed"
-    @close="closePopupDetailUser"
-    @update-user="updateUser"
-  />
+  <PopupDetailUser v-if="userChoosed" :user="userChoosed" @close="closePopupDetailUser" @update-user="updateUser" />
 </template>
 <script setup>
 import { ref, onBeforeMount } from 'vue';
