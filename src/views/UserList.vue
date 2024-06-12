@@ -34,7 +34,6 @@ onBeforeMount(() => {
 });
 const fetchUsers = async () => {
   try {
-    console.log('fetching users');
     await getUsersApi().then((res) => {
       users.value = res['data']['data'];
     });

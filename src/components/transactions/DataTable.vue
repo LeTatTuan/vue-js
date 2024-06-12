@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from 'vue';
 import DataTablePagination from '@/components/transactions/DataTablePagination.vue';
+import DataTableToolbar from '@/components/transactions/DataTableToolbar.vue';
+import Filter from './Filter.vue';
 
 const props = defineProps({
   data: {
@@ -20,41 +22,56 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   getFilteredRowModel,
+  getFacetedRowModel,
+  getFacetedUniqueValues,
+  getFacetedMinMaxValues,
 } from '@tanstack/vue-table';
+import { valueUpdater } from '@/lib/utils';
 
 const data = ref(props.data);
 
-console.log('check data: ', props.data);
-
 const sorting = ref([]);
-const filter = ref('');
+const columnFilters = ref([]);
+const columnVisibility = ref({});
+const rowSelection = ref({});
+
 const table = useVueTable({
   data: data.value,
   columns: props.columns,
-  getCoreRowModel: getCoreRowModel(),
-  getPaginationRowModel: getPaginationRowModel(),
-  getSortedRowModel: getSortedRowModel(),
-  getFilteredRowModel: getFilteredRowModel(),
+  filterFns: {},
   state: {
     get sorting() {
       return sorting.value;
     },
-    get globalFilter() {
-      return filter.value;
+    get columnFilters() {
+      return columnFilters.value;
+    },
+    get columnVisibility() {
+      return columnVisibility.value;
+    },
+    get rowSelection() {
+      return rowSelection.value;
     },
   },
-  onSortingChange: (updaterOrValue) => {
-    sorting.value = typeof updaterOrValue === 'function' ? updaterOrValue(sorting.value) : updaterOrValue;
-  },
+  enableRowSelection: true,
+  getCoreRowModel: getCoreRowModel(),
+  getPaginationRowModel: getPaginationRowModel(),
+  getSortedRowModel: getSortedRowModel(),
+  getFilteredRowModel: getFilteredRowModel(),
+  onSortingChange: (updaterOrValue) => valueUpdater(updaterOrValue, sorting),
+  onColumnFiltersChange: (updaterOrValue) => valueUpdater(updaterOrValue, columnFilters),
+  onColumnVisibilityChange: (updaterOrValue) => valueUpdater(updaterOrValue, columnVisibility),
+  onRowSelectionChange: (updaterOrValue) => valueUpdater(updaterOrValue, rowSelection),
+  getFacetedRowModel: getFacetedRowModel(),
+  getFacetedUniqueValues: getFacetedUniqueValues(),
+  getFacetedMinMaxValues: getFacetedMinMaxValues(),
 });
 </script>
 
 <template>
-  <div class="px-5 py-5">
-    <p class="font-bold text-xl">Recent Transactions</p>
-    <div class="my-4">
-      <input v-model="filter" type="text" class="border border-gray-400 rounded px-2 py-2" placeholder="Search" />
-    </div>
+  <div class="px-5 py-5 space-y-4">
+    <div class="font-bold text-xl px-5 py-5">Recent Transactions</div>
+    <DataTableToolbar :table="table" />
     <div class="bg-white rounded-[10px] p-2 mt-5">
       <table>
         <thead>
@@ -73,7 +90,8 @@ const table = useVueTable({
               @click="header.column.getToggleSortingHandler()?.($event)"
             >
               <FlexRender :render="header.column.columnDef.header" :props="header.getContext()" />
-              {{ { asc: ' ↑', desc: '↓' }[header.column.getIsSorted()] }}
+              {{ { asc: ' 🔼', desc: ' 🔽' }[header.column.getIsSorted()] }}
+              <Filter v-if="header.column.columnDef.meta?.filterVariant" :column="header.column" />
             </th>
           </tr>
         </thead>

@@ -23,3 +23,7 @@ export const formatCurrency = (value) => {
 export const formatString = (value) => {
   return value.toLocaleString('en-US');
 };
+
+export const valueUpdater = (updaterOrValue, ref) => {
+  ref.value = typeof updaterOrValue === 'function' ? updaterOrValue(ref.value) : updaterOrValue;
+};

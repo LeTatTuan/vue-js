@@ -1,8 +1,7 @@
 <script setup>
-import vuePaginationVue from '@/components/commons/vuePagination.vue';
-import TransactionTable from '@/components/transactions/TransactionTable.vue';
+import DataTable from '@/components/transactions/DataTable.vue';
 import { getRecentTransactions } from '@/services';
-import { onBeforeMount, ref, toRaw, nextTick } from 'vue';
+import { onBeforeMount, ref } from 'vue';
 import columnsTransactions from '@/components/transactions/columns';
 
 const transactions = ref(null);
@@ -32,21 +31,14 @@ const fetchTransactions = async () => {
       prev_page: currentPage.value == 1 ? currentPage.value : currentPage.value - 1,
       next_page: currentPage.value == totalPages.value ? totalPages.value : currentPage.value + 1,
     };
-    console.log('check data: ', transactions.value);
-    console.log('check meta: ', meta.value);
   } catch (error) {
     console.log(error);
   }
 };
-
-const handlePageChange = (page) => {
-  currentPage.value = page;
-  fetchTransactions();
-};
 </script>
 
 <template>
-  <transaction-table v-if="transactions" :data="transactions" :columns="columnsTransactions" />
+  <data-table v-if="transactions" :data="transactions" :columns="columnsTransactions" />
 </template>
 
 <style scoped>

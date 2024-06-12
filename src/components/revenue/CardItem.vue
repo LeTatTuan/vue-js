@@ -1,6 +1,6 @@
 <script setup>
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/UI/Card';
-import { DollarSign } from 'lucide-vue-next';
+
 const props = defineProps({
   title: {
     type: String,
@@ -24,7 +24,7 @@ const props = defineProps({
   <card>
     <card-header class="flex flex-row items-center justify-between space-y-0 pb-2">
       <card-title class="text-sm font-medium">{{ title }}</card-title>
-      <component :is="icon" class="mr-2 h-4 w-4 text-muted-foreground hover:text-gray-500" @click="handleClick" />
+      <component :is="icon" class="mr-2 h-4 w-4 text-muted-foreground hover:text-gray-500" />
     </card-header>
     <card-content>
       <template v-if="noAttribute">

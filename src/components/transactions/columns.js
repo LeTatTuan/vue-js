@@ -1,12 +1,23 @@
 import { formatCurrency, formatDate } from '@/lib/utils';
 import { h } from 'vue';
 
+const dateRangeFilterFn = (row, columnId, filterValue) => {
+  const rowValue = new Date(row.getValue(columnId));
+  console.log(rowValue);
+  const [startDate, endDate] = filterValue;
+
+  if (!rowValue) return false;
+
+  return rowValue >= startDate && rowValue <= endDate;
+};
+
 const columnsTransactions = [
   {
     accessorKey: 'transactionId',
     header: 'ID',
     enableSorting: true,
     columnClass: 'hidden-column',
+    size: 100
   },
   {
     accessorKey: 'originalTransactionId',
@@ -17,6 +28,9 @@ const columnsTransactions = [
     accessorKey: 'bundleId',
     header: 'Project',
     enableSorting: true,
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
   },
   {
     accessorKey: 'storefront',
@@ -46,12 +60,15 @@ const columnsTransactions = [
         checked: info.getValue() === 1,
         disabled: true,
       }),
+
   },
   {
     accessorKey: 'purchaseDate',
     header: 'Purchased',
     cell: (info) => formatDate(new Date(info.getValue())),
     enableSorting: true,
+    meta: { filterVariant: 'range' },
+    filterFn: dateRangeFilterFn,
   },
   {
     accessorKey: 'expiresDate',
@@ -63,11 +80,16 @@ const columnsTransactions = [
       return 'Unlimited time';
     },
     enableSorting: true,
+    meta: { filterVariant: 'range' },
+    filterFn: dateRangeFilterFn,
   },
   {
     accessorKey: 'type',
     header: 'Renewal',
     enableSorting: false,
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
   },
 ];
 

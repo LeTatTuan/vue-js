@@ -18,7 +18,7 @@
 
 <script setup>
 import { getActiveSubs, getActiveTrials, getActiveUsers, getNewCustomers, getRevenues } from '@/services';
-import { onBeforeMount, onMounted, onUpdated, ref } from 'vue';
+import { onBeforeMount, h, ref } from 'vue';
 import CardItem from './CardItem.vue';
 import { DollarSign, Activity, UserRoundPlus, UserRoundCheck } from 'lucide-vue-next';
 
@@ -36,7 +36,7 @@ const revenues = [
     noAttribute: null,
     noAttributeStr: null,
     timeDescription: 'Last 28 days',
-    icon: DollarSign,
+    icon: h(DollarSign),
   },
   {
     id: 2,
@@ -44,7 +44,7 @@ const revenues = [
     noAttribute: null,
     noAttributeStr: null,
     timeDescription: 'Last 28 days',
-    icon: DollarSign,
+    icon: h(DollarSign),
   },
   {
     id: 3,
@@ -52,7 +52,7 @@ const revenues = [
     noAttribute: null,
     noAttributeStr: null,
     timeDescription: 'Monthly Recurring Revenue',
-    icon: Activity,
+    icon: h(Activity),
   },
   {
     id: 4,
@@ -60,7 +60,7 @@ const revenues = [
     noAttribute: null,
     noAttributeStr: null,
     timeDescription: 'Last 28 days',
-    icon: Activity,
+    icon: h(Activity),
   },
   {
     id: 5,
@@ -68,7 +68,7 @@ const revenues = [
     noAttribute: null,
     noAttributeStr: null,
     timeDescription: 'Last 28 days',
-    icon: UserRoundPlus,
+    icon: h(UserRoundPlus),
   },
   {
     id: 6,
@@ -76,7 +76,7 @@ const revenues = [
     noAttribute: null,
     noAttributeStr: null,
     timeDescription: 'Last 28 days',
-    icon: UserRoundCheck,
+    icon: h(UserRoundCheck),
   },
 ];
 

@@ -55,7 +55,6 @@ const emits = defineEmits(['close', 'updateUser']);
 const userData = ref(null);
 onBeforeMount(() => {
   userData.value = { ...props.user };
-  console.log(userData.value.balance);
 });
 const submit = () => {
   emits('updateUser', userData.value);
