@@ -2,12 +2,17 @@ import { formatCurrency, formatDate } from '@/lib/utils';
 import { h } from 'vue';
 
 const dateRangeFilterFn = (row, columnId, filterValue) => {
-  const rowValue = new Date(row.getValue(columnId));
-  console.log(rowValue);
-  const [startDate, endDate] = filterValue;
+  const rowValue = row.getValue(columnId);
+  let [startDate, endDate] = filterValue;
+  console.log('startDate: ', startDate);
+  console.log('endDate: ', endDate);
+  startDate = new Date(startDate).getTime();
+  endDate = new Date(endDate).getTime() || new Date().getTime();
+  console.log('startDate: ', startDate);
+  console.log('endDate: ', endDate);
+  console.log('---------');
 
-  if (!rowValue) return false;
-
+  //if (typeof row !== 'number') return false;
   return rowValue >= startDate && rowValue <= endDate;
 };
 
@@ -17,7 +22,6 @@ const columnsTransactions = [
     header: 'ID',
     enableSorting: true,
     columnClass: 'hidden-column',
-    size: 100
   },
   {
     accessorKey: 'originalTransactionId',
@@ -80,8 +84,8 @@ const columnsTransactions = [
       return 'Unlimited time';
     },
     enableSorting: true,
-    meta: { filterVariant: 'range' },
-    filterFn: dateRangeFilterFn,
+    // meta: { filterVariant: 'range' },
+    // filterFn: dateRangeFilterFn,
   },
   {
     accessorKey: 'type',

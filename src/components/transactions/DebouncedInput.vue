@@ -1,9 +1,9 @@
 <template>
-  <input v-model="localValue" @input="debounceOnInput" v-bind="$attrs" />
+  <input v-model="localValue" v-bind="$attrs" @input="debounceOnInput" />
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, getCurrentInstance } from 'vue';
 
 const props = defineProps({
   value: [String, Number],
@@ -11,17 +11,16 @@ const props = defineProps({
     type: Number,
     default: 500,
   },
-  onChange: {
-    type: Function,
-    required: true,
-  },
 });
+
+const { emit } = getCurrentInstance();
 
 const localValue = ref(props.value);
 
 watch(
   () => props.value,
   (newValue) => {
+    console.log(newValue);
     localValue.value = newValue;
   }
 );
@@ -30,7 +29,7 @@ let timeout;
 const debounceOnInput = () => {
   clearTimeout(timeout);
   timeout = setTimeout(() => {
-    props.onChange(localValue.value);
+    emit('changeValue', localValue.value);
   }, props.debounce);
 };
 </script>

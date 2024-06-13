@@ -1,20 +1,20 @@
 <template>
   <div v-if="filterVariant === 'range'">
-    <div class="flex space-x-2">
+    <div class="flex flex-col space-y-2">
       <DebouncedInput
-        type="date"
+        type="datetime-local"
         :value="minDate"
-        @onChange="(value) => updateFilterValue([value, maxDate])"
+        @change-value="(value) => updateFilterValue([value, maxDate])"
         placeholder="Min"
-        class="w-24 border shadow rounded"
+        class="w-24 border shadow rounded w-max"
       />
 
       <DebouncedInput
-        type="date"
+        type="datetime-local"
         :value="maxDate"
-        @onChange="(value) => updateFilterValue([minDate, value])"
+        @change-value="(value) => updateFilterValue([minDate, value])"
         placeholder="Max"
-        class="w-24 border shadow rounded"
+        class="w-24 border shadow rounded w-max"
       />
     </div>
   </div>
@@ -32,7 +32,7 @@ const columnFilterValue = ref(props.column.getFilterValue());
 const filterVariant = ref(props.column.columnDef.meta?.filterVariant);
 
 const minDate = computed(() => columnFilterValue.value?.[0] ?? '');
-const maxDate = computed(() => columnFilterValue.value?.[1] ?? '');
+const maxDate = computed(() => columnFilterValue.value?.[1] ?? '') || new Date();
 
 const updateFilterValue = (value) => {
   props.column.setFilterValue(value);
