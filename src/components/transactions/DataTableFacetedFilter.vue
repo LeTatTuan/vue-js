@@ -43,7 +43,7 @@ const selectedValues = computed(() => {
 <template>
   <Popover>
     <PopoverTrigger as-child>
-      <Button variant="outline" size="sm" class="h-8 border-dashed flex flex-row">
+      <Button variant="outline" size="sm" class="h-8 border-dashed flex flex-row filter-container">
         <CirclePlus class="mr-2 h-4 w-4" />
         {{ title }}
         <template v-if="selectedValues.size > 0">
@@ -139,3 +139,12 @@ const selectedValues = computed(() => {
     </PopoverContent>
   </Popover>
 </template>
+
+<style scoped>
+.filter-container {
+  padding: 10px;
+  align-items: center;
+  border-width: thin;
+  background-color: white;
+}
+</style>

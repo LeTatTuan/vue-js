@@ -20,7 +20,6 @@ const localValue = ref(props.value);
 watch(
   () => props.value,
   (newValue) => {
-    console.log(newValue);
     localValue.value = newValue;
   }
 );

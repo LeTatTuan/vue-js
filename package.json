@@ -8,6 +8,7 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@internationalized/date": "^3.5.4",
     "@kyvg/vue3-notification": "^3.0.2",
     "@tanstack/vue-table": "^8.17.3",
     "@vueuse/core": "^10.10.0",
@@ -17,7 +18,7 @@
     "clsx": "^2.1.1",
     "lucide-vue-next": "^0.379.0",
     "pinia": "^2.1.7",
-    "radix-vue": "^1.8.1",
+    "radix-vue": "^1.8.3",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "vue": "^3.2.47",

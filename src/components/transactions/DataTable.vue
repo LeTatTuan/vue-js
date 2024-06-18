@@ -2,7 +2,6 @@
 import { ref } from 'vue';
 import DataTablePagination from '@/components/transactions/DataTablePagination.vue';
 import DataTableToolbar from '@/components/transactions/DataTableToolbar.vue';
-import Filter from './Filter.vue';
 
 const props = defineProps({
   data: {
@@ -71,7 +70,9 @@ const table = useVueTable({
 <template>
   <div class="px-5 py-5 space-y-4">
     <div class="font-bold text-xl px-5 py-5">Recent Transactions</div>
-    <DataTableToolbar :table="table" />
+    <div class="flex flex-row gap-x-7">
+      <DataTableToolbar :table="table" />
+    </div>
     <div class="bg-white rounded-[10px] p-2 mt-5">
       <table>
         <thead>
@@ -91,7 +92,6 @@ const table = useVueTable({
             >
               <FlexRender :render="header.column.columnDef.header" :props="header.getContext()" />
               {{ { asc: ' 🔼', desc: ' 🔽' }[header.column.getIsSorted()] }}
-              <Filter v-if="header.column.columnDef.meta?.filterVariant" :column="header.column" />
             </th>
           </tr>
         </thead>

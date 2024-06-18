@@ -4,10 +4,13 @@ import { h } from 'vue';
 const dateRangeFilterFn = (row, columnId, filterValue) => {
   const rowValue = row.getValue(columnId);
   let [startDate, endDate] = filterValue;
+
   console.log('startDate: ', startDate);
   console.log('endDate: ', endDate);
-  startDate = new Date(startDate).getTime();
-  endDate = new Date(endDate).getTime() || new Date().getTime();
+
+  startDate = new Date(startDate).setHours(0, 0, 0, 0);
+  endDate = new Date(endDate).setHours(23, 59, 59, 1000) || new Date(startDate).setHours(23, 59, 59, 1000);
+
   console.log('startDate: ', startDate);
   console.log('endDate: ', endDate);
   console.log('---------');
@@ -84,8 +87,6 @@ const columnsTransactions = [
       return 'Unlimited time';
     },
     enableSorting: true,
-    // meta: { filterVariant: 'range' },
-    // filterFn: dateRangeFilterFn,
   },
   {
     accessorKey: 'type',

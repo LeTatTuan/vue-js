@@ -1,15 +1,34 @@
 <script setup>
-import { computed, h } from 'vue';
+import { computed, onBeforeMount, ref } from 'vue';
 import DataTableFacetedFilter from './DataTableFacetedFilter.vue';
+import FilterDateRange from './FilterDateRange.vue';
 import { X } from 'lucide-vue-next';
 import { Button } from '@/components/UI/button';
 import { Input } from '@/components/UI/input';
-import { Palette, Sun, Shell } from 'lucide-vue-next';
-const projects = [
-  { value: 'com.lutech.ios.themepack', label: 'themepack-ios', icon: h(Palette) },
-  { value: 'com.lutech.WeatherLive', label: 'WeatherLive', icon: h(Sun) },
-  { value: 'com.lutech.ios.notability', label: 'notability', icon: h(Shell) },
-];
+import { getProjects } from '@/services';
+
+const projects = ref([]);
+const projectsForFilter = ref([]);
+
+onBeforeMount(() => {
+  fetchProjects();
+});
+const fetchProjects = async () => {
+  try {
+    const res = await getProjects();
+    projects.value = res['data']['metadata']['projects'];
+
+    projectsForFilter.value = projects.value.map((project) => {
+      return {
+        value: project.keys.bundle_id,
+        label: project.name,
+      };
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const props = defineProps({
   table: Object,
 });
@@ -19,7 +38,7 @@ const isFiltered = computed(() => props.table.getState().columnFilters.length > 
 
 <template>
   <div class="flex items-center justify-between">
-    <div class="flex flex-1 items-center space-x-2">
+    <div class="flex flex-1 items-center space-x-2 gap-x-3">
       <Input
         placeholder="Filter products..."
         :model-value="table.getColumn('productId')?.getFilterValue() ?? ''"
@@ -30,9 +49,10 @@ const isFiltered = computed(() => props.table.getState().columnFilters.length > 
         v-if="table.getColumn('bundleId')"
         :column="table.getColumn('bundleId')"
         title="Project"
-        :options="projects"
+        :options="projectsForFilter"
         class="items-end"
       />
+      <FilterDateRange :column="table.getColumn('purchaseDate')" />
 
       <Button v-if="isFiltered" variant="ghost" class="h-8 px-2 lg:px-3" @click="table.resetColumnFilters()">
         Reset

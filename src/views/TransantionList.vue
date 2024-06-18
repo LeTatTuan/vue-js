@@ -4,7 +4,7 @@ import { getRecentTransactions } from '@/services';
 import { onBeforeMount, ref } from 'vue';
 import columnsTransactions from '@/components/transactions/columns';
 
-const transactions = ref(null);
+const transactions = ref([]);
 const currentPage = ref(1);
 const totalPages = ref(0);
 const totalResults = ref(0);
@@ -38,7 +38,9 @@ const fetchTransactions = async () => {
 </script>
 
 <template>
-  <data-table v-if="transactions" :data="transactions" :columns="columnsTransactions" />
+  <div v-bind="$attrs">
+    <data-table v-if="transactions.length > 0" :data="transactions" :columns="columnsTransactions" />
+  </div>
 </template>
 
 <style scoped>
