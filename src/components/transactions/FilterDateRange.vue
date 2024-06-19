@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { Calendar as CalendarIcon } from 'lucide-vue-next';
 import { CalendarDate, DateFormatter, getLocalTimeZone } from '@internationalized/date';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/UI/button';
 import { RangeCalendar } from '@/components/UI/range-calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/UI/popover';
+
+const props = defineProps({
+  column: Object,
+});
 
 const df = new DateFormatter('en-US', {
   dateStyle: 'medium',
@@ -19,9 +23,17 @@ const dateRange = ref({
   end: calendarDate,
 });
 
-const props = defineProps({
-  column: Object,
-});
+watch(
+  () => props.column.getFilterValue(),
+  (newValue) => {
+    if (!newValue) {
+      dateRange.value = {
+        start: calendarDate.subtract({ months: 1 }),
+        end: calendarDate,
+      };
+    }
+  }
+);
 
 const updateFilterValue = (value) => {
   dateRange.value.start = value.start;
@@ -37,8 +49,9 @@ const updateFilterValue = (value) => {
         <Button
           id="date"
           :variant="'outline'"
-          :class="cn('w-[300px] justify-start text-left font-normal', !dateRange && 'text-muted-foreground')"
+          :class="cn('w-[320px] justify-start text-left font-normal', !dateRange && 'text-muted-foreground')"
         >
+          <div>Purchased Date</div>
           <CalendarIcon class="mr-2 h-4 w-4" />
 
           <template v-if="dateRange.start">

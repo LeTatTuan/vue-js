@@ -142,7 +142,7 @@ const selectedValues = computed(() => {
 
 <style scoped>
 .filter-container {
-  padding: 10px;
+  padding: 15px;
   align-items: center;
   border-width: thin;
   background-color: white;

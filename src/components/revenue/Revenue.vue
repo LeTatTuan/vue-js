@@ -33,7 +33,7 @@ const revenues = [
   {
     id: 1,
     title: 'Active Trials',
-    noAttribute: null,
+    noAttribute: 0,
     noAttributeStr: null,
     timeDescription: 'Last 28 days',
     icon: h(DollarSign),
@@ -41,7 +41,7 @@ const revenues = [
   {
     id: 2,
     title: 'Active Subcriptions',
-    noAttribute: null,
+    noAttribute: 0,
     noAttributeStr: null,
     timeDescription: 'Last 28 days',
     icon: h(DollarSign),
@@ -49,7 +49,7 @@ const revenues = [
   {
     id: 3,
     title: 'MRR',
-    noAttribute: null,
+    noAttribute: 0,
     noAttributeStr: null,
     timeDescription: 'Monthly Recurring Revenue',
     icon: h(Activity),
@@ -57,7 +57,7 @@ const revenues = [
   {
     id: 4,
     title: 'Revenue',
-    noAttribute: null,
+    noAttribute: 0,
     noAttributeStr: null,
     timeDescription: 'Last 28 days',
     icon: h(Activity),
@@ -65,7 +65,7 @@ const revenues = [
   {
     id: 5,
     title: 'New Customers',
-    noAttribute: null,
+    noAttribute: 0,
     noAttributeStr: null,
     timeDescription: 'Last 28 days',
     icon: h(UserRoundPlus),
@@ -73,7 +73,7 @@ const revenues = [
   {
     id: 6,
     title: 'Active Users',
-    noAttribute: null,
+    noAttribute: 0,
     noAttributeStr: null,
     timeDescription: 'Last 28 days',
     icon: h(UserRoundCheck),

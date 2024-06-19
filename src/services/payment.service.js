@@ -23,6 +23,6 @@ export const getRevenues = async () => {
   return await axiosApiInstance.get('/payments/revenues');
 };
 
-export const getRecentTransactions = async (page, pageSize = 100) => {
-  return await axiosApiInstance.get(`/transactions?page=${page}&&pageSize=${pageSize}`);
+export const getRecentTransactions = async () => {
+  return await axiosApiInstance.get(`/transactions`);
 };

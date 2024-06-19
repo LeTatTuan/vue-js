@@ -20,7 +20,7 @@ onBeforeMount(() => {
 });
 const fetchTransactions = async () => {
   try {
-    const res = await getRecentTransactions(currentPage.value);
+    const res = await getRecentTransactions();
     transactions.value = res['data']['metadata']['data'];
     totalPages.value = res['data']['metadata']['totalPages'];
     totalResults.value = res['data']['metadata']['totalResults'];

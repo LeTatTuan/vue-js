@@ -21,13 +21,13 @@ const props = defineProps({
 </script>
 
 <template>
-  <card>
+  <card class="card-container">
     <card-header class="flex flex-row items-center justify-between space-y-0 pb-2">
       <card-title class="text-sm font-medium">{{ title }}</card-title>
-      <component :is="icon" class="mr-2 h-4 w-4 text-muted-foreground hover:text-gray-500" />
+      <component :is="icon" class="mr-2 h-4 w-4 text-muted-foreground text-blue-500 hover:text-gray-500" />
     </card-header>
     <card-content>
-      <template v-if="noAttribute">
+      <template v-if="noAttributeStr">
         <div class="text-2xl font-bold">
           {{ noAttributeStr }}
         </div>
@@ -39,3 +39,10 @@ const props = defineProps({
     </card-footer>
   </card>
 </template>
+
+<style scoped>
+.card-container:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+</style>

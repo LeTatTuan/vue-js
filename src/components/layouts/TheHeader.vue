@@ -5,8 +5,6 @@ import { ref } from 'vue';
 const isPopupVisible = ref(false);
 
 const togglePopup = (value) => {
-  console.log('togglePopup');
-  console.log(isPopupVisible.value);
   isPopupVisible.value = value;
 };
 </script>

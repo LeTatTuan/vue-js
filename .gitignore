@@ -6,9 +6,3 @@ dist-ssr
 .env
 yarn.lock
 package-lock.json
-
-src/data/*
-# src/plugins/*
-# src/router/*
-# src/services/*
-# src/stores/*
