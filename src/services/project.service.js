@@ -1,7 +1,5 @@
-import axios from 'axios';
-
-axios.defaults.baseURL = import.meta.env.VITE_API_URL;
+import axiosApiInstance from '@/plugins/api';
 
 export const getProjects = async () => {
-    return await axios.get('/projects');
+    return await axiosApiInstance.get('/project/name');
 };

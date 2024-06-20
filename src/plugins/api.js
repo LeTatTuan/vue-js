@@ -38,8 +38,8 @@ axiosApiInstance.interceptors.response.use(
 
       try {
         const token = await refreshAccessToken();
-        localStorage.setItem('access_token', token.accessToken);
-        localStorage.setItem('refresh_token', token.refreshToken);
+        localStorage.setItem('access_token', token['access_token']);
+        localStorage.setItem('refresh_token', token['refresh_token']);
         axios.defaults.headers.common['Authorization'] = `Bearer ${token.accessToken}`;
         return axiosApiInstance(originalRequest);
       } catch (error) {

@@ -72,7 +72,7 @@ const revenues = [
   },
   {
     id: 6,
-    title: 'Active Users',
+    title: 'Last Active',
     noAttribute: 0,
     noAttributeStr: null,
     timeDescription: 'Last 28 days',

@@ -147,8 +147,9 @@ const submit = async () => {
   try {
     await login({ email: email.value, password: password.value }).then((res) => {
       const data = res['data'];
-      localStorage.setItem('access_token', data.metadata.accessToken);
-      localStorage.setItem('refresh_token', data.metadata.refreshToken);
+      console.log(data);
+      localStorage.setItem('access_token', data.metadata['access_token']);
+      localStorage.setItem('refresh_token', data.metadata['refresh_token']);
     });
     await initAuthStore();
     email.value = '';

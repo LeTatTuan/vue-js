@@ -51,7 +51,7 @@ const updateFilterValue = (value) => {
           :variant="'outline'"
           :class="cn('w-[320px] justify-start text-left font-normal', !dateRange && 'text-muted-foreground')"
         >
-          <div>Purchased Date</div>
+          <div class="mr-1 font-bold">{{ props.column.columnDef.header }}</div>
           <CalendarIcon class="mr-2 h-4 w-4" />
 
           <template v-if="dateRange.start">

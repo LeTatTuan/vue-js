@@ -64,7 +64,7 @@ const columnsTransactions = [
   },
   {
     accessorKey: 'purchaseDate',
-    header: 'Purchased',
+    header: 'Purchase Date',
     cell: (info) => formatDate(new Date(info.getValue())),
     enableSorting: true,
     meta: { filterVariant: 'range' },
@@ -72,7 +72,7 @@ const columnsTransactions = [
   },
   {
     accessorKey: 'expiresDate',
-    header: 'Expiration',
+    header: 'Expiration Date',
     cell: (info) => {
       if (info.getValue()) {
         return formatDate(new Date(info.getValue()));

@@ -1,4 +1,5 @@
 import axiosApiInstance from '@/plugins/api';
+
 export const getUsersApi = async () => {
   return await axiosApiInstance.get('/users?limit=20');
 };
@@ -20,4 +21,8 @@ export const getListInfomationsApi = async () => {
 
 export const sendInformationApi = async (data) => {
   return await axiosApiInstance.post('/informations', data);
+};
+
+export const getInfo = async () => {
+  return await axiosApiInstance.get('/user/me');
 };
