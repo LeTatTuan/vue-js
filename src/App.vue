@@ -1,5 +1,4 @@
 <script setup>
-import { computed } from 'vue';
 import authLayout from '@/layouts/authLayout.vue';
 </script>
 

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { Calendar as CalendarIcon } from 'lucide-vue-next';
 import { CalendarDate, DateFormatter, getLocalTimeZone } from '@internationalized/date';
 import { ref, watch } from 'vue';

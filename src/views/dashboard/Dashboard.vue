@@ -8,5 +8,5 @@
 
 <script setup>
 import Revenue from '@/components/revenue/Revenue.vue';
-import TransantionList from '@/views/TransantionList.vue';
+import TransantionList from '@/views/TransactionList.vue';
 </script>
