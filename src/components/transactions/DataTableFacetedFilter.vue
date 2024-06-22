@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { CirclePlus, Check } from 'lucide-vue-next';
-
+import { Button } from '@/components/UI/button';
 import { Badge } from '@/components/UI/badge';
 import {
   Command,

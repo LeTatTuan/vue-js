@@ -4,7 +4,6 @@ import { defineConfig } from 'vite';
 
 import tailwind from 'tailwindcss';
 import autoprefixer from 'autoprefixer';
-
 export default defineConfig({
   css: {
     postcss: {
@@ -17,4 +16,7 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  server: {
+    port: 5171
+  }
 });
