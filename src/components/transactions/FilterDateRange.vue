@@ -3,9 +3,9 @@ import { Calendar as CalendarIcon } from 'lucide-vue-next';
 import { CalendarDate, DateFormatter, getLocalTimeZone } from '@internationalized/date';
 import { ref, watch } from 'vue';
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/UI/button';
-import { RangeCalendar } from '@/components/UI/range-calendar';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/UI/popover';
+import { Button } from '@/components/ui/button';
+import { RangeCalendar } from '@/components/ui/range-calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
 const props = defineProps({
   column: Object,

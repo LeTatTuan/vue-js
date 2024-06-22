@@ -1,8 +1,8 @@
 <script setup>
 import { computed } from 'vue';
 import { CirclePlus, Check } from 'lucide-vue-next';
-import { Button } from '@/components/UI/button';
-import { Badge } from '@/components/UI/badge';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import {
   Command,
   CommandEmpty,
@@ -11,10 +11,10 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from '@/components/UI/command';
+} from '@/components/ui/command';
 
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/UI/popover';
-import { Separator } from '@/components/UI/separator';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 
 const props = defineProps({

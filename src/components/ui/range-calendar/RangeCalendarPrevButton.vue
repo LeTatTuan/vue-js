@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import { RangeCalendarPrev, useForwardProps } from 'radix-vue';
 import { ChevronLeft } from 'lucide-vue-next';
 import { cn } from '@/lib/utils';
-import { buttonVariants } from '@/components/UI/button';
+import { buttonVariants } from '@/components/ui/button';
 
 const props = defineProps({
   step: { type: String, required: false },

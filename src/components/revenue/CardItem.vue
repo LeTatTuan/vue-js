@@ -1,5 +1,5 @@
 <script setup>
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/UI/Card';
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/Card';
 
 const props = defineProps({
   title: {

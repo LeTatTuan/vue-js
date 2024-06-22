@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { SlidersHorizontal } from 'lucide-vue-next';
 
-import { Button } from '@/components/UI/button';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -10,7 +10,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/UI/dropdown-menu';
+} from '@/components/ui/dropdown-menu';
 
 const props = defineProps({
   table: {

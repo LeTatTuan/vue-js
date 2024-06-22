@@ -3,8 +3,8 @@ import { computed, onBeforeMount, ref } from 'vue';
 import DataTableFacetedFilter from './DataTableFacetedFilter.vue';
 import FilterDateRange from './FilterDateRange.vue';
 import { X } from 'lucide-vue-next';
-import { Button } from '@/components/UI/button';
-import { Input } from '@/components/UI/input';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { getProjects } from '@/services';
 
 const projects = ref([]);
