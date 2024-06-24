@@ -150,7 +150,7 @@
             autocomplete="current-password"
             required=""
             class="w-full py-4 text-sm text-gray-900 rounded-md pl-10 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10"
-            placeholder="Password"
+            placeholder="Confirm Password"
           />
         </div>
 
@@ -197,13 +197,19 @@ const submit = async () => {
       name: name.value.trim(),
       email: email.value.trim(),
       password: password.value.trim(),
+      confirm_password: confirmPassword.value.trim(),
     }).then((res) => {
       const data = res['data'];
-      localStorage.setItem('access_token', data.tokens.access.token);
-      localStorage.setItem('refresh_token', data.tokens.refresh.token);
+      localStorage.setItem('access_token', data['metadata']['access_token']);
+      localStorage.setItem('refresh_token', data['metadata']['refresh_token']);
+      notification.notify({
+        type: 'success',
+        title: 'Đăng ký thảnh công',
+        text: data['message'],
+      });
     });
     await initAuthStore();
-    router.push('/users');
+    router.push('/');
   } catch (error) {
     if (error.response?.data?.message) {
       notification.notify({

@@ -50,7 +50,6 @@ const isFiltered = computed(() => props.table.getState().columnFilters.length > 
         :column="table.getColumn('bundleId')"
         title="Project"
         :options="projectsForFilter"
-        class="items-end"
       />
       <FilterDateRange :column="table.getColumn('purchaseDate')" />
 

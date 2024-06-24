@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import { getActiveSubs, getActiveTrials, getActiveUsers, getNewCustomers, getRevenues } from '@/services';
+import { getStatistics } from '@/services';
 import { onBeforeMount, h, ref } from 'vue';
 import CardItem from './CardItem.vue';
 import { DollarSign, Activity, UserRoundPlus, UserRoundCheck } from 'lucide-vue-next';
@@ -85,32 +85,29 @@ onBeforeMount(() => {
 });
 const fetchData = async () => {
   try {
-    await getActiveTrials().then((res) => {
-      activeTrials.value = res['data']['metadata'];
+    await getStatistics().then((res) => {
+      const data = res['data']['metadata'];
+      activeTrials.value = { active_trials: data.active_trials, active_trials_formatted: data.active_trials_formatted };
       revenues[0].noAttribute = activeTrials.value['active_trials'];
       revenues[0].noAttributeStr = activeTrials.value['active_trials_formatted'];
-    });
-    await getActiveSubs().then((res) => {
-      activeSubs.value = res['data']['metadata'];
+
+      activeSubs.value = { active_subs: data.active_subs, active_subs_formatted: data.active_subs_formatted };
       revenues[1].noAttribute = activeSubs.value['active_subs'];
       revenues[1].noAttributeStr = activeSubs.value['active_subs_formatted'];
-    });
-    await getRevenues().then((res) => {
-      monthlyRecurringRevenue.value = res['data']['metadata'];
+
+      monthlyRecurringRevenue.value = { revenue: data.revenue, revenue_formatted: data.revenue_formatted };
       revenues[2].noAttribute = monthlyRecurringRevenue.value['revenue'];
       revenues[2].noAttributeStr = monthlyRecurringRevenue.value['revenue_formatted'];
 
-      revenueData.value = res['data']['metadata'];
+      revenueData.value = { revenue: data.revenue, revenue_formatted: data.revenue_formatted };
       revenues[3].noAttribute = revenueData.value['revenue'];
       revenues[3].noAttributeStr = revenueData.value['revenue_formatted'];
-    });
-    await getNewCustomers().then((res) => {
-      newCustomers.value = res['data']['metadata'];
+
+      newCustomers.value = { new_customers: data.new_customers, new_customers_formatted: data.new_customers_formatted };
       revenues[4].noAttribute = newCustomers.value['new_customers'];
       revenues[4].noAttributeStr = newCustomers.value['new_customers_formatted'];
-    });
-    await getActiveUsers().then((res) => {
-      activeUsers.value = res['data']['metadata'];
+
+      activeUsers.value = { active_users: data.active_users, active_users_formatted: data.active_users_formatted };
       revenues[5].noAttribute = activeUsers.value['active_users'];
       revenues[5].noAttributeStr = activeUsers.value['active_users_formatted'];
     });
