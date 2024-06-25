@@ -99,16 +99,6 @@
         </div>
 
         <div class="flex items-center justify-between">
-          <div class="flex items-center">
-            <input
-              id="remember-me"
-              name="remember-me"
-              type="checkbox"
-              class="h-4 w-4 text-indigo-600 focus:ring-0 border-gray-300 rounded cursor-pointer"
-            />
-            <label for="remember-me" class="ml-2 block text-sm text-gray-900 cursor-pointer"> Remember me </label>
-          </div>
-
           <div class="text-sm">
             <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500"> Forgot your password? </a>
           </div>
@@ -123,11 +113,6 @@
           </button>
         </div>
       </form>
-
-      <div class="mt-2 text-sm text-gray-600">
-        Not registered yet?
-        <a href="/register" class="font-medium text-indigo-600 hover:text-indigo-500">Create an account</a>
-      </div>
     </div>
   </div>
 </template>
@@ -147,7 +132,6 @@ const submit = async () => {
   try {
     await login({ email: email.value, password: password.value }).then((res) => {
       const data = res['data'];
-      console.log(data);
       localStorage.setItem('access_token', data.metadata['access_token']);
       localStorage.setItem('refresh_token', data.metadata['refresh_token']);
     });

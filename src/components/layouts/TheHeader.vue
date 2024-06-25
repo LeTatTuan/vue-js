@@ -15,7 +15,7 @@ const togglePopup = (value) => {
       <img src="../../assets/logo.png" alt="Logo" class="h-8 mr-4" />
 
       <div v-if="authStore.user" class="flex items-center gap-5">
-        <p>Hello, {{ authStore.user.username }}</p>
+        <p>Hello, {{ authStore.user.name }}</p>
         <div @click="togglePopup(true)" @mouseleave="togglePopup(false)">
           <img
             class="cursor-pointer w-[40px] h-[40px] rounded-full object-cover"
@@ -27,7 +27,7 @@ const togglePopup = (value) => {
             :class="{ block: isPopupVisible, hidden: !isPopupVisible }"
           >
             <div class="flex flex-col">
-              <div class="px-4 text-sm font-medium pt-2">Xin chào ,{{ authStore.user.username }}!</div>
+              <div class="px-4 text-sm font-medium pt-2">Xin chào ,{{ authStore.user.name }}!</div>
               <div class="px-4 pb-2 text-xs font-normal text-gray-500">
                 {{ authStore.user.email }}
               </div>
