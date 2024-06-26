@@ -5,6 +5,17 @@ const routes = [
   {
     path: '/',
     name: 'dashboard',
+    component: () => import('@/views/dashboard/Dashboard.vue'),
+    children: [
+      {
+        path: '',
+        component: () => import('@/views/dashboard/Dashboard.vue'),
+      },
+    ],
+  },
+  {
+    path: '/',
+    name: 'dashboard',
     meta: { requiresAuth: true, layout: 'auth' },
     component: () => import('@/views/dashboard/Dashboard.vue'),
   },
@@ -13,12 +24,6 @@ const routes = [
     name: 'login',
     meta: { layout: 'empty' },
     component: () => import('@/views/auth/LoginPage.vue'),
-  },
-  {
-    path: '/register',
-    name: 'register',
-    meta: { layout: 'empty' },
-    component: () => import('@/views/auth/RegisterPage.vue'),
   },
 ];
 

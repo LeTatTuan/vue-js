@@ -8,6 +8,7 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@iconify/vue": "^4.1.2",
     "@internationalized/date": "^3.5.4",
     "@kyvg/vue3-notification": "^3.0.2",
     "@tanstack/vue-table": "^8.17.3",

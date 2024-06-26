@@ -1,72 +1,273 @@
 <template>
-  <div class="">
-    <div class="w-[180px]"></div>
-    <div
-      class="w-[130px] h-fit bg-white fixed top-[100px] left-6 z-[50] rounded-2xl shadow-md max-[400px]:w-[90vw] max-[400px]:relative"
-    >
-      <div class="flex justify-between"></div>
-      <div class="mt-[10px] py-5 px-5 flex flex-col gap-2 max-[400px]:flex-row max-[400px]:justify-around">
-        <router-link
-          to="/"
-          class="hover:bg-slate-100 cursor-pointer py-3 rounded-[8px] items-center gap-3 flex flex-col"
-          :class="{
-            'bg-[#5d87ff_!important] text-white hover:bg-[#5d87ff]': isDashboard,
-          }"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
-            <defs>
-              <path id="solarHomeBoldDuotone0" d="M10.75 9.5a1.25 1.25 0 1 1 2.5 0a1.25 1.25 0 0 1-2.5 0Z" />
-            </defs>
-            <g fill="currentColor">
-              <path
-                fill-rule="evenodd"
-                d="m21.532 11.586l-.782-.626v10.29H22a.75.75 0 0 1 0 1.5H2a.75.75 0 1 1 0-1.5h1.25V10.96l-.781.626a.75.75 0 1 1-.937-1.172l8.125-6.5a3.75 3.75 0 0 1 4.686 0l8.125 6.5a.75.75 0 1 1-.936 1.172ZM12 6.75a2.75 2.75 0 1 0 0 5.5a2.75 2.75 0 0 0 0-5.5Zm1.746 6.562c-.459-.062-1.032-.062-1.697-.062h-.098c-.665 0-1.238 0-1.697.062c-.491.066-.963.215-1.345.597s-.531.854-.597 1.345c-.062.459-.062 1.032-.062 1.697v4.299h7.5v-4.423c0-.612-.004-1.143-.062-1.573c-.066-.491-.215-.963-.597-1.345s-.853-.531-1.345-.597Z"
-                clip-rule="evenodd"
-              />
-              <g fill-rule="evenodd" clip-rule="evenodd" opacity=".5">
-                <use href="#solarHomeBoldDuotone0" />
-                <use href="#solarHomeBoldDuotone0" />
-              </g>
-              <path
-                d="M12.05 13.25c.664 0 1.237 0 1.696.062c.492.066.963.215 1.345.597s.531.853.597 1.345c.058.43.062.96.062 1.573v4.423h-7.5v-4.3c0-.664 0-1.237.062-1.696c.066-.492.215-.963.597-1.345s.854-.531 1.345-.597c.459-.062 1.032-.062 1.697-.062h.098ZM16 3h2.5a.5.5 0 0 1 .5.5v4.14l-3.5-2.8V3.5A.5.5 0 0 1 16 3Z"
-                opacity=".5"
-              />
-            </g>
-          </svg>
-          Trang chủ
-        </router-link>
-        <router-link
-          v-if="user?.roles.some((role) => role.name === 'admin')"
-          to="/users"
-          class="cursor-pointer py-3 px-5 rounded-[8px] flex items-center gap-3"
-          :class="{ 'bg-[#5d87ff] text-white hover:bg-[#5d87ff]': isUsers }"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
-            <path
-              fill="currentColor"
-              d="M1 18q-.425 0-.713-.288T0 17v-.575q0-1.1 1.1-1.763T4 14q.325 0 .613.025t.562.075q-.35.5-.513 1.075T4.5 16.4V18H1Zm6 0q-.425 0-.713-.288T6 17v-.6q0-1.625 1.663-2.638T12 12.75q2.7 0 4.35 1.012T18 16.4v.6q0 .425-.288.713T17 18H7Zm12.5 0v-1.6q0-.65-.175-1.225t-.5-1.075q.275-.05.563-.075T20 14q1.8 0 2.9.663t1.1 1.762V17q0 .425-.288.713T23 18h-3.5ZM4 13q-.825 0-1.413-.588T2 11q0-.825.588-1.413T4 9q.825 0 1.413.588T6 11q0 .825-.588 1.413T4 13Zm16 0q-.825 0-1.413-.588T18 11q0-.825.588-1.413T20 9q.825 0 1.413.588T22 11q0 .825-.588 1.413T20 13Zm-8-1q-1.25 0-2.125-.875T9 9q0-1.25.875-2.125T12 6q1.25 0 2.125.875T15 9q0 1.25-.875 2.125T12 12Z"
-            />
-          </svg>
-          Tài khoản
-        </router-link>
-        <div class="hover:bg-slate-100 cursor-pointer py-3 text-center rounded-[8px] flex items-center gap-3 flex-col">
-          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
-            <path
-              fill="currentColor"
-              d="M2 6V1h5v2H4v3H2Zm18 0V3h-3V1h5v5h-2ZM2 23v-5h2v3h3v2H2Zm15 0v-2h3v-3h2v5h-5ZM5 20V4h14v16H5Zm4-10h6V8H9v2Zm0 3h6v-2H9v2Zm0 3h6v-2H9v2Z"
-            />
-          </svg>
-          Quản lý
-        </div>
-      </div>
+  <aside class="hidden w-64 bg-gray-800 sm:block">
+    <div class="py-3 text-2xl uppercase text-center tracking-widest bg-gray-900 border-b-2 border-gray-800 mb-8">
+      <router-link to="/" class="text-white">Tailmin</router-link>
     </div>
-  </div>
+
+    <nav class="text-sm text-gray-300">
+      <ul class="flex flex-col">
+        <li class="px-4 py-2 text-xs uppercase tracking-wider text-gray-500 font-bold">Section</li>
+
+        <li class="px-4 cursor-pointer" :class="[isExactActive ? 'bg-gray-500 text-gray-800' : 'hover:bg-gray-700']">
+          <a class="py-3 flex items-center" :href="href" @click="navigate">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 mr-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+              />
+            </svg>
+            Dashboard
+          </a>
+        </li>
+
+        <li>
+          <Disclosure v-slot="{ open }" :default-open="user">
+            <DisclosureButton
+              class="px-4 py-3 flex items-center w-full hover:bg-gray-700"
+              :class="open ? 'bg-gray-700' : ''"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 mr-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                />
+              </svg>
+              User Management
+              <span class="ml-auto">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  :class="open ? 'transform rotate-90' : ''"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </span>
+            </DisclosureButton>
+            <DisclosurePanel>
+              <ul>
+                <li>
+                  <Disclosure v-slot="{ open }" :default-open="isUserManagementActive">
+                    <DisclosureButton
+                      class="pl-8 pr-4 py-3 flex items-center w-full hover:bg-gray-700"
+                      :class="open ? 'bg-gray-700' : ''"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                      </svg>
+                      Users
+                      <span class="ml-auto">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          :class="open ? 'transform rotate-90' : ''"
+                        >
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                      </span>
+                    </DisclosureButton>
+                    <DisclosurePanel>
+                      <ul>
+                        <li class="pl-12" :class="[isExactActive ? 'bg-gray-500 text-gray-800' : 'hover:bg-gray-700']">
+                          <a class="py-3 flex items-center" :href="href" @click="navigate">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              class="h-5 w-5"
+                              fill="currentColor"
+                              viewBox="0 0 16 16"
+                            >
+                              <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                            </svg>
+                            User List
+                          </a>
+                        </li>
+
+                        <li class="pl-12 hover:bg-gray-700">
+                          <a href="#" class="py-3 flex items-center">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              class="h-5 w-5"
+                              fill="currentColor"
+                              viewBox="0 0 16 16"
+                            >
+                              <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                            </svg>
+                            User Detail
+                          </a>
+                        </li>
+                      </ul>
+                    </DisclosurePanel>
+                  </Disclosure>
+                </li>
+                <li class="px-8 hover:bg-gray-700">
+                  <a href="#" class="py-3 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 16 16">
+                      <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                    </svg>
+                    Roles
+                  </a>
+                </li>
+                <li class="px-8 hover:bg-gray-700">
+                  <a href="#" class="py-3 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 16 16">
+                      <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                    </svg>
+                    Permissions
+                  </a>
+                </li>
+              </ul>
+            </DisclosurePanel>
+          </Disclosure>
+        </li>
+
+        <li class="px-4 hover:bg-gray-700">
+          <a href="#" class="py-3 flex items-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 mr-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"
+              />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"
+              />
+            </svg>
+            Reports
+          </a>
+        </li>
+
+        <li class="px-4 py-2 mt-2 text-xs uppercase tracking-wider text-gray-500 font-bold">Apps</li>
+
+        <li class="px-4 cursor-pointer hover:bg-gray-700">
+          <a href="#" class="py-2 flex items-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 mr-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+              />
+            </svg>
+            Messages
+            <span class="ml-auto text-xs bg-gray-500 px-2 py-1 rounded-sm">16</span>
+          </a>
+        </li>
+
+        <li class="px-4 cursor-pointer hover:bg-gray-700">
+          <a href="#" class="py-2 flex items-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 mr-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+              />
+            </svg>
+            Calendar
+          </a>
+        </li>
+
+        <li class="px-4 py-2 mt-2 text-xs uppercase tracking-wider text-gray-500 font-bold">UI Elements</li>
+
+        <li class="px-4 cursor-pointer hover:bg-gray-700">
+          <svg class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M5 3C3.89543 3 3 3.89543 3 5V7C3 8.10457 3.89543 9 5 9H7C8.10457 9 9 8.10457 9 7V5C9 3.89543 8.10457 3 7 3H5Z"
+              fill="currentColor"
+            />
+            <path
+              d="M5 11C3.89543 11 3 11.8954 3 13V15C3 16.1046 3.89543 17 5 17H7C8.10457 17 9 16.1046 9 15V13C9 11.8954 8.10457 11 7 11H5Z"
+              fill="currentColor"
+            />
+            <path
+              d="M11 5C11 3.89543 11.8954 3 13 3H15C16.1046 3 17 3.89543 17 5V7C17 8.10457 16.1046 9 15 9H13C11.8954 9 11 8.10457 11 7V5Z"
+              fill="currentColor"
+            />
+            <path
+              d="M11 13C11 11.8954 11.8954 11 13 11H15C16.1046 11 17 11.8954 17 13V15C17 16.1046 16.1046 17 15 17H13C11.8954 17 11 16.1046 11 15V13Z"
+              fill="currentColor"
+            />
+          </svg>
+          Card
+        </li>
+        <li class="px-4 py-2 mt-2 text-xs uppercase tracking-wider text-gray-500 font-bold">Pages</li>
+
+        <li class="px-4 cursor-pointer hover:bg-gray-700">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 mr-2"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
+            />
+          </svg>
+          Login
+        </li>
+      </ul>
+    </nav>
+  </aside>
 </template>
+
 <script setup>
+import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue';
 import { computed, onBeforeMount } from 'vue';
 import { authStore } from '@/stores/auth.store';
 import { useRoute } from 'vue-router';
 const route = useRoute();
+
+const isUserManagementActive = computed(() => route.name === 'users');
+
+const isUserActive = computed(() => route.name === 'users');
+
 const isDashboard = computed(() => route.name === 'dashboard');
 const isUsers = computed(() => route.name === 'users');
 const user = computed(() => authStore.value.user);

@@ -42,4 +42,6 @@ const togglePopup = (value) => {
   </div>
 </template>
 
-<style></style>
+
+<style scoped>
+</style>
