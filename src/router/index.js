@@ -3,21 +3,15 @@ import { authStore } from '@/stores';
 
 const routes = [
   {
-    path: '/',
-    name: 'dashboard',
-    component: () => import('@/views/dashboard/Dashboard.vue'),
-    children: [
-      {
-        path: '',
-        component: () => import('@/views/dashboard/Dashboard.vue'),
-      },
-    ],
-  },
-  {
-    path: '/',
+    path: '',
     name: 'dashboard',
     meta: { requiresAuth: true, layout: 'auth' },
     component: () => import('@/views/dashboard/Dashboard.vue'),
+  },
+  {
+    path: '/users',
+    name: 'users',
+    component: () => import('@/views/UserList.vue'),
   },
   {
     path: '/login',

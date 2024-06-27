@@ -1,16 +1,5 @@
-import { formatCurrency, formatDate } from '@/lib/utils';
+import { dateRangeFilterFn, formatCurrency, formatDate } from '@/lib/utils';
 import { h } from 'vue';
-
-const dateRangeFilterFn = (row, columnId, filterValue) => {
-  const rowValue = row.getValue(columnId);
-  let [startDate, endDate] = filterValue;
-
-  startDate = new Date(startDate).setHours(0, 0, 0, 0);
-  endDate = new Date(endDate).setHours(23, 59, 59, 1000) || new Date(startDate).setHours(23, 59, 59, 1000);
-
-  if (typeof rowValue !== 'number') return false;
-  return rowValue >= startDate && rowValue <= endDate;
-};
 
 const columnsTransactions = [
   {

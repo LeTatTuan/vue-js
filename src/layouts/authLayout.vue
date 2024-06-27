@@ -1,6 +1,6 @@
 <template>
   <div class="flex min-h-screen">
-    <the-sidebar />
+    <!-- <the-sidebar /> -->
     <div class="flex flex-col flex-grow bg-[#f4f6f9]">
       <the-header />
 
@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import TheSidebar from '@/components/layouts/TheSidebar.vue';
+// import TheSidebar from '@/components/layouts/TheSidebar.vue';
 import TheHeader from '@/components/layouts/TheHeader.vue';
 import TheFooter from '@/components/layouts/TheFooter.vue';
 </script>

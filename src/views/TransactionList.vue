@@ -27,6 +27,16 @@ const fetchTransactions = async () => {
 
 <template>
   <div v-bind="$attrs">
-    <data-table v-if="transactions.length > 0" :data="transactions" :columns="columnsTransactions" />
+    <data-table
+      v-if="transactions.length > 0"
+      :data="transactions"
+      :columns="columnsTransactions"
+      title="Recent Transactions"
+      :options="{
+        columnSearch: 'productId',
+        columnFilter: 'bundleId',
+        columnFilterDate: 'purchaseDate',
+      }"
+    />
   </div>
 </template>

@@ -12,6 +12,18 @@ const props = defineProps({
     type: Array,
     require: true,
   },
+  title: String,
+  options: {
+    type: Object,
+    default: () => ({}),
+    validator: function (value) {
+      return (
+        typeof value.columnSearch === 'string' &&
+        typeof value.columnFilter === 'string' &&
+        typeof value.columnFilterDate === 'string'
+      );
+    },
+  },
 });
 
 import {
@@ -69,9 +81,9 @@ const table = useVueTable({
 
 <template>
   <div class="px-5 py-5 space-y-4">
-    <div class="font-bold text-xl px-5 py-5">Recent Transactions</div>
+    <div class="font-bold text-xl px-5 py-5">{{ title }}</div>
     <div class="flex flex-row gap-x-7">
-      <DataTableToolbar :table="table" />
+      <DataTableToolbar :table="table" :options="options" />
     </div>
     <div class="bg-white rounded-[10px] p-2 mt-5">
       <table>
@@ -95,7 +107,7 @@ const table = useVueTable({
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="divide-y divide-gray-200">
           <template v-if="table.getRowModel().rows?.length">
             <tr v-for="row in table.getRowModel().rows" :key="row.transactionId">
               <td

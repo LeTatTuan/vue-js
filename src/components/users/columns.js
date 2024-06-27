@@ -1,92 +1,72 @@
-import { formatCurrency, formatDate } from '@/lib/utils';
+import { dateRangeFilterFn, formatDate } from '@/lib/utils';
 import { h } from 'vue';
-
-const dateRangeFilterFn = (row, columnId, filterValue) => {
-    const rowValue = row.getValue(columnId);
-    let [startDate, endDate] = filterValue;
-
-    startDate = new Date(startDate).setHours(0, 0, 0, 0);
-    endDate = new Date(endDate).setHours(23, 59, 59, 1000) || new Date(startDate).setHours(23, 59, 59, 1000);
-
-    if (typeof rowValue !== 'number') return false;
-    return rowValue >= startDate && rowValue <= endDate;
-};
+import SelectList from '@/components/commons/SelectList.vue';
+import { Button } from '@/components/ui/button';
 
 const columnsTransactions = [
     {
-        accessorKey: 'transactionId',
-        header: 'ID',
-        enableSorting: true,
-        columnClass: 'hidden-column',
-    },
-    {
-        accessorKey: 'originalTransactionId',
-        header: 'Customer',
+        accessorKey: 'user',
+        header: 'USER',
+        cell: (info) => h('div', { class: 'flex flex-col' }, [
+            h('p', {}, info.getValue().name),
+            h('p', {}, info.getValue().email)
+        ]),
         enableSorting: true,
     },
     {
-        accessorKey: 'bundleId',
-        header: 'Project',
+        accessorKey: 'roles',
+        header: 'ROLES',
         enableSorting: true,
-        filterFn: (row, id, value) => {
-            return value.includes(row.getValue(id));
-        },
-    },
-    {
-        accessorKey: 'storefront',
-        header: 'Store',
-        enableSorting: true,
-    },
-    {
-        accessorKey: 'productId',
-        header: 'Product',
-        enableSorting: true,
-    },
-    {
-        accessorKey: 'totalCost',
-        header: 'Revenue',
         cell: (info) => {
-            return formatCurrency(info.getValue());
-        },
-        enableSorting: true,
+            return h(SelectList,
+                {
+                    list: info.getValue(),
+                    name: 'role'
+                }
+            );
+        }
+        ,
     },
     {
-        accessorKey: 'offerType',
-        header: 'Free Trial',
+        accessorKey: 'projects',
+        header: 'PROJECTS',
         enableSorting: true,
         cell: (info) =>
-            h('input', {
-                type: 'checkbox',
-                checked: info.getValue() === 1,
-                disabled: true,
-            }),
-
+            h(SelectList,
+                {
+                    list: info.getValue(),
+                    name: 'project'
+                }
+            )
+        ,
     },
     {
-        accessorKey: 'purchaseDate',
-        header: 'Purchase Date',
-        cell: (info) => formatDate(new Date(info.getValue())),
+        accessorKey: 'createdAt',
+        header: 'JOIN DATE',
         enableSorting: true,
-        meta: { filterVariant: 'range' },
+        cell: (info) => formatDate(new Date(info.getValue())).slice(0, 10),
         filterFn: dateRangeFilterFn,
     },
     {
-        accessorKey: 'expiresDate',
-        header: 'Expiration Date',
-        cell: (info) => {
-            if (info.getValue()) {
-                return formatDate(new Date(info.getValue()));
-            }
-            return 'Unlimited time';
-        },
+        accessorKey: '_id',
+        header: 'Actions',
         enableSorting: true,
-    },
-    {
-        accessorKey: 'type',
-        header: 'Renewal',
-        enableSorting: false,
-        filterFn: (row, id, value) => {
-            return value.includes(row.getValue(id));
+        cell: (info) => {
+            return h('div', {
+                style: {
+                    display: 'flex',
+                    gap: '10px',
+                }
+            }, [
+                h(Button, {
+                    onClick: () => this.$emit('edit-uder', info.getValue()),
+                    variant: 'secondary',
+                }, 'Edit'),
+                h(Button, {
+                    onClick: () => this.$emit('delete-user', info.getValue()),
+                    type: 'destructive',
+                }, 'Delete')
+            ]);
         },
     },
 ];
