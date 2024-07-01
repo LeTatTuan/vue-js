@@ -226,7 +226,5 @@ const isDashBoard = computed(() => route.name === 'dashboard');
 const isUsers = computed(() => route.name === 'users');
 const user = computed(() => authStore.value.user);
 const isLoggedIn = computed(() => authStore.value.isLoggedIn);
-onBeforeMount(() => {
-  console.log(user.value, route, isLoggedIn.value);
-});
+onBeforeMount(() => {});
 </script>

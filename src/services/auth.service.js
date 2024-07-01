@@ -15,7 +15,3 @@ export const refreshAccessToken = async () => {
 export const login = async (data) => {
   return await axiosApiInstance.post('/auth/login', data);
 };
-
-export const register = async (data) => {
-  return await axiosApiInstance.post('/auth/register', data);
-};

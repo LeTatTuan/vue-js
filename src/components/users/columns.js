@@ -21,7 +21,8 @@ const columnsTransactions = [
             return h(SelectList,
                 {
                     list: info.getValue(),
-                    name: 'role'
+                    placeholder: 'Role',
+                    isSelect: false
                 }
             );
         }
@@ -35,7 +36,8 @@ const columnsTransactions = [
             h(SelectList,
                 {
                     list: info.getValue(),
-                    name: 'project'
+                    placeholder: 'Project',
+                    isSelect: false
                 }
             )
         ,

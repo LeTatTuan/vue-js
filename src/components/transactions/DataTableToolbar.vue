@@ -38,8 +38,7 @@ const props = defineProps({
       return (
         typeof value.columnSearch === 'string' &&
         typeof value.columnFilter === 'string' &&
-        typeof value.columnFilterDate === 'string' &&
-        typeof value.createNew === 'boolean'
+        typeof value.columnFilterDate === 'string'
       );
     },
   },
@@ -73,22 +72,6 @@ const isFiltered = computed(() => props.table.getState().columnFilters.length > 
           :column="table.getColumn(options.columnFilterDate)"
         />
       </div>
-      <div v-if="options.createNew" class="ml-auto">
-        <button class="flex items-center bg-green-500 p-2 text-white rounded text-sm hover:bg-green-600">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6 mr-1"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-          </svg>
-
-          Create New
-        </button>
-      </div>
-
       <Button v-if="isFiltered" variant="ghost" class="h-8 px-2 lg:px-3" @click="table.resetColumnFilters()">
         Reset
         <X class="ml-2 h-4 w-4" />
