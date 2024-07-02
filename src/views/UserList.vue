@@ -26,31 +26,34 @@
       :options="{
         columnSearch: 'user',
         columnFilterDate: 'createdAt',
-        createNew: false,
       }"
     />
   </div>
 
-  <PopupNewUser v-if="modal.PopupNewUser" @close="closePopupNewUser" @updateUser="updateUser" />
+  <PopupNewUser v-if="modal.PopupNewUser" @close="closePopupNewUser" @updateUser="updateUser" :user="currentUser" />
 </template>
 
 <script setup>
 import DataTable from '@/components/transactions/DataTable.vue';
-import { createUser, getUsersApi } from '@/services';
+import { createUserApi, getUserApi, getUsersApi, updateUserApi } from '@/services';
 import { onBeforeMount, ref } from 'vue';
-import columnsUser from '@/components/users/columns';
+import getColumnsUser from '@/components/users/columns';
 import PopupNewUser from '@/components/users/PopupNewUser.vue';
 import { useNotification } from '@kyvg/vue3-notification';
 
 const notification = useNotification();
 const users = ref([]);
+const currentUser = ref(null);
+const columnsUser = ref([]);
 const modal = ref({
   PopupNewUser: false,
 });
 
 onBeforeMount(() => {
   fetchUsers();
+  columnsUser.value = getColumnsUser(showUpdateUser, showDeleteUser);
 });
+
 const fetchUsers = async () => {
   try {
     const res = await getUsersApi();
@@ -69,21 +72,32 @@ const fetchUsers = async () => {
 
 const closePopupNewUser = () => {
   modal.value.PopupNewUser = false;
+  currentUser.value = null;
 };
 
 const openCreateNewUser = () => {
   modal.value.PopupNewUser = true;
 };
 
+const showUpdateUser = async (id) => {
+  const { data } = await getUserApi(id);
+  currentUser.value = data['metadata'];
+  modal.value.PopupNewUser = true;
+};
+
+const showDeleteUser = (id) => {
+  console.log(id);
+};
+
 const updateUser = async (user) => {
-  console.log('check user: ', user);
+  const functionExcute = currentUser.value ? updateUserApi(currentUser.value._id, user) : createUserApi(user);
   try {
-    await createUser(user).then((res) => {
+    await functionExcute.then(async (res) => {
       const data = res['data'];
-      console.log('check res: ', data);
+      closePopupNewUser();
       notification.notify({
         type: 'success',
-        title: 'Tạo người dùng thành công',
+        title: 'Success',
         text: data['message'],
       });
     });
@@ -91,7 +105,7 @@ const updateUser = async (user) => {
     if (error.response?.data?.message) {
       notification.notify({
         type: 'error',
-        title: 'Tạo người dùng thất bại',
+        title: 'Failed',
         text: error.response.data.message,
       });
     }
