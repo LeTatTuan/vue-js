@@ -40,7 +40,7 @@
           />
         </div>
 
-        <div class="relative text-gray-400">
+        <div v-if="!props.user" class="relative text-gray-400">
           <span class="absolute inset-y-0 left-0 flex items-center pl-2">
             <LockKeyhole />
           </span>
@@ -48,10 +48,17 @@
             id="password"
             v-model="userData.password"
             name="password"
-            type="password"
+            :type="isShowPassword ? 'text' : 'password'"
             class="w-full py-4 text-sm text-gray-900 rounded-md pl-10 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10"
             disabled
           />
+          <span
+            class="absolute inset-y-0 right-0 flex items-center pr-2 cursor-pointer"
+            @click="togglePasswordVisibility"
+          >
+            <EyeOff v-if="isShowPassword" />
+            <Eye v-else />
+          </span>
         </div>
         <div class="relative text-gray-400">
           <span class="absolute inset-y-0 left-0 flex items-center pl-2">
@@ -86,8 +93,8 @@
 </template>
 <script setup>
 import { onBeforeMount, ref } from 'vue';
-import { getProjects, getRoles } from '@/services';
-import { User, Mail, LockKeyhole, Fingerprint, PanelsTopLeft } from 'lucide-vue-next';
+import { createPasswordApi, getProjects, getRoles } from '@/services';
+import { User, Mail, LockKeyhole, Fingerprint, PanelsTopLeft, Eye, EyeOff } from 'lucide-vue-next';
 import SelectList from '@/components/commons/SelectList.vue';
 
 const props = defineProps({
@@ -98,13 +105,21 @@ const roles = ref([]);
 const defaultUser = {
   name: '',
   email: '',
-  password: '123456A',
+  password: '',
   roles: [],
   projects: [],
 };
 const projects = ref([]);
 const emits = defineEmits(['close', 'updateUser']);
 const userData = ref(defaultUser);
+const isShowPassword = ref(false);
+
+onBeforeMount(async () => {
+  fetchRoles();
+  fetchProjects();
+  fetchPassword();
+  userData.value = defaultUser;
+});
 
 if (props.user) {
   Object.keys(userData.value).forEach((key) => {
@@ -113,12 +128,6 @@ if (props.user) {
     }
   });
 }
-
-onBeforeMount(() => {
-  fetchRoles();
-  fetchProjects();
-  userData.value = defaultUser;
-});
 
 const fetchRoles = async () => {
   try {
@@ -139,11 +148,24 @@ const fetchProjects = async () => {
   }
 };
 
+const fetchPassword = async () => {
+  try {
+    const res = await createPasswordApi();
+    defaultUser.password = res['data']['metadata'];
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const close = () => {
   emits('close');
 };
 
 const submit = () => {
   emits('updateUser', userData.value);
+};
+
+const togglePasswordVisibility = () => {
+  isShowPassword.value = !isShowPassword.value;
 };
 </script>

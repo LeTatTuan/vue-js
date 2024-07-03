@@ -62,7 +62,7 @@ const isFiltered = computed(() => props.table.getState().columnFilters.length > 
         <DataTableFacetedFilter
           v-if="table.getColumn(options.columnFilter)"
           :column="table.getColumn(options.columnFilter)"
-          title="Project"
+          :title="table.getColumn(options.columnFilter).columnDef.header"
           :options="projectsForFilter"
         />
       </div>

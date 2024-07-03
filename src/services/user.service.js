@@ -19,3 +19,7 @@ export const updateUserApi = async (userId, data) => {
 export const getUserApi = async (userId) => {
   return await axiosApiInstance.get(`/user/${userId}`);
 };
+
+export const createPasswordApi = () => {
+  return axiosApiInstance.get('/random-password');
+};

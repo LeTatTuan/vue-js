@@ -45,11 +45,13 @@ const sorting = ref([]);
 const columnFilters = ref([]);
 const columnVisibility = ref({});
 const rowSelection = ref({});
+const globalFilter = ref('');
 
 const table = useVueTable({
   data: data.value,
   columns: props.columns,
   filterFns: {},
+  globalFilter: globalFilter.value,
   state: {
     get sorting() {
       return sorting.value;
@@ -63,6 +65,9 @@ const table = useVueTable({
     get rowSelection() {
       return rowSelection.value;
     },
+    get globalFilter() {
+      return globalFilter.value;
+    },
   },
   enableRowSelection: true,
   getCoreRowModel: getCoreRowModel(),
@@ -73,6 +78,7 @@ const table = useVueTable({
   onColumnFiltersChange: (updaterOrValue) => valueUpdater(updaterOrValue, columnFilters),
   onColumnVisibilityChange: (updaterOrValue) => valueUpdater(updaterOrValue, columnVisibility),
   onRowSelectionChange: (updaterOrValue) => valueUpdater(updaterOrValue, rowSelection),
+  onGlobalFilterChange: (updaterOrValue) => valueUpdater(updaterOrValue, globalFilter),
   getFacetedRowModel: getFacetedRowModel(),
   getFacetedUniqueValues: getFacetedUniqueValues(),
   getFacetedMinMaxValues: getFacetedMinMaxValues(),
