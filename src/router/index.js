@@ -19,6 +19,18 @@ const routes = [
     meta: { layout: 'empty' },
     component: () => import('@/views/auth/LoginPage.vue'),
   },
+  {
+    path: '/forgot-password',
+    name: 'forgotPassword',
+    meta: { layout: 'empty' },
+    component: () => import('@/views/auth/ForgotPasswordPage.vue'),
+  },
+  {
+    path: '/reset-password',
+    name: 'resetPassword',
+    meta: { layout: 'empty' },
+    component: () => import('@/views/auth/ResetPasswordPage.vue'),
+  }
 ];
 
 const router = createRouter({

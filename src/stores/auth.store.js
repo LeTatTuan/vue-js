@@ -3,6 +3,7 @@ import { getInfo } from '@/services';
 
 export const logout = () => {
   localStorage.removeItem('access_token');
+  localStorage.removeItem('refresh_token');
   authStore.value.user = null;
   authStore.value.isLoggedIn = false;
   window.location.reload();

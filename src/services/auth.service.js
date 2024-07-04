@@ -15,3 +15,15 @@ export const refreshAccessToken = async () => {
 export const login = async (data) => {
   return await axiosApiInstance.post('/auth/login', data);
 };
+
+export const forgotPassword = async (data) => {
+  return await axios.post('/auth/forgot-password', data);
+};
+
+export const resetPassword = async (token, data) => {
+  return await axios.post(`/auth/reset-password?token=${token}`, data);
+};
+
+export const verifyToken = async (data) => {
+  return await axios.post('/auth/verify-token', data);
+};
