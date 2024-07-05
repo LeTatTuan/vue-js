@@ -3,7 +3,7 @@
     v-if="tokenExpired"
     title="Invalid Reset Link"
     description="Password reset link is expired."
-    linkRedirect="/forgot-password"
+    :linkRedirect="RoutePath.ForgotPassword"
     btnRedirect="Generate Reset Link"
   />
   <div v-else class="min-h-screen flex items-center justify-center bg-gray-50 px-4">
@@ -95,6 +95,7 @@ import { useRouter } from 'vue-router';
 import { useNotification } from '@kyvg/vue3-notification';
 import { resetPassword, verifyToken } from '@/services';
 import ErrorPage from '@/components/commons/ErrorPage.vue';
+import { RoutePath } from '@/router';
 
 const notification = useNotification();
 const router = useRouter();
@@ -127,7 +128,6 @@ const checkToken = async () => {
       });
     }
     tokenExpired.value = true;
-    console.log(tokenExpired.value);
     console.log(error);
   }
 };
@@ -151,7 +151,7 @@ const submit = async () => {
         text: 'Vui lòng đăng nhập lại',
       });
     });
-    router.push('/login');
+    router.push(RoutePath.Login);
   } catch (error) {
     if (error.response?.data?.message) {
       notification.notify({

@@ -6,7 +6,7 @@
 
       <div class="mb-auto flex max-[400px]:flex-col">
         <div class="w-full pt-[72px] max-[400px]:pt-[200px]">
-          <slot></slot>
+          <router-view />
         </div>
       </div>
 

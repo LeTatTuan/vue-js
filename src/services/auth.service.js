@@ -8,13 +8,22 @@ export const refreshAccessToken = async () => {
   const data = {
     refreshToken: refresh_token,
   };
-
   return await axios.post('/auth/refresh-token', data);
 };
 
 export const login = async (data) => {
   return await axiosApiInstance.post('/auth/login', data);
 };
+
+
+export const logout = async () => {
+  const refresh_token = localStorage.getItem('refresh_token');
+  const data = {
+    refreshToken: refresh_token,
+  };
+  return await axiosApiInstance.post('/auth/logout', data);
+};
+
 
 export const forgotPassword = async (data) => {
   return await axios.post('/auth/forgot-password', data);

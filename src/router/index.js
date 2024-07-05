@@ -1,36 +1,79 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { authStore } from '@/stores';
+
+export const RoutePrefix = Object.freeze({
+  Auth: '/auth',
+  Admin: '/admin',
+  Default: '',
+});
+
+export const RoutePath = Object.freeze({
+  Dashboard: RoutePrefix.Default + '/',
+  About: RoutePrefix.Default + '/about',
+  NotFound: RoutePrefix.Default + '/404',
+  SettingAccount: RoutePrefix.Default + '/settings',
+  /*******/
+  Login: RoutePrefix.Auth + '/login',
+  ForgotPassword: RoutePrefix.Auth + '/forgot-password',
+  ResetPassword: RoutePrefix.Auth + '/reset-password',
+
+  /*******/
+  ManageUsers: RoutePrefix.Admin + '/users',
+});
 
 const routes = [
   {
-    path: '',
-    name: 'dashboard',
+    path: RoutePath.NotFound,
+    meta: { layout: 'empty' },
+    component: () => import('@/views/404/index.vue'),
+  },
+  {
+    path: RoutePrefix.Default,
     meta: { requiresAuth: true, layout: 'auth' },
-    component: () => import('@/views/dashboard/Dashboard.vue'),
+    children: [
+      {
+        path: RoutePath.Dashboard,
+        name: 'dashboard',
+        component: () => import('@/views/dashboard/Dashboard.vue'),
+      },
+      {
+        path: RoutePath.SettingAccount,
+        name: 'settings',
+        component: () => import('@/components/users/SettingAccount.vue'),
+      },
+    ],
   },
   {
-    path: '/users',
-    name: 'users',
-    component: () => import('@/views/UserList.vue'),
-  },
-  {
-    path: '/login',
-    name: 'login',
+    path: RoutePrefix.Auth,
     meta: { layout: 'empty' },
-    component: () => import('@/views/auth/LoginPage.vue'),
+    children: [
+      {
+        path: RoutePath.Login,
+        name: 'login',
+        component: () => import('@/views/auth/LoginPage.vue'),
+      },
+      {
+        path: RoutePath.ForgotPassword,
+        name: 'forgotPassword',
+        component: () => import('@/views/auth/ForgotPasswordPage.vue'),
+      },
+      {
+        path: RoutePath.ResetPassword,
+        name: 'resetPassword',
+        component: () => import('@/views/auth/ResetPasswordPage.vue'),
+      }
+    ]
   },
   {
-    path: '/forgot-password',
-    name: 'forgotPassword',
-    meta: { layout: 'empty' },
-    component: () => import('@/views/auth/ForgotPasswordPage.vue'),
+    path: RoutePrefix.Admin,
+    meta: { layout: 'auth', requiresAuth: true },
+    children: [
+      {
+        path: RoutePath.ManageUsers,
+        name: 'users',
+        component: () => import('@/views/UserList.vue'),
+      },
+    ],
   },
-  {
-    path: '/reset-password',
-    name: 'resetPassword',
-    meta: { layout: 'empty' },
-    component: () => import('@/views/auth/ResetPasswordPage.vue'),
-  }
 ];
 
 const router = createRouter({
@@ -43,14 +86,6 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (!isLoggedIn) {
       next({ name: 'login' });
-    } else {
-      const user = authStore.value.user;
-
-      // const userRole = user.roles;
-      // if (to.meta.roles && !to.meta.roles.includes(userRole)) {
-      //   console.log('403');
-      //   next({ name: 'dashboard' });
-      // }
     }
   } else {
     if (isLoggedIn && to.name === 'login') {

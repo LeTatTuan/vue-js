@@ -23,3 +23,7 @@ export const getUserApi = async (userId) => {
 export const createPasswordApi = () => {
   return axiosApiInstance.get('/random-password');
 };
+
+export const checkAdmin = async () => {
+  return axiosApiInstance.get('/user/check-admin');
+};

@@ -32,15 +32,16 @@ axiosApiInstance.interceptors.response.use(
       error.response.status === 401 &&
       !originalRequest._retry &&
       originalRequest.url !== '/auth/refresh-token' &&
-      originalRequest.url !== 'auth/login'
+      originalRequest.url !== '/auth/login'
     ) {
       originalRequest._retry = true;
 
       try {
         const token = await refreshAccessToken();
+
         localStorage.setItem('access_token', token['data']['metadata']['access_token']);
         localStorage.setItem('refresh_token', token['data']['metadata']['refresh_token']);
-        axios.defaults.headers.common['Authorization'] = `Bearer ${token.accessToken}`;
+        axiosApiInstance.defaults.headers.common['Authorization'] = `Bearer ${token['data']['metadata']['access_token']}`;
         return axiosApiInstance(originalRequest);
       } catch (error) {
         console.log(error, 'ERROR', originalRequest.url);
@@ -50,7 +51,7 @@ axiosApiInstance.interceptors.response.use(
           text: 'Bạn đã hết phiên đăng nhập, vui lòng đăng nhập lại!',
         });
         localStorage.clear();
-        window.location.href = '/login';
+        window.location.href = '/auth/login';
       }
     }
     return Promise.reject(error);

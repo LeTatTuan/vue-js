@@ -40,12 +40,12 @@
           />
         </div>
         <div class="flex space-x-4 justify-center">
-          <a
-            href="/login"
+          <router-link
+            :to="RoutePath.Login"
             class="group w-max flex justify-center py-4 px-6 border border-transparent font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
           >
             Back to Login
-          </a>
+          </router-link>
           <button
             type="submit"
             class="group w-max flex justify-center py-4 px-6 border border-transparent font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -62,6 +62,7 @@
 import { forgotPassword } from '@/services';
 import { ref } from 'vue';
 import { useNotification } from '@kyvg/vue3-notification';
+import { RoutePath } from '@/router';
 
 const notification = useNotification();
 const email = ref('');

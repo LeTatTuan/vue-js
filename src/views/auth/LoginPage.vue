@@ -68,9 +68,9 @@
 
         <div class="flex items-center justify-between">
           <div class="text-sm">
-            <a href="/forgot-password" class="font-medium text-indigo-600 hover:text-indigo-500">
+            <router-link :to="RoutePath.ForgotPassword" class="font-medium text-indigo-600 hover:text-indigo-500">
               Forgot your password?
-            </a>
+            </router-link>
           </div>
         </div>
 
@@ -89,33 +89,17 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { initAuthStore } from '@/stores';
-import { login } from '@/services';
-import { useNotification } from '@kyvg/vue3-notification';
-const notification = useNotification();
-const router = useRouter();
+import { RoutePath } from '@/router';
+import { useAuthStore } from '@/stores';
+
 const email = ref('');
 const password = ref('');
+const auth = useAuthStore();
 
 const submit = async () => {
-  try {
-    await login({ email: email.value, password: password.value }).then((res) => {
-      const data = res['data'];
-      localStorage.setItem('access_token', data.metadata['access_token']);
-      localStorage.setItem('refresh_token', data.metadata['refresh_token']);
-    });
-    await initAuthStore();
+  await auth.login({ email: email.value, password: password.value }).then(() => {
     email.value = '';
     password.value = '';
-    router.push('/');
-  } catch (error) {
-    notification.notify({
-      type: 'error',
-      title: 'Đăng nhập thất bại, vui lòng kiểm tra lại thông tin đăng nhập',
-      text: error.response.data.message,
-    });
-    console.log(error);
-  }
+  });
 };
 </script>

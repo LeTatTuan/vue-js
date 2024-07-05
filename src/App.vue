@@ -4,9 +4,7 @@ import authLayout from '@/layouts/authLayout.vue';
 
 <template>
   <Notifications />
-  <authLayout>
-    <router-view />
-  </authLayout>
+  <authLayout />
 </template>
 
 <style scoped>

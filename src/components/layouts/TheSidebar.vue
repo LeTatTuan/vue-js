@@ -30,7 +30,7 @@
         </router-link>
 
         <li>
-          <Disclosure v-slot="{ open }" :default-open="isLoggedIn">
+          <Disclosure v-if="isAdmin" v-slot="{ open }" :default-open="isAdmin">
             <DisclosureButton
               class="px-4 py-3 flex items-center w-full hover:bg-gray-700"
               :class="open ? 'bg-gray-700' : ''"
@@ -66,7 +66,7 @@
             <DisclosurePanel>
               <ul>
                 <li>
-                  <Disclosure v-slot="{ open }" :default-open="isLoggedIn">
+                  <Disclosure v-slot="{ open }" :default-open="isAdmin">
                     <DisclosureButton
                       class="pl-8 pr-4 py-3 flex items-center w-full hover:bg-gray-700"
                       :class="open ? 'bg-gray-700' : ''"
@@ -90,7 +90,7 @@
                     </DisclosureButton>
                     <DisclosurePanel>
                       <ul>
-                        <router-link v-slot="{ href, navigate }" to="users" custom>
+                        <router-link v-slot="{ href, navigate }" :to="RoutePath.ManageUsers" custom>
                           <li class="pl-12" :class="[isUsers ? 'bg-gray-500 text-gray-800' : 'hover:bg-gray-700']">
                             <a class="py-3 flex items-center" :href="href" @click="navigate">
                               <svg
@@ -128,13 +128,13 @@
           </Disclosure>
         </li>
 
-        <li class="px-4 hover:bg-gray-700">
+        <li v-if="isAdmin" class="px-4 hover:bg-gray-700">
           <a href="#" class="py-3 flex items-center">
             <Fingerprint class="h-5 w-5 mr-2" />
             Roles
           </a>
         </li>
-        <li class="px-4 hover:bg-gray-700">
+        <li v-if="isAdmin" class="px-4 hover:bg-gray-700">
           <a href="#" class="py-3 flex items-center">
             <PanelsTopLeft class="h-5 w-5 mr-2" />
             Projects
@@ -192,21 +192,17 @@
         <li class="px-4 py-2 mt-2 text-xs uppercase tracking-wider text-gray-500 font-bold">Pages</li>
 
         <li class="px-4 cursor-pointer hover:bg-gray-700">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5 mr-2"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
-            />
-          </svg>
-          Login
+          <router-link :to="RoutePath.SettingAccount" class="py-3 flex items-center">
+            <User class="h-5 w-5 mr-2" />
+            Account Settings
+          </router-link>
+        </li>
+
+        <li class="px-4 cursor-pointer hover:bg-gray-700">
+          <a href="#" class="py-3 flex items-center">
+            <LogOut class="h-5 w-5 mr-2" />
+            Log out
+          </a>
         </li>
       </ul>
     </nav>
@@ -215,16 +211,18 @@
 
 <script setup>
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue';
-import { PanelsTopLeft, Fingerprint } from 'lucide-vue-next';
-
+import { PanelsTopLeft, Fingerprint, User, LogOut } from 'lucide-vue-next';
+import { RoutePath } from '@/router';
 import { computed, onBeforeMount } from 'vue';
-import { authStore } from '@/stores/auth.store';
+import { useAuthStore } from '@/stores';
 import { useRoute } from 'vue-router';
 const route = useRoute();
+const auth = useAuthStore();
 
 const isDashBoard = computed(() => route.name === 'dashboard');
 const isUsers = computed(() => route.name === 'users');
-const user = computed(() => authStore.value.user);
-const isLoggedIn = computed(() => authStore.value.isLoggedIn);
+const user = computed(() => auth.user);
+const isLoggedIn = computed(() => auth.isLoggedIn);
+const isAdmin = computed(() => auth.isAdmin);
 onBeforeMount(() => {});
 </script>

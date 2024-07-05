@@ -5,7 +5,7 @@
   >
     <div class="w-[500px] h-fit bg-white rounded-2xl flex p-6 flex-col gap-3" @click.stop="">
       <h2 class="text-center text-2xl font-bold text-gray-800 mb-6">
-        {{ props.user ? 'Cập nhật người dùng' : 'Thêm mới người dùng' }}
+        {{ props.title }}
       </h2>
       <form class="space-y-4" @submit.prevent="submit">
         <div class="relative text-gray-400">
@@ -84,7 +84,7 @@
             type="submit"
             class="group relative w-full flex justify-center py-4 px-6 border border-transparent font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-            {{ props.user ? 'Cập nhật' : 'Thêm mới' }}
+            {{ props.btnStr }}
           </button>
         </div>
       </form>
@@ -99,6 +99,8 @@ import SelectList from '@/components/commons/SelectList.vue';
 
 const props = defineProps({
   user: Object,
+  title: String,
+  btnStr: String,
 });
 
 const roles = ref([]);

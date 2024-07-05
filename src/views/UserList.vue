@@ -25,18 +25,26 @@
       title="User List"
       :options="{
         columnSearch: 'user',
+        columnFilter: '',
         columnFilterDate: 'createdAt',
       }"
     />
   </div>
 
-  <PopupNewUser v-if="modal.PopupNewUser" @close="closePopupNewUser" @updateUser="updateUser" :user="currentUser" />
+  <PopupNewUser
+    v-if="modal.PopupNewUser"
+    @close="closePopupNewUser"
+    @updateUser="updateUser"
+    :user="currentUser"
+    :title="currentUser ? 'User Update' : 'Add new user'"
+    :btnStr="currentUser ? 'Update' : 'Add new'"
+  />
 </template>
 
 <script setup>
 import DataTable from '@/components/transactions/DataTable.vue';
 import { createUserApi, getUserApi, getUsersApi, updateUserApi } from '@/services';
-import { onBeforeMount, ref } from 'vue';
+import { onBeforeMount, ref, watch } from 'vue';
 import getColumnsUser from '@/components/users/columns';
 import PopupNewUser from '@/components/users/PopupNewUser.vue';
 import { useNotification } from '@kyvg/vue3-notification';
@@ -100,6 +108,7 @@ const updateUser = async (user) => {
         title: 'Success',
         text: data['message'],
       });
+      await fetchUsers();
     });
   } catch (error) {
     if (error.response?.data?.message) {
@@ -112,4 +121,9 @@ const updateUser = async (user) => {
     console.log(error);
   }
 };
+
+watch(users, (newUsers, oldUsers) => {
+  users.value = [];
+  users.value = newUsers;
+});
 </script>
