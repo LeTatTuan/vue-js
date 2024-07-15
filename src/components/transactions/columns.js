@@ -7,16 +7,19 @@ const columnsTransactions = [
     header: 'ID',
     enableSorting: true,
     columnClass: 'hidden-column',
+    enableGlobalFilter: false,
   },
   {
     accessorKey: 'originalTransactionId',
     header: 'Customer',
     enableSorting: true,
+    enableGlobalFilter: true,
   },
   {
     accessorKey: 'bundleId',
     header: 'Project',
     enableSorting: true,
+    enableGlobalFilter: true,
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
     },
@@ -25,11 +28,13 @@ const columnsTransactions = [
     accessorKey: 'storefront',
     header: 'Store',
     enableSorting: true,
+    enableGlobalFilter: true,
   },
   {
     accessorKey: 'productId',
     header: 'Product',
     enableSorting: true,
+    enableGlobalFilter: true,
   },
   {
     accessorKey: 'totalCost',
@@ -43,6 +48,7 @@ const columnsTransactions = [
     accessorKey: 'offerType',
     header: 'Free Trial',
     enableSorting: true,
+    enableGlobalFilter: false,
     cell: (info) =>
       h('input', {
         type: 'checkbox',
@@ -56,6 +62,7 @@ const columnsTransactions = [
     header: 'Purchase Date',
     cell: (info) => formatDate(new Date(info.getValue())),
     enableSorting: true,
+    enableGlobalFilter: false,
     meta: { filterVariant: 'range' },
     filterFn: dateRangeFilterFn,
   },
@@ -69,14 +76,11 @@ const columnsTransactions = [
       return 'Unlimited time';
     },
     enableSorting: true,
+    enableGlobalFilter: false,
   },
   {
     accessorKey: 'type',
     header: 'Renewal',
-    enableSorting: false,
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
-    },
   },
 ];
 

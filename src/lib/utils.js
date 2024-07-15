@@ -38,3 +38,16 @@ export const dateRangeFilterFn = (row, columnId, filterValue) => {
   if (typeof rowValue !== 'number') rowValue = new Date(rowValue).getTime();
   return rowValue >= startDate && rowValue <= endDate;
 };
+
+export const objectFilterFn = (row, columnId, filterValue) => {
+  const cellValue = row.getValue(columnId);
+  const keys = Object.keys(cellValue);
+  for (let key of keys) {
+    const value = String(cellValue[key]).toLowerCase();
+    if (value.includes(String(filterValue).toLowerCase())) {
+      return true;
+    }
+  }
+
+  return false;
+};

@@ -31,31 +31,33 @@ const fetchProjects = async () => {
 
 const props = defineProps({
   table: Object,
+  globalSearchText: String,
   options: {
     type: Object,
     default: () => ({}),
     validator: function (value) {
-      return (
-        typeof value.columnSearch === 'string' &&
-        typeof value.columnFilter === 'string' &&
-        typeof value.columnFilterDate === 'string'
-      );
+      return typeof value.columnFilter === 'string' && typeof value.columnFilterDate === 'string';
     },
   },
 });
 
 const isFiltered = computed(() => props.table.getState().columnFilters.length > 0);
+const emit = defineEmits(['updateGlobalSearchText']);
+
+const onInput = (event) => {
+  emit('updateGlobalSearchText', event.target.value);
+};
 </script>
 
 <template>
   <div class="flex items-center justify-between w-full">
     <div class="flex flex-1 items-center space-x-2 gap-x-3 w-full">
-      <div :v-if="options.columnSearch">
+      <div :v-if="options.globalSearch">
         <Input
-          placeholder="Filter..."
-          :model-value="table.getColumn(options.columnSearch)?.getFilterValue() ?? ''"
+          placeholder="Search all columns..."
+          :model-value="globalSearchText"
           class="h-8 w-[150px] lg:w-[250px]"
-          @input="table.getColumn(options.columnSearch)?.setFilterValue($event.target.value)"
+          @input="onInput"
         />
       </div>
       <div v-if="options.columnFilter">

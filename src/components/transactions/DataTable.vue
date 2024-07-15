@@ -1,7 +1,19 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import DataTablePagination from '@/components/transactions/DataTablePagination.vue';
 import DataTableToolbar from '@/components/transactions/DataTableToolbar.vue';
+import {
+  useVueTable,
+  FlexRender,
+  getCoreRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  getFilteredRowModel,
+  getFacetedRowModel,
+  getFacetedUniqueValues,
+  getFacetedMinMaxValues,
+} from '@tanstack/vue-table';
+import { valueUpdater } from '@/lib/utils';
 
 const props = defineProps({
   data: {
@@ -17,29 +29,20 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
     validator: function (value) {
-      return (
-        typeof value.columnSearch === 'string' &&
-        typeof value.columnFilter === 'string' &&
-        typeof value.columnFilterDate === 'string'
-      );
+      return typeof value.columnFilter === 'string' && typeof value.columnFilterDate === 'string';
     },
   },
 });
 
-import {
-  useVueTable,
-  FlexRender,
-  getCoreRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  getFilteredRowModel,
-  getFacetedRowModel,
-  getFacetedUniqueValues,
-  getFacetedMinMaxValues,
-} from '@tanstack/vue-table';
-import { valueUpdater } from '@/lib/utils';
-
-const data = ref(props.data);
+const tableData = ref(props.data);
+watch(
+  () => props.data,
+  (newData) => {
+    for (let i = 0; i < newData.length; i++) {
+      tableData.value[i] = newData[i];
+    }
+  }
+);
 
 const sorting = ref([]);
 const columnFilters = ref([]);
@@ -48,10 +51,10 @@ const rowSelection = ref({});
 const globalFilter = ref('');
 
 const table = useVueTable({
-  data: data.value,
+  data: tableData.value,
   columns: props.columns,
   filterFns: {},
-  globalFilter: globalFilter.value,
+  enableGlobalFilter: true,
   state: {
     get sorting() {
       return sorting.value;
@@ -69,6 +72,15 @@ const table = useVueTable({
       return globalFilter.value;
     },
   },
+  globalFilterFn: (row, columnId, filterValue) => {
+    const cellValue = row.getValue(columnId);
+    const filterFn = props.columns.find((col) => col.accessorKey === columnId)?.filterFn;
+
+    if (filterFn) {
+      return filterFn(row, columnId, filterValue);
+    }
+    return String(cellValue).toLowerCase().includes(String(filterValue).toLowerCase());
+  },
   enableRowSelection: true,
   getCoreRowModel: getCoreRowModel(),
   getPaginationRowModel: getPaginationRowModel(),
@@ -83,13 +95,22 @@ const table = useVueTable({
   getFacetedUniqueValues: getFacetedUniqueValues(),
   getFacetedMinMaxValues: getFacetedMinMaxValues(),
 });
+
+const updateGlobalFilter = (newFilter) => {
+  globalFilter.value = newFilter;
+};
 </script>
 
 <template>
   <div class="px-5 py-5 space-y-4">
     <div class="font-bold text-xl px-5 py-5">{{ title }}</div>
     <div class="flex flex-row gap-x-7">
-      <DataTableToolbar :table="table" :options="options" />
+      <DataTableToolbar
+        :table="table"
+        :globalSearchText="globalFilter"
+        @updateGlobalSearchText="updateGlobalFilter"
+        :options="options"
+      />
     </div>
     <div class="bg-white rounded-[10px] p-2 mt-5">
       <table>

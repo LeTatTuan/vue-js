@@ -222,7 +222,6 @@ const auth = useAuthStore();
 const isDashBoard = computed(() => route.name === 'dashboard');
 const isUsers = computed(() => route.name === 'users');
 const user = computed(() => auth.user);
-const isLoggedIn = computed(() => auth.isLoggedIn);
 const isAdmin = computed(() => auth.isAdmin);
 onBeforeMount(() => {});
 </script>

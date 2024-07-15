@@ -33,7 +33,6 @@ const fetchTransactions = async () => {
       :columns="columnsTransactions"
       title="Recent Transactions"
       :options="{
-        columnSearch: 'productId',
         columnFilter: 'bundleId',
         columnFilterDate: 'purchaseDate',
       }"

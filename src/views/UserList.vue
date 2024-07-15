@@ -24,7 +24,6 @@
       :columns="columnsUser"
       title="User List"
       :options="{
-        columnSearch: 'user',
         columnFilter: '',
         columnFilterDate: 'createdAt',
       }"
@@ -58,8 +57,8 @@ const modal = ref({
 });
 
 onBeforeMount(() => {
-  fetchUsers();
   columnsUser.value = getColumnsUser(showUpdateUser, showDeleteUser);
+  fetchUsers();
 });
 
 const fetchUsers = async () => {
@@ -71,7 +70,7 @@ const fetchUsers = async () => {
         name: item.name,
         email: item.email,
       };
-      return { ...item, user, name: null, email: null };
+      return { ...item, user };
     });
   } catch (error) {
     console.log(error);
@@ -95,6 +94,7 @@ const showUpdateUser = async (id) => {
 
 const showDeleteUser = (id) => {
   console.log(id);
+  alert(`Delete user with id: ${id}`);
 };
 
 const updateUser = async (user) => {
@@ -102,13 +102,13 @@ const updateUser = async (user) => {
   try {
     await functionExcute.then(async (res) => {
       const data = res['data'];
-      closePopupNewUser();
       notification.notify({
         type: 'success',
         title: 'Success',
         text: data['message'],
       });
       await fetchUsers();
+      closePopupNewUser();
     });
   } catch (error) {
     if (error.response?.data?.message) {
