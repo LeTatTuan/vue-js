@@ -1,7 +1,7 @@
 <script setup>
-import { ref, watch } from 'vue';
-import DataTablePagination from '@/components/transactions/DataTablePagination.vue';
-import DataTableToolbar from '@/components/transactions/DataTableToolbar.vue';
+import { ref } from 'vue';
+import DataTablePagination from '@/components/table/DataTablePagination.vue';
+import DataTableToolbar from '@/components/table/DataTableToolbar.vue';
 import {
   useVueTable,
   FlexRender,
@@ -34,16 +34,6 @@ const props = defineProps({
   },
 });
 
-const tableData = ref(props.data);
-watch(
-  () => props.data,
-  (newData) => {
-    for (let i = 0; i < newData.length; i++) {
-      tableData.value[i] = newData[i];
-    }
-  }
-);
-
 const sorting = ref([]);
 const columnFilters = ref([]);
 const columnVisibility = ref({});
@@ -51,7 +41,9 @@ const rowSelection = ref({});
 const globalFilter = ref('');
 
 const table = useVueTable({
-  data: tableData.value,
+  get data() {
+    return props.data;
+  },
   columns: props.columns,
   filterFns: {},
   enableGlobalFilter: true,

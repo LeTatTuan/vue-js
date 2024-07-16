@@ -55,7 +55,6 @@ const columnsTransactions = [
         checked: info.getValue() === 1,
         disabled: true,
       }),
-
   },
   {
     accessorKey: 'purchaseDate',

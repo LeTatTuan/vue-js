@@ -1,3 +1,80 @@
+<script setup>
+import { onBeforeMount, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useNotification } from '@kyvg/vue3-notification';
+import { resetPassword, verifyToken } from '@/services';
+import ErrorPage from '@/components/commons/ErrorPage.vue';
+import { RoutePath } from '@/router';
+
+const notification = useNotification();
+const router = useRouter();
+const tokenExpired = ref(false);
+const token = ref('');
+const password = ref('');
+const confirmPassword = ref('');
+
+onBeforeMount(() => {
+  token.value = router.currentRoute.value.query.token;
+  checkToken();
+});
+
+const checkToken = async () => {
+  try {
+    await verifyToken({ token: token.value }).then((res) => {
+      const data = res['data'];
+      notification.notify({
+        type: 'success',
+        title: 'Valid Token',
+        text: data.message,
+      });
+    });
+  } catch (error) {
+    if (error.response?.data?.message) {
+      notification.notify({
+        type: 'error',
+        title: 'Invalid Token',
+        text: error.response.data.message,
+      });
+    }
+    tokenExpired.value = true;
+    console.log(error);
+  }
+};
+
+const submit = async () => {
+  try {
+    if (password.value.trim() != confirmPassword.value.trim()) {
+      notification.notify({
+        type: 'error',
+        title: 'Mật khẩu xác nhận không khớp',
+      });
+      return;
+    }
+    await resetPassword(token.value, {
+      password: password.value.trim(),
+      confirm_password: confirmPassword.value.trim(),
+    }).then(() => {
+      notification.notify({
+        type: 'success',
+        title: 'Đổi mật khẩu thành công',
+        text: 'Vui lòng đăng nhập lại',
+      });
+    });
+    router.push(RoutePath.Login);
+  } catch (error) {
+    if (error.response?.data?.message) {
+      notification.notify({
+        type: 'error',
+        title: 'Đổi mật khẩu thất bại',
+        text: error.response.data.message,
+      });
+    }
+    console.log(error);
+  }
+};
+</script>
+
+
 <template>
   <ErrorPage
     v-if="tokenExpired"
@@ -88,79 +165,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { onBeforeMount, ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { useNotification } from '@kyvg/vue3-notification';
-import { resetPassword, verifyToken } from '@/services';
-import ErrorPage from '@/components/commons/ErrorPage.vue';
-import { RoutePath } from '@/router';
-
-const notification = useNotification();
-const router = useRouter();
-const tokenExpired = ref(false);
-const token = ref('');
-const password = ref('');
-const confirmPassword = ref('');
-
-onBeforeMount(() => {
-  token.value = router.currentRoute.value.query.token;
-  checkToken();
-});
-
-const checkToken = async () => {
-  try {
-    await verifyToken({ token: token.value }).then((res) => {
-      const data = res['data'];
-      notification.notify({
-        type: 'success',
-        title: 'Valid Token',
-        text: data.message,
-      });
-    });
-  } catch (error) {
-    if (error.response?.data?.message) {
-      notification.notify({
-        type: 'error',
-        title: 'Invalid Token',
-        text: error.response.data.message,
-      });
-    }
-    tokenExpired.value = true;
-    console.log(error);
-  }
-};
-
-const submit = async () => {
-  try {
-    if (password.value.trim() != confirmPassword.value.trim()) {
-      notification.notify({
-        type: 'error',
-        title: 'Mật khẩu xác nhận không khớp',
-      });
-      return;
-    }
-    await resetPassword(token.value, {
-      password: password.value.trim(),
-      confirm_password: confirmPassword.value.trim(),
-    }).then(() => {
-      notification.notify({
-        type: 'success',
-        title: 'Đổi mật khẩu thành công',
-        text: 'Vui lòng đăng nhập lại',
-      });
-    });
-    router.push(RoutePath.Login);
-  } catch (error) {
-    if (error.response?.data?.message) {
-      notification.notify({
-        type: 'error',
-        title: 'Đổi mật khẩu thất bại',
-        text: error.response.data.message,
-      });
-    }
-    console.log(error);
-  }
-};
-</script>

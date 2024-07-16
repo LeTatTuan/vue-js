@@ -1,8 +1,8 @@
 <script setup>
-import DataTable from '@/components/transactions/DataTable.vue';
+import DataTable from '@/components/table/DataTable.vue';
 import { getRecentTransactions } from '@/services';
 import { onBeforeMount, ref } from 'vue';
-import columnsTransactions from '@/components/transactions/columns';
+import columnsTransactions from './columns';
 
 const transactions = ref([]);
 const currentPage = ref(1);

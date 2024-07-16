@@ -1,3 +1,20 @@
+<script setup>
+import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue';
+import { PanelsTopLeft, Fingerprint, User, LogOut } from 'lucide-vue-next';
+import { RoutePath } from '@/router';
+import { computed, onBeforeMount } from 'vue';
+import { useAuthStore } from '@/stores';
+import { useRoute } from 'vue-router';
+const route = useRoute();
+const auth = useAuthStore();
+
+const isDashBoard = computed(() => route.name === 'dashboard');
+const isUsers = computed(() => route.name === 'users');
+const user = computed(() => auth.user);
+const isAdmin = computed(() => auth.isAdmin);
+onBeforeMount(() => {});
+</script>
+
 <template>
   <aside v-if="user" class="hidden w-64 bg-gray-800 sm:block">
     <div class="py-3 text-2xl uppercase text-center tracking-widest bg-gray-900 border-b-2 border-gray-800 mb-8">
@@ -208,20 +225,3 @@
     </nav>
   </aside>
 </template>
-
-<script setup>
-import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue';
-import { PanelsTopLeft, Fingerprint, User, LogOut } from 'lucide-vue-next';
-import { RoutePath } from '@/router';
-import { computed, onBeforeMount } from 'vue';
-import { useAuthStore } from '@/stores';
-import { useRoute } from 'vue-router';
-const route = useRoute();
-const auth = useAuthStore();
-
-const isDashBoard = computed(() => route.name === 'dashboard');
-const isUsers = computed(() => route.name === 'users');
-const user = computed(() => auth.user);
-const isAdmin = computed(() => auth.isAdmin);
-onBeforeMount(() => {});
-</script>

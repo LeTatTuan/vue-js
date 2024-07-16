@@ -1,3 +1,20 @@
+<script setup>
+import { ref } from 'vue';
+import { RoutePath } from '@/router';
+import { useAuthStore } from '@/stores';
+
+const email = ref('');
+const password = ref('');
+const auth = useAuthStore();
+
+const submit = async () => {
+  await auth.login({ email: email.value, password: password.value }).then(() => {
+    email.value = '';
+    password.value = '';
+  });
+};
+</script>
+
 <template>
   <div class="min-h-screen flex items-center justify-center bg-gray-50 px-4">
     <div class="max-w-md w-full">
@@ -86,20 +103,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { ref } from 'vue';
-import { RoutePath } from '@/router';
-import { useAuthStore } from '@/stores';
-
-const email = ref('');
-const password = ref('');
-const auth = useAuthStore();
-
-const submit = async () => {
-  await auth.login({ email: email.value, password: password.value }).then(() => {
-    email.value = '';
-    password.value = '';
-  });
-};
-</script>

@@ -1,3 +1,28 @@
+<script setup>
+import { forgotPassword } from '@/services';
+import { ref } from 'vue';
+import { useNotification } from '@kyvg/vue3-notification';
+import { RoutePath } from '@/router';
+
+const notification = useNotification();
+const email = ref('');
+
+const submit = async () => {
+  try {
+    await forgotPassword({ email: email.value }).then(() => {
+      email.value = '';
+      notification.notify({
+        type: 'warn',
+        title: 'Please',
+        text: 'Please check your email inbox',
+      });
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+</script>
+
 <template>
   <div class="min-h-screen flex items-center justify-center bg-gray-50 px-4">
     <div class="max-w-md w-full">
@@ -57,28 +82,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { forgotPassword } from '@/services';
-import { ref } from 'vue';
-import { useNotification } from '@kyvg/vue3-notification';
-import { RoutePath } from '@/router';
-
-const notification = useNotification();
-const email = ref('');
-
-const submit = async () => {
-  try {
-    await forgotPassword({ email: email.value }).then(() => {
-      email.value = '';
-      notification.notify({
-        type: 'warn',
-        title: 'Please',
-        text: 'Please check your email inbox',
-      });
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
-</script>

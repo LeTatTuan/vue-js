@@ -1,7 +1,6 @@
 <script setup>
 import { computed } from 'vue';
 import { SlidersHorizontal } from 'lucide-vue-next';
-
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,

@@ -38,7 +38,7 @@ const routes = [
       {
         path: RoutePath.SettingAccount,
         name: 'settings',
-        component: () => import('@/components/users/SettingAccount.vue'),
+        component: () => import('@/views/404/index.vue'),
       },
     ],
   },
@@ -49,17 +49,17 @@ const routes = [
       {
         path: RoutePath.Login,
         name: 'login',
-        component: () => import('@/views/auth/LoginPage.vue'),
+        component: () => import('@/views/authentication/LoginPage.vue'),
       },
       {
         path: RoutePath.ForgotPassword,
         name: 'forgotPassword',
-        component: () => import('@/views/auth/ForgotPasswordPage.vue'),
+        component: () => import('@/views/authentication/ForgotPasswordPage.vue'),
       },
       {
         path: RoutePath.ResetPassword,
         name: 'resetPassword',
-        component: () => import('@/views/auth/ResetPasswordPage.vue'),
+        component: () => import('@/views/authentication/ResetPasswordPage.vue'),
       }
     ]
   },
@@ -70,7 +70,7 @@ const routes = [
       {
         path: RoutePath.ManageUsers,
         name: 'users',
-        component: () => import('@/views/UserList.vue'),
+        component: () => import('@/views/users/ManageUser.vue'),
       },
     ],
   },

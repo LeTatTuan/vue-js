@@ -1,21 +1,3 @@
-<template>
-  <div class="space-y-4 px-5">
-    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      <template v-if="activeUsers !== null">
-        <card-item
-          v-for="revenue in revenues"
-          :key="revenue.id"
-          :title="revenue.title"
-          :no-attribute="revenue.noAttribute"
-          :no-attribute-str="revenue.noAttributeStr"
-          :time-description="revenue.timeDescription"
-          :icon="revenue.icon"
-        />
-      </template>
-    </div>
-  </div>
-</template>
-
 <script setup>
 import { getStatistics } from '@/services';
 import { onBeforeMount, h, ref } from 'vue';
@@ -117,16 +99,20 @@ const fetchData = async () => {
 };
 </script>
 
-<style scoped>
-.row {
-  display: flex;
-}
-
-.col {
-  flex: 1;
-}
-
-.container {
-  flex: content;
-}
-</style>
+<template>
+  <div class="space-y-4 px-5">
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <template v-if="activeUsers !== null">
+        <card-item
+          v-for="revenue in revenues"
+          :key="revenue.id"
+          :title="revenue.title"
+          :no-attribute="revenue.noAttribute"
+          :no-attribute-str="revenue.noAttributeStr"
+          :time-description="revenue.timeDescription"
+          :icon="revenue.icon"
+        />
+      </template>
+    </div>
+  </div>
+</template>

@@ -79,5 +79,3 @@ const handlePagesizeChange = (event) => {
     </div>
   </div>
 </template>
-
-<style scoped></style>

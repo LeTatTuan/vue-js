@@ -1,3 +1,15 @@
+<script setup>
+import { CircleX } from 'lucide-vue-next';
+
+const props = defineProps({
+  title: String,
+  description: String,
+  linkRedirect: String,
+  btnRedirect: String,
+});
+</script>
+
+
 <template>
   <div class="min-h-screen flex items-center justify-center bg-gray-50 px-4">
     <div class="max-w-md w-full">
@@ -23,14 +35,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { CircleX } from 'lucide-vue-next';
-
-const props = defineProps({
-  title: String,
-  description: String,
-  linkRedirect: String,
-  btnRedirect: String,
-});
-</script>

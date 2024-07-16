@@ -20,6 +20,7 @@ const getColumnsUser = (showUpdateUser, showDeleteUser) => {
             accessorKey: 'roles',
             header: 'ROLES',
             enableSorting: true,
+            enableGlobalFilter: true,
             cell: (info) => {
                 return h(SelectList,
                     {
@@ -52,7 +53,7 @@ const getColumnsUser = (showUpdateUser, showDeleteUser) => {
             accessorKey: 'createdAt',
             header: 'JOIN DATE',
             enableSorting: true,
-            enableGlobalFilter: false,
+            enableGlobalFilter: true,
             cell: (info) => formatDate(new Date(info.getValue())).slice(0, 10),
             filterFn: dateRangeFilterFn,
         },
@@ -68,7 +69,7 @@ const getColumnsUser = (showUpdateUser, showDeleteUser) => {
                     }
                 );
             },
-            enableGlobalFilter: false,
+            enableGlobalFilter: true,
         },
     ];
 };

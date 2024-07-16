@@ -1,10 +1,3 @@
-<template>
-  <div class="flex p-7 flex-col gap-5">
-    <p class="font-bold text-xl">Settings Page</p>
-    <PopupNewUser @updateUser="updateUser" :user="user" title="Personal Information" btnStr="Save" />
-  </div>
-</template>
-
 <script setup>
 import PopupNewUser from '@/components/users/PopupNewUser.vue';
 import { useAuthStore } from '@/stores';
@@ -39,3 +32,10 @@ const updateUser = async () => {
   }
 };
 </script>
+
+<template>
+  <div class="flex p-7 flex-col gap-5">
+    <p class="font-bold text-xl">Settings Page</p>
+    <PopupNewUser @updateUser="updateUser" :user="user" title="Personal Information" btnStr="Save" />
+  </div>
+</template>
