@@ -1,5 +1,6 @@
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { CHARACTER_FOR_PASSWORD, DEFAULT_LENGTH_PASSWORD } from '@/constants';
 
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
@@ -50,4 +51,18 @@ export const objectFilterFn = (row, columnId, filterValue) => {
   }
 
   return false;
+};
+
+export const generateRandomPassword = (length = DEFAULT_LENGTH_PASSWORD) => {
+  let password = "";
+  const charsetLength = CHARACTER_FOR_PASSWORD.length;
+  const randomValues = new Uint8Array(length);
+
+  window.crypto.getRandomValues(randomValues);
+
+  for (let i = 0; i < length; i++) {
+    password += CHARACTER_FOR_PASSWORD[randomValues[i] % charsetLength];
+  }
+
+  return password;
 };

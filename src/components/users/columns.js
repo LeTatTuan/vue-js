@@ -1,6 +1,6 @@
 import { dateRangeFilterFn, formatDate, objectFilterFn } from '@/lib/utils';
 import { h } from 'vue';
-import SelectList from '@/components/commons/SelectList.vue';
+import SelectList from '@/components/form/SelectList.vue';
 import ActionCell from '@/components/commons/ActionCell.vue';
 
 const getColumnsUser = (showUpdateUser, showDeleteUser) => {

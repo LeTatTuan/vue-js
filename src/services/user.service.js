@@ -20,10 +20,6 @@ export const getUserApi = async (userId) => {
   return await axiosApiInstance.get(`/user/${userId}`);
 };
 
-export const createPasswordApi = () => {
-  return axiosApiInstance.get('/random-password');
-};
-
 export const checkAdmin = async () => {
   return axiosApiInstance.get('/user/check-admin');
 };

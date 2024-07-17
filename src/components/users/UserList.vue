@@ -51,7 +51,6 @@ const showUpdateUser = async (id) => {
 };
 
 const showDeleteUser = (id) => {
-  console.log(id);
   alert(`Delete user with id: ${id}`);
 };
 

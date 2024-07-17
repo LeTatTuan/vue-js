@@ -1,8 +1,10 @@
 <script setup>
 import { onBeforeMount, ref } from 'vue';
-import { createPasswordApi, getProjects, getRoles } from '@/services';
+import { getProjects, getRoles } from '@/services';
 import { User, Mail, LockKeyhole, Fingerprint, PanelsTopLeft, Eye, EyeOff } from 'lucide-vue-next';
 import MultiSelect from '@/components/form/MultiSelect.vue';
+import SelectList from '@/components/form/SelectList.vue';
+import { generateRandomPassword } from '@/lib/utils';
 
 const props = defineProps({
   user: Object,
@@ -14,7 +16,7 @@ const roles = ref([]);
 const defaultUser = {
   name: '',
   email: '',
-  password: '',
+  password: generateRandomPassword(),
   roles: [],
   projects: [],
 };
@@ -26,7 +28,6 @@ const isShowPassword = ref(false);
 onBeforeMount(async () => {
   fetchRoles();
   fetchProjects();
-  fetchPassword();
   userData.value = defaultUser;
 });
 
@@ -57,15 +58,6 @@ const fetchProjects = async () => {
   }
 };
 
-const fetchPassword = async () => {
-  try {
-    const res = await createPasswordApi();
-    defaultUser.password = res['data']['metadata'];
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 const close = () => {
   emits('close');
 };
@@ -76,6 +68,17 @@ const submit = () => {
 
 const togglePasswordVisibility = () => {
   isShowPassword.value = !isShowPassword.value;
+};
+
+const updateList = (listItems, value) => {
+  // if (listItems.includes(value)) {
+  //   listItems.splice(listItems.indexOf(value), 1);
+  //   console.log('check listItems: ', listItems);
+  // } else {
+  //   listItems.push(value);
+  //   console.log('check listItems: ', listItems);
+  // }
+  console.log('check value: ', value);
 };
 </script>
 
@@ -146,7 +149,7 @@ const togglePasswordVisibility = () => {
             <Fingerprint />
           </span>
           <div class="w-full py-2 text-sm text-gray-900 rounded-md pl-10 border border-gray-300">
-            <MultiSelect v-model="userData.roles" :list="roles" placeholder="Roles" />
+            <SelectList v-model="userData.roles" :list="roles" placeholder="Role" :isSelect="true" />
           </div>
         </div>
 
@@ -155,7 +158,13 @@ const togglePasswordVisibility = () => {
             <PanelsTopLeft />
           </span>
           <div class="w-full py-2 text-sm text-gray-900 rounded-md pl-10 border border-gray-300">
-            <MultiSelect v-model="userData.projects" :list="projects" placeholder="Project" />
+            <MultiSelect
+              v-model="userData.projects"
+              :options="projects"
+              placeholder="Project"
+              :isSelect="true"
+              @update:modelValue="(value) => updateList(userData.projects, value)"
+            />
           </div>
         </div>
         <div>

@@ -1,12 +1,16 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { onClickOutside } from '@vueuse/core';
 import { ChevronUp, ChevronDown } from 'lucide-vue-next';
 
 const props = defineProps({
-  list: {
+  options: {
     type: Array,
     require: true,
+  },
+  modelValue: {
+    type: Array,
+    required: true,
   },
   placeholder: String,
   isSelect: {
@@ -17,66 +21,54 @@ const props = defineProps({
 });
 
 const target = ref(null);
-const options = ref(props.list);
-const selected = ref([]);
 const show = ref(false);
-
-const open = () => {
-  show.value = true;
-};
-
-const close = () => {
-  show.value = true;
-};
-
-const isOpen = () => {
-  return show.value === true;
-};
+const currentIconDropdown = computed(() => (show.value ? ChevronDown : ChevronUp));
+const emit = defineEmits(['update:modelValue']);
 
 onClickOutside(target, () => {
   show.value = false;
 });
 
-const select = (index, event) => {
-  const newOptions = [...options.value];
-  if (!newOptions[index].selected) {
-    newOptions[index].selected = true;
-    newOptions[index].element = event.target;
-    selected.value = [...selected.value, index];
-  } else {
-    newOptions[index].selected = false;
-    selected.value = selected.value.filter((i) => i !== index);
-  }
-  options.value = newOptions;
-};
+// const select = (index, event) => {
+//   const newOptions = [...options.value];
+//   if (!newOptions[index].selected) {
+//     newOptions[index].selected = true;
+//     newOptions[index].element = event.target;
+//     selected.value = [...selected.value, index];
+//   } else {
+//     newOptions[index].selected = false;
+//     selected.value = selected.value.filter((i) => i !== index);
+//   }
+//   options.value = newOptions;
+// };
 
-const remove = (index) => {
-  const newOptions = [...options.value];
-  if (selected.value.includes(index)) {
-    newOptions[index].selected = false;
-    selected.value = selected.value.filter((i) => i !== index);
-    options.value = newOptions;
-  }
-};
+// const remove = (index) => {
+//   const newOptions = [...options.value];
+//   if (selected.value.includes(index)) {
+//     newOptions[index].selected = false;
+//     selected.value = selected.value.filter((i) => i !== index);
+//     options.value = newOptions;
+//   }
+// };
 
-const selectedValues = () => {
-  return selected.value.map((option) => options.value[option].value);
-};
+// const selectedValues = () => {
+//   return props.selected.value.map((option) => props.options.value[option].value);
+// };
 </script>
 
 <template>
   <div>
     <div>
       <select class="hidden">
-        <option v-for="option in options" :key="option.value" :value="option.value">
-          {{ option.text }}
+        <option v-for="option in options" :key="option._id" :value="option._id" :disabled="isSelect ? false : true">
+          {{ option.name }}
         </option>
       </select>
 
       <div class="flex flex-col items-center">
-        <input name="values" type="hidden" :value="selectedValues()" />
+        <input name="values" type="hidden" :value="modelValue" />
         <div class="relative inline-block w-full">
-          <div class="relative flex flex-col items-center" @click="open">
+          <div class="relative flex flex-col items-center" @click="show = true">
             <div class="w-full">
               <div class="mb-2 flex outline-none">
                 <div class="flex flex-auto flex-wrap gap-3">
@@ -84,9 +76,12 @@ const selectedValues = () => {
                     <div
                       class="my-1.5 flex items-center justify-center rounded border-[.5px] border-stroke bg-gray px-2.5 py-1.5 text-sm font-medium dark:border-strokedark dark:bg-white/30"
                     >
-                      <div class="max-w-full flex-initial">{{ options[index].text }}</div>
+                      <div class="max-w-full flex-initial">{{ options[index].name }}</div>
                       <div class="flex flex-auto flex-row-reverse">
-                        <div class="cursor-pointer pl-2 hover:text-danger" @click="remove(index)">
+                        <div
+                          class="cursor-pointer pl-2 hover:text-danger"
+                          @click="emit('update:modelValue', $event.target.value)"
+                        >
                           <svg
                             class="fill-current"
                             role="button"
@@ -108,42 +103,41 @@ const selectedValues = () => {
                     </div>
                   </template>
 
-                  <div v-show="selected.length === 0" class="flex-1">
+                  <div v-show="modelValue" class="flex-1">
                     <input
                       :placeholder="placeholder"
                       class="h-full w-full appearance-none bg-transparent p-1 px-2 outline-none"
-                      :value="selectedValues()"
+                      :value="modelValue"
                     />
                   </div>
                 </div>
                 <div class="flex w-8 items-center py-1 pl-1 pr-1">
                   <div class="h-6 w-6 cursor-pointer outline-none focus:outline-none">
-                    <ChevronUp v-if="isOpen()" class="h-5 w-5 mr-2" @click="close" />
-                    <ChevronDown v-else class="h-5 w-5 mr-2" @click="open" />
+                    <component :is="currentIconDropdown" class="h-5 w-5 mr-2" @click="show = !show" />
                   </div>
                 </div>
               </div>
             </div>
             <div class="w-full px-4">
               <div
-                v-show="isOpen()"
+                v-show="show"
                 ref="target"
                 class="max-h-select absolute left-0 top-full z-[70] w-full overflow-y-auto rounded bg-white shadow dark:bg-form-input"
               >
                 <div class="flex w-full flex-col">
-                  <div v-for="(option, index) in options" :key="index">
+                  <div v-for="option in options" :key="option._id">
                     <div
                       class="w-full cursor-pointer rounded-t border-b border-stroke hover:bg-primary/5 dark:border-form-strokedark"
-                      @click="select(index, $event)"
+                      @click="emit('update:modelValue', option._id)"
                     >
                       <div
                         :class="[
                           'relative flex w-full items-center border-l-2 border-transparent p-2 pl-2 hover:bg-blue-200',
-                          option.selected ? 'text-blue-500' : '',
+                          modelValue.includes(option._id) ? 'text-blue-500' : '',
                         ]"
                       >
                         <div class="flex w-full items-center">
-                          <div class="mx-2 leading-6">{{ option.text }}</div>
+                          <div class="mx-2 leading-6">{{ option.name }}</div>
                         </div>
                       </div>
                     </div>
