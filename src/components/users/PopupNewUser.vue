@@ -1,11 +1,11 @@
 <script setup>
 import { onBeforeMount, ref } from 'vue';
-import { getProjects, getRoles } from '@/services';
 import { User, Mail, LockKeyhole, Fingerprint, PanelsTopLeft, Eye, EyeOff } from 'lucide-vue-next';
 import MultiSelect from '@/components/form/MultiSelect.vue';
-import SelectList from '@/components/form/SelectList.vue';
 import { generateRandomPassword } from '@/lib/utils';
+import { useManageUserStore } from '@/stores';
 
+const userStore = useManageUserStore();
 const props = defineProps({
   user: Object,
   title: String,
@@ -13,22 +13,20 @@ const props = defineProps({
 });
 
 const roles = ref([]);
-const defaultUser = {
+const projects = ref([]);
+const emits = defineEmits(['close', 'updateUser']);
+const userData = ref({
   name: '',
   email: '',
   password: generateRandomPassword(),
   roles: [],
   projects: [],
-};
-const projects = ref([]);
-const emits = defineEmits(['close', 'updateUser']);
-const userData = ref(defaultUser);
+});
 const isShowPassword = ref(false);
 
 onBeforeMount(async () => {
-  fetchRoles();
-  fetchProjects();
-  userData.value = defaultUser;
+  userStore.fetchRoles(roles);
+  userStore.fetchProjects(projects);
 });
 
 if (props.user) {
@@ -38,25 +36,6 @@ if (props.user) {
     }
   });
 }
-
-const fetchRoles = async () => {
-  try {
-    const res = await getRoles();
-    const data = res['data']['metadata'];
-    roles.value = data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const fetchProjects = async () => {
-  try {
-    const res = await getProjects();
-    projects.value = res['data']['metadata']['projects'];
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 const close = () => {
   emits('close');
@@ -70,17 +49,24 @@ const togglePasswordVisibility = () => {
   isShowPassword.value = !isShowPassword.value;
 };
 
-const updateList = (listItems, value) => {
-  // if (listItems.includes(value)) {
-  //   listItems.splice(listItems.indexOf(value), 1);
-  //   console.log('check listItems: ', listItems);
-  // } else {
-  //   listItems.push(value);
-  //   console.log('check listItems: ', listItems);
-  // }
-  console.log('check value: ', value);
+const updateListRole = (value) => {
+  const listItems = userData.value.roles;
+  if (listItems.includes(value)) {
+    listItems.splice(listItems.indexOf(value), 1);
+  } else {
+    listItems.push(value);
+  }
 };
-</script>
+
+const updateListProject = (value) => {
+  const listItems = userData.value.projects;
+  if (listItems.includes(value)) {
+    listItems.splice(listItems.indexOf(value), 1);
+  } else {
+    listItems.push(value);
+  }
+};
+</script>  
 
 <template>
   <div
@@ -149,7 +135,13 @@ const updateList = (listItems, value) => {
             <Fingerprint />
           </span>
           <div class="w-full py-2 text-sm text-gray-900 rounded-md pl-10 border border-gray-300">
-            <SelectList v-model="userData.roles" :list="roles" placeholder="Role" :isSelect="true" />
+            <MultiSelect
+              :modelValue="userData.roles"
+              :options="roles"
+              placeholder="Role"
+              :isSelect="true"
+              @update:modelValue="(value) => updateListRole(value)"
+            />
           </div>
         </div>
 
@@ -159,11 +151,11 @@ const updateList = (listItems, value) => {
           </span>
           <div class="w-full py-2 text-sm text-gray-900 rounded-md pl-10 border border-gray-300">
             <MultiSelect
-              v-model="userData.projects"
+              :modelValue="userData.projects"
               :options="projects"
               placeholder="Project"
               :isSelect="true"
-              @update:modelValue="(value) => updateList(userData.projects, value)"
+              @update:modelValue="(value) => updateListProject(value)"
             />
           </div>
         </div>

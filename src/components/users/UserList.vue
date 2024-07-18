@@ -1,12 +1,11 @@
 <script setup>
 import DataTable from '@/components/table/DataTable.vue';
-import { createUserApi, getUserApi, getUsersApi, updateUserApi } from '@/services';
 import { onBeforeMount, ref } from 'vue';
 import getColumnsUser from '@/components/users/columns';
 import PopupNewUser from '@/components/users/PopupNewUser.vue';
-import { useNotification } from '@kyvg/vue3-notification';
+import { useManageUserStore } from '@/stores';
 
-const notification = useNotification();
+const userStore = useManageUserStore();
 const users = ref([]);
 const currentUser = ref(null);
 const columnsUser = ref([]);
@@ -16,24 +15,8 @@ const modal = ref({
 
 onBeforeMount(() => {
   columnsUser.value = getColumnsUser(showUpdateUser, showDeleteUser);
-  fetchUsers();
+  userStore.fetchUsers(users);
 });
-
-const fetchUsers = async () => {
-  try {
-    const res = await getUsersApi();
-    const data = res['data']['metadata'];
-    users.value = data.map((item) => {
-      const user = {
-        name: item.name,
-        email: item.email,
-      };
-      return { ...item, user };
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 const closePopupNewUser = () => {
   modal.value.PopupNewUser = false;
@@ -45,9 +28,9 @@ const openCreateNewUser = () => {
 };
 
 const showUpdateUser = async (id) => {
-  const { data } = await getUserApi(id);
-  currentUser.value = data['metadata'];
-  modal.value.PopupNewUser = true;
+  await userStore.fetchUser(id, currentUser).then((res) => {
+    modal.value.PopupNewUser = true;
+  });
 };
 
 const showDeleteUser = (id) => {
@@ -55,28 +38,10 @@ const showDeleteUser = (id) => {
 };
 
 const updateUser = async (user) => {
-  const functionExcute = currentUser.value ? updateUserApi(currentUser.value._id, user) : createUserApi(user);
-  try {
-    await functionExcute.then(async (res) => {
-      const data = res['data'];
-      notification.notify({
-        type: 'success',
-        title: 'Success',
-        text: data['message'],
-      });
-      await fetchUsers();
-      closePopupNewUser();
-    });
-  } catch (error) {
-    if (error.response?.data?.message) {
-      notification.notify({
-        type: 'error',
-        title: 'Failed',
-        text: error.response.data.message,
-      });
-    }
-    console.log(error);
-  }
+  await userStore.updateUser(currentUser, user).then(() => {
+    userStore.fetchUsers(users);
+    closePopupNewUser();
+  });
 };
 </script>
 
@@ -114,10 +79,10 @@ const updateUser = async (user) => {
 
   <PopupNewUser
     v-if="modal.PopupNewUser"
-    @close="closePopupNewUser"
-    @updateUser="updateUser"
     :user="currentUser"
     :title="currentUser ? 'User Update' : 'Add new user'"
     :btnStr="currentUser ? 'Update' : 'Add new'"
+    @updateUser="updateUser"
+    @close="closePopupNewUser"
   />
 </template>

@@ -6,11 +6,11 @@ import { ChevronUp, ChevronDown } from 'lucide-vue-next';
 const props = defineProps({
   options: {
     type: Array,
-    require: true,
+    require: false,
   },
   modelValue: {
     type: Array,
-    required: true,
+    required: false,
   },
   placeholder: String,
   isSelect: {
@@ -24,36 +24,9 @@ const target = ref(null);
 const show = ref(false);
 const currentIconDropdown = computed(() => (show.value ? ChevronDown : ChevronUp));
 const emit = defineEmits(['update:modelValue']);
-
 onClickOutside(target, () => {
   show.value = false;
 });
-
-// const select = (index, event) => {
-//   const newOptions = [...options.value];
-//   if (!newOptions[index].selected) {
-//     newOptions[index].selected = true;
-//     newOptions[index].element = event.target;
-//     selected.value = [...selected.value, index];
-//   } else {
-//     newOptions[index].selected = false;
-//     selected.value = selected.value.filter((i) => i !== index);
-//   }
-//   options.value = newOptions;
-// };
-
-// const remove = (index) => {
-//   const newOptions = [...options.value];
-//   if (selected.value.includes(index)) {
-//     newOptions[index].selected = false;
-//     selected.value = selected.value.filter((i) => i !== index);
-//     options.value = newOptions;
-//   }
-// };
-
-// const selectedValues = () => {
-//   return props.selected.value.map((option) => props.options.value[option].value);
-// };
 </script>
 
 <template>
@@ -66,22 +39,20 @@ onClickOutside(target, () => {
       </select>
 
       <div class="flex flex-col items-center">
-        <input name="values" type="hidden" :value="modelValue" />
         <div class="relative inline-block w-full">
           <div class="relative flex flex-col items-center" @click="show = true">
             <div class="w-full">
               <div class="mb-2 flex outline-none">
-                <div class="flex flex-auto flex-wrap gap-3">
-                  <template v-for="index in selected" :key="index">
+                <div v-if="options.length > 0" class="flex flex-auto flex-wrap gap-3">
+                  <div v-for="item in modelValue" :key="item">
                     <div
                       class="my-1.5 flex items-center justify-center rounded border-[.5px] border-stroke bg-gray px-2.5 py-1.5 text-sm font-medium dark:border-strokedark dark:bg-white/30"
                     >
-                      <div class="max-w-full flex-initial">{{ options[index].name }}</div>
+                      <div class="max-w-full flex-initial">
+                        {{ options.find((option) => option._id === item).name }}
+                      </div>
                       <div class="flex flex-auto flex-row-reverse">
-                        <div
-                          class="cursor-pointer pl-2 hover:text-danger"
-                          @click="emit('update:modelValue', $event.target.value)"
-                        >
+                        <div class="cursor-pointer pl-2 hover:text-danger" @click="emit('update:modelValue', item)">
                           <svg
                             class="fill-current"
                             role="button"
@@ -101,13 +72,14 @@ onClickOutside(target, () => {
                         </div>
                       </div>
                     </div>
-                  </template>
+                  </div>
 
-                  <div v-show="modelValue" class="flex-1">
+                  <div v-show="modelValue.length === 0" class="flex-1">
                     <input
                       :placeholder="placeholder"
                       class="h-full w-full appearance-none bg-transparent p-1 px-2 outline-none"
                       :value="modelValue"
+                      disabled
                     />
                   </div>
                 </div>

@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { CHARACTER_FOR_PASSWORD, DEFAULT_LENGTH_PASSWORD } from '@/constants';
+import { CHARACTER_FOR_PASSWORD } from '@/constants';
 
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
@@ -53,16 +53,31 @@ export const objectFilterFn = (row, columnId, filterValue) => {
   return false;
 };
 
-export const generateRandomPassword = (length = DEFAULT_LENGTH_PASSWORD) => {
-  let password = "";
-  const charsetLength = CHARACTER_FOR_PASSWORD.length;
-  const randomValues = new Uint8Array(length);
+export const getRandomString = (str, len) => {
 
-  window.crypto.getRandomValues(randomValues);
+  const pos1 = Math.floor(Math.random() * len);
+  const pos2 = Math.floor(Math.random() * len);
 
-  for (let i = 0; i < length; i++) {
-    password += CHARACTER_FOR_PASSWORD[randomValues[i] % charsetLength];
+  const start = Math.min(pos1, pos2);
+  const end = Math.max(pos1, pos2);
+
+  return str[start] + str[end];
+};
+
+export const shuffleString = (str) => {
+  let arr = str.split('');
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
   }
 
-  return password;
+  return arr.join('');
+};
+
+export const generateRandomPassword = () => {
+  let password = '';
+  Object.keys(CHARACTER_FOR_PASSWORD).forEach(key => {
+    password += getRandomString(CHARACTER_FOR_PASSWORD[key], CHARACTER_FOR_PASSWORD[key].length);
+  });
+  return shuffleString(password);
 };

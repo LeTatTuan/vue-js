@@ -1,5 +1,5 @@
 import axiosApiInstance from '@/plugins/api';
 
-export const getRoles = async () => {
+export const getRolesApi = async () => {
     return await axiosApiInstance.get('/admin/role');
 };
