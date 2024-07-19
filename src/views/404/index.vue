@@ -24,7 +24,7 @@ import { Button } from '@/components/ui/button';
           </Button>
         </div>
       </div>
-      <img src="/public/404.png" />
+      <img src="/src/assets/images/404.png" />
     </div>
   </section>
 </template>

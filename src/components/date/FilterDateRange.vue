@@ -49,7 +49,7 @@ const updateFilterValue = (value) => {
         <Button
           id="date"
           :variant="'outline'"
-          :class="cn('w-[320px] justify-start text-left font-normal', !dateRange && 'text-muted-foreground')"
+          :class="cn('max-w-max justify-start text-left font-normal', !dateRange && 'text-muted-foreground')"
         >
           <div class="mr-1 font-bold">{{ props.column.columnDef.header }}</div>
           <CalendarIcon class="mr-2 h-4 w-4" />

@@ -4,6 +4,7 @@ import { onBeforeMount, ref } from 'vue';
 import getColumnsUser from '@/components/users/columns';
 import PopupNewUser from '@/components/users/PopupNewUser.vue';
 import { useManageUserStore } from '@/stores';
+import DialogVerify from '@/components/commons/DialogVerify.vue';
 
 const userStore = useManageUserStore();
 const users = ref([]);
@@ -11,7 +12,9 @@ const currentUser = ref(null);
 const columnsUser = ref([]);
 const modal = ref({
   PopupNewUser: false,
+  showDialog: false
 });
+const userId = ref(null);
 
 onBeforeMount(() => {
   columnsUser.value = getColumnsUser(showUpdateUser, showDeleteUser);
@@ -20,7 +23,9 @@ onBeforeMount(() => {
 
 const closePopupNewUser = () => {
   modal.value.PopupNewUser = false;
+  modal.value.showDialog = false;
   currentUser.value = null;
+  userId.value = null;
 };
 
 const openCreateNewUser = () => {
@@ -28,13 +33,14 @@ const openCreateNewUser = () => {
 };
 
 const showUpdateUser = async (id) => {
-  await userStore.fetchUser(id, currentUser).then((res) => {
+  await userStore.fetchUser(id, currentUser).then(() => {
     modal.value.PopupNewUser = true;
   });
 };
 
 const showDeleteUser = (id) => {
-  alert(`Delete user with id: ${id}`);
+  modal.value.showDialog = true;
+  userId.value = id;
 };
 
 const updateUser = async (user) => {
@@ -42,6 +48,11 @@ const updateUser = async (user) => {
     userStore.fetchUsers(users);
     closePopupNewUser();
   });
+};
+
+const confirmDeleteUser = async () => {
+  modal.value.showDialog = false;
+  alert(`You have successfully deleted the user with id: ${userId.value}`);
 };
 </script>
 
@@ -84,5 +95,13 @@ const updateUser = async (user) => {
     :btnStr="currentUser ? 'Update' : 'Add new'"
     @updateUser="updateUser"
     @close="closePopupNewUser"
+  />
+
+  <DialogVerify
+    v-if="modal.showDialog"
+    content="Are you sure you want to delete this user?"
+    btnPrimary="Delete"
+    @close="closePopupNewUser"
+    @confirm="confirmDeleteUser"
   />
 </template>

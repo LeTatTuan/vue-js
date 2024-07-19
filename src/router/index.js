@@ -38,7 +38,7 @@ const routes = [
       {
         path: RoutePath.SettingAccount,
         name: 'settings',
-        component: () => import('@/views/404/index.vue'),
+        component: () => import('@/views/pages/SettingProfile.vue'),
       },
     ],
   },

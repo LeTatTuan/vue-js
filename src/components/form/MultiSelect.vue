@@ -1,23 +1,23 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { computed, ref } from 'vue';
 import { onClickOutside } from '@vueuse/core';
-import { ChevronUp, ChevronDown } from 'lucide-vue-next';
+import { ChevronDown, ChevronUp } from 'lucide-vue-next';
 
 const props = defineProps({
   options: {
     type: Array,
-    require: false,
+    require: false
   },
   modelValue: {
     type: Array,
-    required: false,
+    required: false
   },
   placeholder: String,
   isSelect: {
     type: Boolean,
     default: false,
-    required: false,
-  },
+    required: false
+  }
 });
 
 const target = ref(null);
@@ -43,15 +43,16 @@ onClickOutside(target, () => {
           <div class="relative flex flex-col items-center" @click="show = true">
             <div class="w-full">
               <div class="mb-2 flex outline-none">
-                <div v-if="options.length > 0" class="flex flex-auto flex-wrap gap-3">
+                <div v-if="options && options.length > 0" class="flex flex-auto flex-wrap gap-3">
                   <div v-for="item in modelValue" :key="item">
                     <div
                       class="my-1.5 flex items-center justify-center rounded border-[.5px] border-stroke bg-gray px-2.5 py-1.5 text-sm font-medium dark:border-strokedark dark:bg-white/30"
                     >
-                      <div class="max-w-full flex-initial">
-                        {{ options.find((option) => option._id === item).name }}
+                      <div class="max-w-full flex-initial" :class="!isSelect && 'text-xs'">
+                        {{ isSelect ? options.find((option) => option._id === item).name : item
+                        }}
                       </div>
-                      <div class="flex flex-auto flex-row-reverse">
+                      <div v-if="isSelect" class="flex flex-auto flex-row-reverse">
                         <div class="cursor-pointer pl-2 hover:text-danger" @click="emit('update:modelValue', item)">
                           <svg
                             class="fill-current"

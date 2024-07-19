@@ -1,7 +1,7 @@
 import { dateRangeFilterFn, formatDate, objectFilterFn } from '@/lib/utils';
 import { h } from 'vue';
-import SelectList from '@/components/form/SelectList.vue';
 import ActionCell from '@/components/commons/ActionCell.vue';
+import MultiSelect from '@/components/form/MultiSelect.vue';
 
 const getColumnsUser = (showUpdateUser, showDeleteUser) => {
     return [
@@ -22,9 +22,10 @@ const getColumnsUser = (showUpdateUser, showDeleteUser) => {
             enableSorting: true,
             enableGlobalFilter: true,
             cell: (info) => {
-                return h(SelectList,
+                return h(MultiSelect,
                     {
-                        list: info.getValue(),
+                        options: info.getValue(),
+                        modelValue: info.getValue().map(item => item.name),
                         placeholder: 'Role',
                         isSelect: false
                     }
@@ -39,9 +40,10 @@ const getColumnsUser = (showUpdateUser, showDeleteUser) => {
             cell: (info) => {
                 if (!Array.isArray(info.getValue()) || !info.getValue()[0])
                     return 'No projects';
-                return h(SelectList,
+                return h(MultiSelect,
                     {
-                        list: info.getValue(),
+                        options: info.getValue(),
+                        modelValue: info.getValue().map(item => item.name),
                         placeholder: 'Project',
                         isSelect: false
                     }

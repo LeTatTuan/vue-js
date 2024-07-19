@@ -1,6 +1,6 @@
 <script setup>
 import { onBeforeMount, ref } from 'vue';
-import { User, Mail, LockKeyhole, Fingerprint, PanelsTopLeft, Eye, EyeOff } from 'lucide-vue-next';
+import { Eye, EyeOff, Fingerprint, LockKeyhole, Mail, PanelsTopLeft, User } from 'lucide-vue-next';
 import MultiSelect from '@/components/form/MultiSelect.vue';
 import { generateRandomPassword } from '@/lib/utils';
 import { useManageUserStore } from '@/stores';
@@ -9,7 +9,7 @@ const userStore = useManageUserStore();
 const props = defineProps({
   user: Object,
   title: String,
-  btnStr: String,
+  btnStr: String
 });
 
 const roles = ref([]);
@@ -20,7 +20,7 @@ const userData = ref({
   email: '',
   password: generateRandomPassword(),
   roles: [],
-  projects: [],
+  projects: []
 });
 const isShowPassword = ref(false);
 
@@ -66,7 +66,7 @@ const updateListProject = (value) => {
     listItems.push(value);
   }
 };
-</script>  
+</script>
 
 <template>
   <div
@@ -126,8 +126,8 @@ const updateListProject = (value) => {
             class="absolute inset-y-0 right-0 flex items-center pr-2 cursor-pointer"
             @click="togglePasswordVisibility"
           >
-            <EyeOff v-if="isShowPassword" />
-            <Eye v-else />
+            <EyeOff v-if="isShowPassword" class="hover:bg-opacity-60" />
+            <Eye v-else class="hover:bg-opacity-60" />
           </span>
         </div>
         <div class="relative text-gray-400">
@@ -162,7 +162,7 @@ const updateListProject = (value) => {
         <div>
           <button
             type="submit"
-            class="group relative w-full flex justify-center py-4 px-6 border border-transparent font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            class="group relative w-full flex justify-center hover:bg-opacity-60 py-4 px-6 border border-transparent font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             {{ props.btnStr }}
           </button>

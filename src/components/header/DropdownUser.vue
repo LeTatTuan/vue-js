@@ -3,14 +3,24 @@ import { useAuthStore } from '@/stores';
 import { onClickOutside } from '@vueuse/core';
 import { ref } from 'vue';
 import { RoutePath } from '@/router';
+import userPhoto from '@/assets/images/avatar.jpg';
+import DialogVerify from '@/components/commons/DialogVerify.vue';
 
 const target = ref(null);
 const dropdownOpen = ref(false);
 const authStore = useAuthStore();
-
+const showDialog = ref(false);
 onClickOutside(target, () => {
   dropdownOpen.value = false;
 });
+
+const closeDialog = () => {
+  showDialog.value = false;
+};
+const confirmLogout = async () => {
+  showDialog.value = false;
+  await authStore.logout();
+};
 </script>
 
 <template>
@@ -22,7 +32,7 @@ onClickOutside(target, () => {
       </span>
 
       <span class="h-12 w-12 rounded-full">
-        <img src="@/assets/images/avatar-default.jpg" alt="User" />
+        <img :src="userPhoto" alt="User" class="rounded-full" />
       </span>
 
       <svg
@@ -123,7 +133,7 @@ onClickOutside(target, () => {
       </ul>
       <button
         class="flex items-center gap-3.5 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
-        @click="authStore.logout()"
+        @click="showDialog = true"
       >
         <svg
           class="fill-current"
@@ -146,5 +156,12 @@ onClickOutside(target, () => {
       </button>
     </div>
     <!-- Dropdown End -->
+    <DialogVerify
+      v-if="showDialog"
+      content="Are you sure you want to log out?"
+      btnPrimary="Log out"
+      @close="closeDialog"
+      @confirm="confirmLogout"
+    />
   </div>
 </template>

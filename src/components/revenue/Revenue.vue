@@ -1,16 +1,19 @@
 <script setup>
-import { getStatistics } from '@/services';
-import { onBeforeMount, h, ref } from 'vue';
+import { h, onBeforeMount, ref } from 'vue';
 import CardItem from './CardItem.vue';
-import { DollarSign, Activity, UserRoundPlus, UserRoundCheck } from 'lucide-vue-next';
+import { Activity, DollarSign, UserRoundCheck, UserRoundPlus } from 'lucide-vue-next';
+import MultiSelect from '@/components/form/MultiSelect.vue';
+import { useManageUserStore } from '@/stores';
 
+const userStore = useManageUserStore();
 const activeTrials = ref('');
 const activeSubs = ref('');
 const monthlyRecurringRevenue = ref('');
 const revenueData = ref('');
 const newCustomers = ref('');
 const activeUsers = ref('');
-
+const projects = ref([]);
+let selectedProjects = ref([]);
 const revenues = [
   {
     id: 1,
@@ -18,7 +21,7 @@ const revenues = [
     noAttribute: 0,
     noAttributeStr: null,
     timeDescription: 'Last 28 days',
-    icon: h(DollarSign),
+    icon: h(DollarSign)
   },
   {
     id: 2,
@@ -26,7 +29,7 @@ const revenues = [
     noAttribute: 0,
     noAttributeStr: null,
     timeDescription: 'Last 28 days',
-    icon: h(DollarSign),
+    icon: h(DollarSign)
   },
   {
     id: 3,
@@ -34,7 +37,7 @@ const revenues = [
     noAttribute: 0,
     noAttributeStr: null,
     timeDescription: 'Monthly Recurring Revenue',
-    icon: h(Activity),
+    icon: h(Activity)
   },
   {
     id: 4,
@@ -42,7 +45,7 @@ const revenues = [
     noAttribute: 0,
     noAttributeStr: null,
     timeDescription: 'Last 28 days',
-    icon: h(Activity),
+    icon: h(Activity)
   },
   {
     id: 5,
@@ -50,7 +53,7 @@ const revenues = [
     noAttribute: 0,
     noAttributeStr: null,
     timeDescription: 'Last 28 days',
-    icon: h(UserRoundPlus),
+    icon: h(UserRoundPlus)
   },
   {
     id: 6,
@@ -58,49 +61,55 @@ const revenues = [
     noAttribute: 0,
     noAttributeStr: null,
     timeDescription: 'Last 28 days',
-    icon: h(UserRoundCheck),
-  },
+    icon: h(UserRoundCheck)
+  }
 ];
 
 onBeforeMount(() => {
   fetchData();
+  fetchSelectedProjects();
 });
+const fetchSelectedProjects = async () => {
+  await userStore.fetchProjects(projects).then(() => {
+    selectedProjects.value = projects.value.map(project => project._id);
+  });
+};
 const fetchData = async () => {
-  try {
-    await getStatistics().then((res) => {
-      const data = res['data']['metadata'];
-      activeTrials.value = { active_trials: data.active_trials, active_trials_formatted: data.active_trials_formatted };
-      revenues[0].noAttribute = activeTrials.value['active_trials'];
-      revenues[0].noAttributeStr = activeTrials.value['active_trials_formatted'];
-
-      activeSubs.value = { active_subs: data.active_subs, active_subs_formatted: data.active_subs_formatted };
-      revenues[1].noAttribute = activeSubs.value['active_subs'];
-      revenues[1].noAttributeStr = activeSubs.value['active_subs_formatted'];
-
-      monthlyRecurringRevenue.value = { revenue: data.revenue, revenue_formatted: data.revenue_formatted };
-      revenues[2].noAttribute = monthlyRecurringRevenue.value['revenue'];
-      revenues[2].noAttributeStr = monthlyRecurringRevenue.value['revenue_formatted'];
-
-      revenueData.value = { revenue: data.revenue, revenue_formatted: data.revenue_formatted };
-      revenues[3].noAttribute = revenueData.value['revenue'];
-      revenues[3].noAttributeStr = revenueData.value['revenue_formatted'];
-
-      newCustomers.value = { new_customers: data.new_customers, new_customers_formatted: data.new_customers_formatted };
-      revenues[4].noAttribute = newCustomers.value['new_customers'];
-      revenues[4].noAttributeStr = newCustomers.value['new_customers_formatted'];
-
-      activeUsers.value = { active_users: data.active_users, active_users_formatted: data.active_users_formatted };
-      revenues[5].noAttribute = activeUsers.value['active_users'];
-      revenues[5].noAttributeStr = activeUsers.value['active_users_formatted'];
-    });
-  } catch (error) {
-    console.log(error);
+  await userStore.fetchStatistics(activeTrials, activeSubs, monthlyRecurringRevenue, revenueData, newCustomers, activeUsers, revenues);
+};
+const updateListProject = (value) => {
+  const listItems = selectedProjects.value;
+  if (listItems.includes(value)) {
+    listItems.splice(listItems.indexOf(value), 1);
+  } else {
+    listItems.push(value);
   }
 };
+
+const submit = async () => {
+
+};
+
 </script>
 
 <template>
   <div class="space-y-4 px-5">
+    <div class="flex justify-end flex-row gap-5">
+      <MultiSelect
+        class="w-1/3"
+        :modelValue="selectedProjects"
+        :options="projects"
+        placeholder="Project"
+        :isSelect="true"
+        @update:modelValue="(value) => updateListProject(value)"
+      />
+      <button
+        class="flex justify-center rounded bg-primary py-2 px-6 font-medium text-white hover:bg-opacity-60 w-fit h-fit"
+        @click="submit"
+      >
+        Submit
+      </button>
+    </div>
     <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       <template v-if="activeUsers !== null">
         <card-item
