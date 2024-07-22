@@ -123,7 +123,7 @@ onBeforeMount(() => {});
                           </li>
                         </router-link>
 
-                        <li class="pl-12 hover:bg-gray-700">
+                        <li class="pl-12 hover:bg-gray-700 hidden">
                           <a href="#" class="py-3 flex items-center">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -145,68 +145,7 @@ onBeforeMount(() => {});
           </Disclosure>
         </li>
 
-        <li v-if="isAdmin" class="px-4 hover:bg-gray-700">
-          <a href="#" class="py-3 flex items-center">
-            <Fingerprint class="h-5 w-5 mr-2" />
-            Roles
-          </a>
-        </li>
-        <li v-if="isAdmin" class="px-4 hover:bg-gray-700">
-          <a href="#" class="py-3 flex items-center">
-            <PanelsTopLeft class="h-5 w-5 mr-2" />
-            Projects
-          </a>
-        </li>
-        <li class="px-4 hover:bg-gray-700">
-          <a href="#" class="py-3 flex items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5 mr-2"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"
-              />
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"
-              />
-            </svg>
-            Reports
-          </a>
-        </li>
-
-        <li class="px-4 py-2 mt-2 text-xs uppercase tracking-wider text-gray-500 font-bold">Apps</li>
-
-        <li class="px-4 cursor-pointer hover:bg-gray-700">
-          <a href="#" class="py-2 flex items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5 mr-2"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-              />
-            </svg>
-            Messages
-            <span class="ml-auto text-xs bg-gray-500 px-2 py-1 rounded-sm">16</span>
-          </a>
-        </li>
-
-        <li class="px-4 py-2 mt-2 text-xs uppercase tracking-wider text-gray-500 font-bold">Pages</li>
+        <li class="px-4 py-2 mt-2 text-xs uppercase tracking-wider text-gray-500 font-bold">Setting</li>
 
         <li class="px-4 cursor-pointer hover:bg-gray-700">
           <router-link :to="RoutePath.SettingAccount" class="py-3 flex items-center">
@@ -215,7 +154,7 @@ onBeforeMount(() => {});
           </router-link>
         </li>
 
-        <li class="px-4 cursor-pointer hover:bg-gray-700">
+        <li class="px-4 cursor-pointer hover:bg-gray-700 hidden">
           <a href="#" class="py-3 flex items-center">
             <LogOut class="h-5 w-5 mr-2" />
             Log out

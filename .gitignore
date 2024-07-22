@@ -7,3 +7,4 @@ dist-ssr
 .env
 yarn.lock
 package-lock.json
+.vite/

@@ -94,7 +94,7 @@ const submit = async () => {
 
 <template>
   <div class="space-y-4 px-5">
-    <div class="flex justify-end flex-row gap-5">
+    <div class="hidden justify-end flex-row gap-5">
       <MultiSelect
         class="w-1/3"
         :modelValue="selectedProjects"
