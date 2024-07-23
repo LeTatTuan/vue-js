@@ -5,6 +5,7 @@ import { useNotification } from '@kyvg/vue3-notification';
 import { resetPassword, verifyToken } from '@/services';
 import ErrorPage from '@/components/commons/ErrorPage.vue';
 import { RoutePath } from '@/router';
+import { LockKeyhole } from 'lucide-vue-next';
 
 const notification = useNotification();
 const router = useRouter();
@@ -25,7 +26,7 @@ const checkToken = async () => {
       notification.notify({
         type: 'success',
         title: 'Valid Token',
-        text: data.message,
+        text: data.message
       });
     });
   } catch (error) {
@@ -33,7 +34,7 @@ const checkToken = async () => {
       notification.notify({
         type: 'error',
         title: 'Invalid Token',
-        text: error.response.data.message,
+        text: error.response.data.message
       });
     }
     tokenExpired.value = true;
@@ -46,18 +47,18 @@ const submit = async () => {
     if (password.value.trim() != confirmPassword.value.trim()) {
       notification.notify({
         type: 'error',
-        title: 'Mật khẩu xác nhận không khớp',
+        title: 'Mật khẩu xác nhận không khớp'
       });
       return;
     }
     await resetPassword(token.value, {
       password: password.value.trim(),
-      confirm_password: confirmPassword.value.trim(),
+      confirm_password: confirmPassword.value.trim()
     }).then(() => {
       notification.notify({
         type: 'success',
         title: 'Đổi mật khẩu thành công',
-        text: 'Vui lòng đăng nhập lại',
+        text: 'Vui lòng đăng nhập lại'
       });
     });
     router.push(RoutePath.Login);
@@ -66,7 +67,7 @@ const submit = async () => {
       notification.notify({
         type: 'error',
         title: 'Đổi mật khẩu thất bại',
-        text: error.response.data.message,
+        text: error.response.data.message
       });
     }
     console.log(error);
@@ -97,20 +98,7 @@ const submit = async () => {
       <form class="space-y-4" @submit.prevent="submit">
         <div class="relative text-gray-400">
           <span class="absolute inset-y-0 left-0 flex items-center pl-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-              />
-            </svg>
+           <LockKeyhole class="h-6 w-6" />
           </span>
           <input
             id="password"
@@ -120,26 +108,13 @@ const submit = async () => {
             autocomplete="current-password"
             required=""
             class="w-full py-4 text-sm text-gray-900 rounded-md pl-10 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10"
-            placeholder="Password"
+            placeholder="New Password"
           />
         </div>
 
         <div class="relative text-gray-400">
           <span class="absolute inset-y-0 left-0 flex items-center pl-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-              />
-            </svg>
+            <LockKeyhole class="h-6 w-6" />
           </span>
           <input
             id="password"

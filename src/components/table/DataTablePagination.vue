@@ -1,11 +1,12 @@
 <script setup>
-import { ChevronsLeft, ChevronLeft, ChevronRight, ChevronsRight } from 'lucide-vue-next';
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-vue-next';
+import { ROWS_PER_PAGE } from '@/constants';
 
 const props = defineProps({
   table: {
     type: Object,
-    require: true,
-  },
+    require: true
+  }
 });
 
 const handlePagesizeChange = (event) => {
@@ -23,7 +24,7 @@ const handlePagesizeChange = (event) => {
           class="h-8 w-[70px]"
           @change="handlePagesizeChange($event)"
         >
-          <option v-for="pageSize in [10, 20, 30, 40, 50]" :key="pageSize" :value="pageSize">
+          <option v-for="pageSize in ROWS_PER_PAGE" :key="pageSize" :value="pageSize">
             {{ pageSize }}
           </option>
         </select>

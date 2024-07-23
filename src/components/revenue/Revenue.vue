@@ -3,9 +3,10 @@ import { h, onBeforeMount, ref } from 'vue';
 import CardItem from './CardItem.vue';
 import { Activity, DollarSign, UserRoundCheck, UserRoundPlus } from 'lucide-vue-next';
 import MultiSelect from '@/components/form/MultiSelect.vue';
-import { useManageUserStore } from '@/stores';
+import { useManageUserStore, useRevenueStore } from '@/stores';
 
 const userStore = useManageUserStore();
+const revenueStore = useRevenueStore();
 const activeTrials = ref('');
 const activeSubs = ref('');
 const monthlyRecurringRevenue = ref('');
@@ -75,7 +76,7 @@ const fetchSelectedProjects = async () => {
   });
 };
 const fetchData = async () => {
-  await userStore.fetchStatistics(activeTrials, activeSubs, monthlyRecurringRevenue, revenueData, newCustomers, activeUsers, revenues);
+  await revenueStore.fetchStatistics(activeTrials, activeSubs, monthlyRecurringRevenue, revenueData, newCustomers, activeUsers, revenues);
 };
 const updateListProject = (value) => {
   const listItems = selectedProjects.value;
@@ -87,14 +88,15 @@ const updateListProject = (value) => {
 };
 
 const submit = async () => {
-
+  const projectsByBundleId = projects.value.filter((project) => selectedProjects.value.includes(project._id));
+  await revenueStore.fetchStatistics(activeTrials, activeSubs, monthlyRecurringRevenue, revenueData, newCustomers, activeUsers, revenues, projectsByBundleId);
 };
 
 </script>
 
 <template>
   <div class="space-y-4 px-5">
-    <div class="hidden justify-end flex-row gap-5">
+    <div class="flex justify-end flex-row gap-5">
       <MultiSelect
         class="w-1/3"
         :modelValue="selectedProjects"

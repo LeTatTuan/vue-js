@@ -1,27 +1,36 @@
 <script setup>
 import DataTable from '@/components/table/DataTable.vue';
-import { getRecentTransactions } from '@/services';
 import { onBeforeMount, ref } from 'vue';
 import columnsTransactions from './columns';
+import { useManageUserStore, useRevenueStore } from '@/stores';
 
+const userStore = useManageUserStore();
+const revenueStore = useRevenueStore();
 const transactions = ref([]);
 const currentPage = ref(1);
 const totalPages = ref(0);
 const totalResults = ref(0);
+const projects = ref([]);
+const projectsForFilter = ref([]);
 
 onBeforeMount(() => {
-  fetchTransactions();
+  fetchProjects();
+  revenueStore.fetchTransactions(transactions, totalPages, totalResults, currentPage);
 });
-const fetchTransactions = async () => {
-  try {
-    const res = await getRecentTransactions();
-    transactions.value = res['data']['metadata']['data'];
-    totalPages.value = res['data']['metadata']['totalPages'];
-    totalResults.value = res['data']['metadata']['totalResults'];
-    currentPage.value = res['data']['metadata']['page'];
-  } catch (error) {
-    console.log(error);
-  }
+
+const fetchProjects = async () => {
+  await userStore.fetchProjects(projects).then(() => {
+    projectsForFilter.value = projects.value.map((project) => {
+      return {
+        value: project.keys.bundle_id,
+        label: project.name
+      };
+    });
+  });
+};
+
+const refresh = async () => {
+  await revenueStore.fetchTransactions(transactions, totalPages, totalResults, currentPage);
 };
 </script>
 
@@ -35,7 +44,9 @@ const fetchTransactions = async () => {
       :options="{
         columnFilter: 'bundleId',
         columnFilterDate: 'purchaseDate',
+        listForFilter: projectsForFilter
       }"
+      @refresh="refresh"
     />
   </div>
 </template>

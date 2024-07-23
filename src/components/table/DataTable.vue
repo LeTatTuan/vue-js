@@ -3,35 +3,37 @@ import { ref } from 'vue';
 import DataTablePagination from '@/components/table/DataTablePagination.vue';
 import DataTableToolbar from '@/components/table/DataTableToolbar.vue';
 import {
-  useVueTable,
   FlexRender,
   getCoreRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  getFilteredRowModel,
+  getFacetedMinMaxValues,
   getFacetedRowModel,
   getFacetedUniqueValues,
-  getFacetedMinMaxValues,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useVueTable
 } from '@tanstack/vue-table';
 import { valueUpdater } from '@/lib/utils';
+import { ROWS_PER_PAGE } from '@/constants';
 
 const props = defineProps({
   data: {
     type: Array,
-    require: true,
+    require: true
   },
   columns: {
     type: Array,
-    require: true,
+    require: true
   },
   title: String,
   options: {
     type: Object,
     default: () => ({}),
-    validator: function (value) {
-      return typeof value.columnFilter === 'string' && typeof value.columnFilterDate === 'string';
-    },
-  },
+    validator: function(value) {
+      return typeof value.columnFilter === 'string' && typeof value.columnFilterDate === 'string'
+        && (Array.isArray(value.listForFilter) || typeof value.listForFilter === 'undefined');
+    }
+  }
 });
 
 const sorting = ref([]);
@@ -47,6 +49,14 @@ const table = useVueTable({
   columns: props.columns,
   filterFns: {},
   enableGlobalFilter: true,
+  initialState: {
+    pagination: {
+      pageIndex: 0,
+      pageSize: ROWS_PER_PAGE[0]
+    }
+  },
+  autoResetPageSize: false,
+  autoResetPageIndex: false,
   state: {
     get sorting() {
       return sorting.value;
@@ -62,7 +72,7 @@ const table = useVueTable({
     },
     get globalFilter() {
       return globalFilter.value;
-    },
+    }
   },
   globalFilterFn: (row, columnId, filterValue) => {
     const cellValue = row.getValue(columnId);
@@ -85,11 +95,17 @@ const table = useVueTable({
   onGlobalFilterChange: (updaterOrValue) => valueUpdater(updaterOrValue, globalFilter),
   getFacetedRowModel: getFacetedRowModel(),
   getFacetedUniqueValues: getFacetedUniqueValues(),
-  getFacetedMinMaxValues: getFacetedMinMaxValues(),
+  getFacetedMinMaxValues: getFacetedMinMaxValues()
 });
 
 const updateGlobalFilter = (newFilter) => {
   globalFilter.value = newFilter;
+};
+const emit = defineEmits(['refresh']);
+
+const refresh = () => {
+  table.reset();
+  emit('refresh');
 };
 </script>
 
@@ -100,49 +116,68 @@ const updateGlobalFilter = (newFilter) => {
       <DataTableToolbar
         :table="table"
         :globalSearchText="globalFilter"
-        @updateGlobalSearchText="updateGlobalFilter"
         :options="options"
+        @updateGlobalSearchText="updateGlobalFilter"
+        @refresh="refresh"
       />
     </div>
     <div class="bg-white rounded-[10px] p-2 mt-5">
       <table>
         <thead>
-          <tr v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
-            <th
-              v-for="header in headerGroup.headers"
-              :key="header.id"
-              scope="col"
-              class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-              :class="[
+        <tr v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
+          <th
+            v-for="header in headerGroup.headers"
+            :key="header.id"
+            scope="col"
+            class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+            :class="[
                 header.column.columnDef.columnClass,
                 {
                   'cursor-pointer select-none': header.column.getCanSort(),
                 },
               ]"
-              @click="header.column.getToggleSortingHandler()?.($event)"
-            >
-              <FlexRender :render="header.column.columnDef.header" :props="header.getContext()" />
-              {{ { asc: ' 🔼', desc: ' 🔽' }[header.column.getIsSorted()] }}
-            </th>
-          </tr>
+            @click="header.column.getToggleSortingHandler()?.($event)"
+          >
+            <FlexRender :render="header.column.columnDef.header" :props="header.getContext()" />
+            {{ { asc: ' 🔼', desc: ' 🔽' }[header.column.getIsSorted()] }}
+          </th>
+        </tr>
         </thead>
         <tbody class="divide-y divide-gray-200">
-          <template v-if="table.getRowModel().rows?.length">
-            <tr v-for="row in table.getRowModel().rows" :key="row.transactionId">
-              <td
-                v-for="cell in row.getVisibleCells()"
-                :key="cell.id"
-                class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center"
-                :class="cell.column.columnDef.columnClass"
-              >
-                <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
-              </td>
-            </tr>
-          </template>
-          <tr v-else>
-            <td :colspan="columns.length" class="h-24 text-center">No results</td>
+        <template v-if="table.getRowModel().rows?.length">
+          <tr v-for="row in table.getRowModel().rows" :key="row.transactionId">
+            <td
+              v-for="cell in row.getVisibleCells()"
+              :key="cell.id"
+              class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center"
+              :class="cell.column.columnDef.columnClass"
+            >
+              <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
+            </td>
           </tr>
+        </template>
+        <tr v-else>
+          <td :colspan="columns.length" class="h-24 text-center">No results</td>
+        </tr>
         </tbody>
+        <tfoot>
+        <tr
+          v-for="footerGroup in table.getFooterGroups()"
+          :key="footerGroup.id"
+        >
+          <th
+            v-for="header in footerGroup.headers"
+            :key="header.id"
+            :colSpan="header.colSpan"
+          >
+            <FlexRender
+              v-if="!header.isPlaceholder"
+              :render="header.column.columnDef.footer"
+              :props="header.getContext()"
+            />
+          </th>
+        </tr>
+        </tfoot>
       </table>
     </div>
 
@@ -155,21 +190,25 @@ table {
   border-collapse: collapse;
   width: 100%;
 }
+
 td {
   text-align: left;
 
   padding: 8px;
 }
+
 th {
   text-align: left;
   padding: 10px 8px;
   font-weight: 500;
 }
+
 td:nth-child(1),
 th:nth-child(1) {
   padding-left: 20px;
   max-width: 240px;
 }
+
 tr:nth-child(1) {
   border-bottom: 1px solid #f2f3f4;
 

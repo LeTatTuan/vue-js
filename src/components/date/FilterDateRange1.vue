@@ -1,26 +1,15 @@
 <script setup>
 import { Calendar as CalendarIcon } from 'lucide-vue-next';
-import { CalendarDate, DateFormatter, getLocalTimeZone, today } from '@internationalized/date';
+import { CalendarDate, DateFormatter, getLocalTimeZone } from '@internationalized/date';
 import { ref, watch } from 'vue';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { RangeCalendar } from '@/components/ui/range-calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const props = defineProps({
   column: Object
 });
-
-const items = [
-  { value: 0, label: 'Today', isDateRange: false },
-  { value: 1, label: 'Tomorrow', isDateRange: false },
-  { value: 3, label: 'In 3 days', isDateRange: false },
-  { value: 7, label: 'In a week', isDateRange: false },
-  { value: 0, label: 'Only start date', isDateRange: false },
-  { value: 0, label: 'Only end date', isDateRange: false },
-  { value: 0, label: 'Custom range date', isDateRange: true }
-];
 
 const df = new DateFormatter('en-US', {
   dateStyle: 'medium'
@@ -79,21 +68,6 @@ const updateFilterValue = (value) => {
         </Button>
       </PopoverTrigger>
       <PopoverContent class="w-auto p-0" align="end">
-        <Select
-          @update:model-value="(v) => {
-          if (!v) return;
-          value = today(getLocalTimeZone()).add({ days: Number(v) });
-        }"
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Select" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem v-for="item in items" :key="item.value" :value="item.value.toString()">
-              {{ item.label }}
-            </SelectItem>
-          </SelectContent>
-        </Select>
         <RangeCalendar
           v-model="dateRange"
           weekday-format="short"

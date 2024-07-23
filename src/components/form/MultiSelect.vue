@@ -22,7 +22,7 @@ const props = defineProps({
 
 const target = ref(null);
 const show = ref(false);
-const currentIconDropdown = computed(() => (show.value ? ChevronDown : ChevronUp));
+const currentIconDropdown = computed(() => (show.value ? ChevronUp : ChevronDown));
 const emit = defineEmits(['update:modelValue']);
 onClickOutside(target, () => {
   show.value = false;

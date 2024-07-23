@@ -1,33 +1,10 @@
 <script setup>
-import { computed, onBeforeMount, ref } from 'vue';
+import { computed } from 'vue';
 import DataTableFacetedFilter from '@/components/table/DataTableFacetedFilter.vue';
-import FilterDateRange from '@/components/date/FilterDateRange.vue';
-import { X } from 'lucide-vue-next';
+import DateWithPresets from '@/components/date/DateWithPresets.vue';
+import { ListRestart, X } from 'lucide-vue-next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { getProjects } from '@/services';
-
-const projects = ref([]);
-const projectsForFilter = ref([]);
-
-onBeforeMount(() => {
-  fetchProjects();
-});
-const fetchProjects = async () => {
-  try {
-    const res = await getProjects();
-    projects.value = res['data']['metadata']['projects'];
-
-    projectsForFilter.value = projects.value.map((project) => {
-      return {
-        value: project.keys.bundle_id,
-        label: project.name,
-      };
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 const props = defineProps({
   table: Object,
@@ -35,17 +12,22 @@ const props = defineProps({
   options: {
     type: Object,
     default: () => ({}),
-    validator: function (value) {
-      return typeof value.columnFilter === 'string' && typeof value.columnFilterDate === 'string';
-    },
-  },
+    validator: function(value) {
+      return typeof value.columnFilter === 'string' && typeof value.columnFilterDate === 'string'
+        && (Array.isArray(value.listForFilter) || typeof value.listForFilter === 'undefined');
+    }
+  }
 });
 
 const isFiltered = computed(() => props.table.getState().columnFilters.length > 0);
-const emit = defineEmits(['updateGlobalSearchText']);
+const emit = defineEmits(['updateGlobalSearchText', 'refresh']);
 
 const onInput = (event) => {
   emit('updateGlobalSearchText', event.target.value);
+};
+
+const refresh = () => {
+  emit('refresh');
 };
 </script>
 
@@ -65,11 +47,11 @@ const onInput = (event) => {
           v-if="table.getColumn(options.columnFilter)"
           :column="table.getColumn(options.columnFilter)"
           :title="table.getColumn(options.columnFilter).columnDef.header"
-          :options="projectsForFilter"
+          :options="options.listForFilter"
         />
       </div>
       <div :v-if="options.columnFilterDate">
-        <FilterDateRange
+        <DateWithPresets
           :v-if="table.getColumn(options.columnFilterDate)"
           :column="table.getColumn(options.columnFilterDate)"
         />
@@ -78,6 +60,15 @@ const onInput = (event) => {
         Reset
         <X class="ml-2 h-4 w-4" />
       </Button>
+    </div>
+    <div class="flex justify-end ">
+      <button
+        class="flex flex-row justify-center rounded bg-gray-400 border border-stroke py-2 px-6 font-medium text-black hover:bg-opacity-60"
+        @click="refresh"
+      >
+        <ListRestart class="h-5 w-5 mr-2" />
+        Refresh
+      </button>
     </div>
   </div>
 </template>
