@@ -51,7 +51,9 @@ module.exports = {
         'meta-10': '#0FADCF',
         success: '#219653',
         danger: '#DC3545',
-        warning: '#FFA70B'
+        warning: '#FFA70B',
+        'currency-primary': '#85bb65',
+        'currency-secondary': '#69a297'
       },
       keyframes: {
         'accordion-down': {

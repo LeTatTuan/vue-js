@@ -1,5 +1,5 @@
 import { dateRangeFilterFn, formatCurrency, formatDate } from '@/lib/utils';
-import { h } from 'vue';
+import { computed, h } from 'vue';
 
 const columnsTransactions = [
   {
@@ -40,9 +40,23 @@ const columnsTransactions = [
     accessorKey: 'totalCost',
     header: 'Revenue',
     cell: (info) => {
-      return formatCurrency(info.getValue());
+      return h('p', { class: 'flex justify-end' }, formatCurrency(info.getValue()));
     },
-    enableSorting: true
+    enableSorting: true,
+    footer: info => {
+      const totalByPage = computed(() => info.table.getRowModel().rows.reduce((total, row) => total + (row.original.totalCost), 0));
+      const totalAllPage = computed(() => info.table.getFilteredRowModel().rows.reduce((total, row) => total + (row.original.totalCost), 0));
+      return h('div', { class: 'flex flex-col' }, [
+        h('td', { class: 'flex flex-row gap-5' }, [
+          h('td', { class: 'w-max' }, 'Total cost on each page'),
+          h('td', { class: 'flex w-max text-currency-primary justify-end font-light ml-auto' }, formatCurrency(totalByPage.value))
+        ]),
+        h('td', { class: 'flex flex-row gap-7' }, [
+          h('td', { class: 'w-max' }, 'Total cost all page'),
+          h('td', { class: 'flex w-max text-currency-primary justify-end font-light ml-auto' }, formatCurrency(totalAllPage.value))
+        ])
+      ]);
+    }
   },
   {
     accessorKey: 'offerType',

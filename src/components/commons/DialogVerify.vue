@@ -27,7 +27,6 @@ const confirm = () => {
   <div
     class="fixed bg-[#0000008f] z-[60] w-[100vw] h-[100vh] top-0 left-0 flex justify-center items-center fadeIn"
     @click="close"
-
   >
     <div class="flex justify-center bg-white rounded-2xl p-10 flex-col gap-3" @click.stop="">
       <div class="flex flex-col">

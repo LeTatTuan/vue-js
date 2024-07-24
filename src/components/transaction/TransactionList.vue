@@ -2,10 +2,11 @@
 import DataTable from '@/components/table/DataTable.vue';
 import { onBeforeMount, ref } from 'vue';
 import columnsTransactions from './columns';
-import { useManageUserStore, useRevenueStore } from '@/stores';
+import { useManageUserStore, useRevenueStore, useTableStore } from '@/stores';
 
 const userStore = useManageUserStore();
 const revenueStore = useRevenueStore();
+const tableStore = useTableStore();
 const transactions = ref([]);
 const currentPage = ref(1);
 const totalPages = ref(0);
@@ -30,14 +31,16 @@ const fetchProjects = async () => {
 };
 
 const refresh = async () => {
-  await revenueStore.fetchTransactions(transactions, totalPages, totalResults, currentPage);
+  tableStore.loadingTable = true;
+  await revenueStore.fetchTransactions(transactions, totalPages, totalResults, currentPage).then(() => {
+    tableStore.loadingTable = false;
+  });
 };
 </script>
 
 <template>
   <div v-bind="$attrs">
     <data-table
-      v-if="transactions.length > 0"
       :data="transactions"
       :columns="columnsTransactions"
       title="Recent Transactions"

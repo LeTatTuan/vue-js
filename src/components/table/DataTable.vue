@@ -15,7 +15,10 @@ import {
 } from '@tanstack/vue-table';
 import { valueUpdater } from '@/lib/utils';
 import { ROWS_PER_PAGE } from '@/constants';
+import { useTableStore } from '@/stores';
+import { Loader } from 'lucide-vue-next';
 
+const tableStore = useTableStore();
 const props = defineProps({
   data: {
     type: Array,
@@ -105,6 +108,7 @@ const emit = defineEmits(['refresh']);
 
 const refresh = () => {
   table.reset();
+  globalFilter.value = '';
   emit('refresh');
 };
 </script>
@@ -143,8 +147,12 @@ const refresh = () => {
           </th>
         </tr>
         </thead>
-        <tbody class="divide-y divide-gray-200">
-        <template v-if="table.getRowModel().rows?.length">
+        <div v-if="tableStore.loadingTable" class="flex flex-row gap-5 pt-5">
+          <div class="h-6 w-max mr-3"> Loading data ...</div>
+          <Loader class="animate-spin h-6 w-6 mr-3 duration-700" />
+        </div>
+        <tbody v-if="!tableStore.loadingTable" class="divide-y divide-gray-200">
+        <template v-if="table.getRowModel().rows?.length > 0">
           <tr v-for="row in table.getRowModel().rows" :key="row.transactionId">
             <td
               v-for="cell in row.getVisibleCells()"
@@ -157,21 +165,29 @@ const refresh = () => {
           </tr>
         </template>
         <tr v-else>
-          <td :colspan="columns.length" class="h-24 text-center">No results</td>
+          <td :colspan="columns.length" class="h-24 text-center text-xl">No results</td>
         </tr>
         </tbody>
-        <tfoot>
+        <tfoot
+          v-if="table.getRowModel().rows?.length > 0 && !tableStore.loadingTable">
         <tr
           v-for="footerGroup in table.getFooterGroups()"
           :key="footerGroup.id"
+          class="w-full"
         >
           <th
             v-for="header in footerGroup.headers"
             :key="header.id"
             :colSpan="header.colSpan"
+            :class="[
+                header.column.columnDef.columnClass,
+                {
+                  'cursor-pointer select-none': header.column.getCanSort(),
+                },
+              ]"
           >
             <FlexRender
-              v-if="!header.isPlaceholder"
+              v-if="!header.isPlaceholder && header.column.columnDef.footer"
               :render="header.column.columnDef.footer"
               :props="header.getContext()"
             />
@@ -193,7 +209,6 @@ table {
 
 td {
   text-align: left;
-
   padding: 8px;
 }
 
@@ -223,5 +238,10 @@ tr:hover {
 
 .hidden-column {
   display: none;
+}
+
+table, th, td {
+  border: 1px solid #777777;
+  border-collapse: collapse;
 }
 </style>

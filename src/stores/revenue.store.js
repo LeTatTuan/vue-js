@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
 import { getRecentTransactions, getStatistics } from '@/services';
 
-
 export const useRevenueStore = defineStore('revenue', {
   state: () => ({}),
   actions: {

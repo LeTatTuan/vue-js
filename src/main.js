@@ -13,10 +13,10 @@ import { useAuthStore } from '@/stores';
 const initApp = async () => {
   const pinia = createPinia();
   const app = createApp(App);
-  app.use(router);
-  app.use(pinia);
   app.component('DefaultLayout', authLayout);
   app.component('EmptyLayout', emptyLayout);
+  app.use(router);
+  app.use(pinia);
   app.use(Notifications);
   const auth = useAuthStore();
   await auth.init();

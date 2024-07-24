@@ -3,7 +3,7 @@ import { useAuthStore } from '@/stores';
 import { onClickOutside } from '@vueuse/core';
 import { ref } from 'vue';
 import { RoutePath } from '@/router';
-import { User, ChevronDown, Settings, LogOut  } from 'lucide-vue-next';
+import { ChevronDown, LogOut, Settings, User } from 'lucide-vue-next';
 import DialogVerify from '@/components/commons/DialogVerify.vue';
 
 const target = ref(null);
@@ -26,6 +26,7 @@ const confirmLogout = async () => {
 <template>
   <div
     v-if="authStore.user"
+    ref="target"
     class="relative"
   >
     <div
@@ -38,7 +39,7 @@ const confirmLogout = async () => {
       </span>
 
       <span class="h-full w-full flex items-center justify-center rounded-full">
-          <User />
+          <User class="w-6 h-6" />
       </span>
 
       <span
@@ -62,7 +63,7 @@ const confirmLogout = async () => {
             :to="RoutePath.SettingAccount"
             class="flex text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
           >
-            <User class="mr-3" />
+            <User class="w-5 h-5 mr-3" />
             My Profile
           </router-link>
         </li>
@@ -71,7 +72,7 @@ const confirmLogout = async () => {
             :to="RoutePath.SettingAccount"
             class="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
           >
-           <Settings />
+            <Settings class="w-5 h-5" />
             Account Settings
           </router-link>
         </li>
@@ -81,7 +82,7 @@ const confirmLogout = async () => {
         @click="showDialog = true"
       >
         Log Out
-        <LogOut class="ml-3"/>
+        <LogOut class="w-5 h-5 ml-3" />
       </button>
     </div>
     <!-- Dropdown End -->

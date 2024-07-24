@@ -1,7 +1,7 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import { onClickOutside } from '@vueuse/core';
-import { ChevronDown, ChevronUp } from 'lucide-vue-next';
+import { ChevronDown, X } from 'lucide-vue-next';
 
 const props = defineProps({
   options: {
@@ -22,7 +22,6 @@ const props = defineProps({
 
 const target = ref(null);
 const show = ref(false);
-const currentIconDropdown = computed(() => (show.value ? ChevronUp : ChevronDown));
 const emit = defineEmits(['update:modelValue']);
 onClickOutside(target, () => {
   show.value = false;
@@ -30,7 +29,7 @@ onClickOutside(target, () => {
 </script>
 
 <template>
-  <div>
+  <div ref="target" class="relative">
     <div>
       <select class="hidden">
         <option v-for="option in options" :key="option._id" :value="option._id" :disabled="isSelect ? false : true">
@@ -54,22 +53,7 @@ onClickOutside(target, () => {
                       </div>
                       <div v-if="isSelect" class="flex flex-auto flex-row-reverse">
                         <div class="cursor-pointer pl-2 hover:text-danger" @click="emit('update:modelValue', item)">
-                          <svg
-                            class="fill-current"
-                            role="button"
-                            width="12"
-                            height="12"
-                            viewBox="0 0 12 12"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              clip-rule="evenodd"
-                              d="M9.35355 3.35355C9.54882 3.15829 9.54882 2.84171 9.35355 2.64645C9.15829 2.45118 8.84171 2.45118 8.64645 2.64645L6 5.29289L3.35355 2.64645C3.15829 2.45118 2.84171 2.45118 2.64645 2.64645C2.45118 2.84171 2.45118 3.15829 2.64645 3.35355L5.29289 6L2.64645 8.64645C2.45118 8.84171 2.45118 9.15829 2.64645 9.35355C2.84171 9.54882 3.15829 9.54882 3.35355 9.35355L6 6.70711L8.64645 9.35355C8.84171 9.54882 9.15829 9.54882 9.35355 9.35355C9.54882 9.15829 9.54882 8.84171 9.35355 8.64645L6.70711 6L9.35355 3.35355Z"
-                              fill="currentColor"
-                            ></path>
-                          </svg>
+                          <X class="h-3 w-3" />
                         </div>
                       </div>
                     </div>
@@ -85,8 +69,12 @@ onClickOutside(target, () => {
                   </div>
                 </div>
                 <div class="flex w-8 items-center py-1 pl-1 pr-1">
-                  <div class="h-6 w-6 cursor-pointer outline-none focus:outline-none">
-                    <component :is="currentIconDropdown" class="h-5 w-5 mr-2" @click="show = !show" />
+                  <div class="h-6 w-6 cursor-pointer outline-none focus:outline-none" @click.prevent="show = !show">
+                    <span
+                      :class="[
+                      'hidden fill-current transition-all sm:block', {'rotate-180': show }]">
+                      <ChevronDown class="h-5 w-5 mr-2" />
+                    </span>
                   </div>
                 </div>
               </div>
@@ -94,7 +82,6 @@ onClickOutside(target, () => {
             <div class="w-full px-4">
               <div
                 v-show="show"
-                ref="target"
                 class="max-h-select absolute left-0 top-full z-[70] w-full overflow-y-auto rounded bg-white shadow dark:bg-form-input"
               >
                 <div class="flex w-full flex-col">

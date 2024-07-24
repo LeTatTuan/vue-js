@@ -8,6 +8,7 @@ import DialogVerify from '@/components/commons/DialogVerify.vue';
 import { Plus } from 'lucide-vue-next';
 
 const userStore = useManageUserStore();
+const tableStore = useManageUserStore();
 const users = ref([]);
 const currentUser = ref(null);
 const columnsUser = ref([]);
@@ -55,6 +56,13 @@ const confirmDeleteUser = async () => {
   modal.value.showDialog = false;
   alert(`You have successfully deleted the user with id: ${userId.value}`);
 };
+
+const refresh = async () => {
+  tableStore.loadingTable = true;
+  await userStore.fetchUsers(users).then(() => {
+    tableStore.loadingTable = false;
+  });
+};
 </script>
 
 <template>
@@ -77,6 +85,7 @@ const confirmDeleteUser = async () => {
         columnFilter: '',
         columnFilterDate: 'createdAt',
       }"
+      @refresh="refresh"
     />
   </div>
 
