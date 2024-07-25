@@ -10,7 +10,7 @@ export const DATE_PICKER_PRESETS = Object.freeze({
   tomorrow: 1,
   in3days: 3,
   in7days: 7,
-  onlyStartDay: 0,
+  onlyStartDay: -1,
   onlyEndDay: 9999,
   rangeDate: 4545
 });

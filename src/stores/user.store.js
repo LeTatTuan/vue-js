@@ -47,7 +47,7 @@ export const useManageUserStore = defineStore('manageUser', {
     },
 
     async updateUser(currentUser, userData) {
-      const functionExcute = currentUser ? updateUserApi(currentUser.value._id, userData) : createUserApi(userData);
+      const functionExcute = currentUser.value ? updateUserApi(currentUser.value._id, userData) : createUserApi(userData);
       try {
         await functionExcute.then(async (res) => {
           const data = res['data'];

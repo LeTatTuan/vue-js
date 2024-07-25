@@ -17,6 +17,7 @@ import { valueUpdater } from '@/lib/utils';
 import { ROWS_PER_PAGE } from '@/constants';
 import { useTableStore } from '@/stores';
 import { Loader } from 'lucide-vue-next';
+import { CalendarDate } from '@internationalized/date';
 
 const tableStore = useTableStore();
 const props = defineProps({
@@ -28,7 +29,14 @@ const props = defineProps({
     type: Array,
     require: true
   },
-  title: String,
+  title: {
+    type: String,
+    required: true
+  },
+  footer: {
+    type: Boolean,
+    default: false
+  },
   options: {
     type: Object,
     default: () => ({}),
@@ -39,11 +47,24 @@ const props = defineProps({
   }
 });
 
+const endDate = new Date(new Date().getTime());
+const calendarDate = new CalendarDate(endDate.getFullYear(), endDate.getMonth() + 1, endDate.getDate());
+
+const dateRange = ref({
+  start: calendarDate.subtract({ months: 1 }),
+  end: calendarDate
+});
+const defaultFilterDate = {
+  id: props.options.columnFilterDate,
+  value: [dateRange.value.start, dateRange.value.end]
+};
+
 const sorting = ref([]);
-const columnFilters = ref([]);
+const columnFilters = ref([defaultFilterDate]);
 const columnVisibility = ref({});
 const rowSelection = ref({});
 const globalFilter = ref('');
+const filtering = ref(false);
 
 const table = useVueTable({
   get data() {
@@ -92,7 +113,10 @@ const table = useVueTable({
   getSortedRowModel: getSortedRowModel(),
   getFilteredRowModel: getFilteredRowModel(),
   onSortingChange: (updaterOrValue) => valueUpdater(updaterOrValue, sorting),
-  onColumnFiltersChange: (updaterOrValue) => valueUpdater(updaterOrValue, columnFilters),
+  onColumnFiltersChange: (updaterOrValue) => {
+    filtering.value = true;
+    valueUpdater(updaterOrValue, columnFilters);
+  },
   onColumnVisibilityChange: (updaterOrValue) => valueUpdater(updaterOrValue, columnVisibility),
   onRowSelectionChange: (updaterOrValue) => valueUpdater(updaterOrValue, rowSelection),
   onGlobalFilterChange: (updaterOrValue) => valueUpdater(updaterOrValue, globalFilter),
@@ -107,9 +131,16 @@ const updateGlobalFilter = (newFilter) => {
 const emit = defineEmits(['refresh']);
 
 const refresh = () => {
-  table.reset();
-  globalFilter.value = '';
+  resetFilter();
   emit('refresh');
+};
+
+const resetFilter = () => {
+  table.reset();
+  table.resetColumnFilters();
+  table.setColumnFilters([defaultFilterDate]);
+  filtering.value = false;
+  globalFilter.value = '';
 };
 </script>
 
@@ -120,9 +151,11 @@ const refresh = () => {
       <DataTableToolbar
         :table="table"
         :globalSearchText="globalFilter"
+        :filtering="filtering"
         :options="options"
         @updateGlobalSearchText="updateGlobalFilter"
         @refresh="refresh"
+        @reset="resetFilter"
       />
     </div>
     <div class="bg-white rounded-[10px] p-2 mt-5">
@@ -133,7 +166,7 @@ const refresh = () => {
             v-for="header in headerGroup.headers"
             :key="header.id"
             scope="col"
-            class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+            class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 border-b-2 border-solid border-grey-200"
             :class="[
                 header.column.columnDef.columnClass,
                 {
@@ -169,7 +202,7 @@ const refresh = () => {
         </tr>
         </tbody>
         <tfoot
-          v-if="table.getRowModel().rows?.length > 0 && !tableStore.loadingTable">
+          v-if="table.getRowModel().rows?.length > 0 && !tableStore.loadingTable && footer">
         <tr
           v-for="footerGroup in table.getFooterGroups()"
           :key="footerGroup.id"
@@ -178,13 +211,9 @@ const refresh = () => {
           <th
             v-for="header in footerGroup.headers"
             :key="header.id"
-            :colSpan="header.colSpan"
-            :class="[
-                header.column.columnDef.columnClass,
-                {
-                  'cursor-pointer select-none': header.column.getCanSort(),
-                },
-              ]"
+            :colSpan="header.column.columnDef.colSpan || header.colSpan"
+            class="border-t-2 border-solid border-grey-200"
+            :class="[header.column.columnDef.columnClass, header.column.columnDef.cellClass]"
           >
             <FlexRender
               v-if="!header.isPlaceholder && header.column.columnDef.footer"
@@ -213,7 +242,7 @@ td {
 }
 
 th {
-  text-align: left;
+  text-align: center;
   padding: 10px 8px;
   font-weight: 500;
 }
@@ -224,12 +253,6 @@ th:nth-child(1) {
   max-width: 240px;
 }
 
-tr:nth-child(1) {
-  border-bottom: 1px solid #f2f3f4;
-
-  color: var(--c-blue-dark);
-}
-
 tr:hover {
   background: #ececec;
   transition: 0.1s ease-in-out;
@@ -238,10 +261,5 @@ tr:hover {
 
 .hidden-column {
   display: none;
-}
-
-table, th, td {
-  border: 1px solid #777777;
-  border-collapse: collapse;
 }
 </style>

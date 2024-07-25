@@ -44,6 +44,7 @@ const refresh = async () => {
       :data="transactions"
       :columns="columnsTransactions"
       title="Recent Transactions"
+      :footer="true"
       :options="{
         columnFilter: 'bundleId',
         columnFilterDate: 'purchaseDate',

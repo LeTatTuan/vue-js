@@ -13,7 +13,12 @@ const columnsTransactions = [
     accessorKey: 'originalTransactionId',
     header: 'Customer',
     enableSorting: true,
-    enableGlobalFilter: true
+    enableGlobalFilter: true,
+    colSpan: 4,
+    footer: () => {
+      return h('div', { class: 'flex justify-center text-xl' }, 'Total cost');
+    }
+
   },
   {
     accessorKey: 'bundleId',
@@ -22,19 +27,22 @@ const columnsTransactions = [
     enableGlobalFilter: true,
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
-    }
+    },
+    cellClass: 'hidden-column'
   },
   {
     accessorKey: 'storefront',
     header: 'Store',
     enableSorting: true,
-    enableGlobalFilter: true
+    enableGlobalFilter: true,
+    cellClass: 'hidden-column'
   },
   {
     accessorKey: 'productId',
     header: 'Product',
     enableSorting: true,
-    enableGlobalFilter: true
+    enableGlobalFilter: true,
+    cellClass: 'hidden-column'
   },
   {
     accessorKey: 'totalCost',
@@ -47,13 +55,13 @@ const columnsTransactions = [
       const totalByPage = computed(() => info.table.getRowModel().rows.reduce((total, row) => total + (row.original.totalCost), 0));
       const totalAllPage = computed(() => info.table.getFilteredRowModel().rows.reduce((total, row) => total + (row.original.totalCost), 0));
       return h('div', { class: 'flex flex-col' }, [
-        h('td', { class: 'flex flex-row gap-5' }, [
-          h('td', { class: 'w-max' }, 'Total cost on each page'),
-          h('td', { class: 'flex w-max text-currency-primary justify-end font-light ml-auto' }, formatCurrency(totalByPage.value))
+        h('div', { class: 'flex flex-row gap-5' }, [
+          h('p', { class: 'w-max' }, 'One page'),
+          h('p', { class: 'flex w-max text-currency-primary justify-end font-light ml-auto' }, formatCurrency(totalByPage.value))
         ]),
-        h('td', { class: 'flex flex-row gap-7' }, [
-          h('td', { class: 'w-max' }, 'Total cost all page'),
-          h('td', { class: 'flex w-max text-currency-primary justify-end font-light ml-auto' }, formatCurrency(totalAllPage.value))
+        h('div', { class: 'flex flex-row gap-7' }, [
+          h('p', { class: 'w-max' }, 'All page'),
+          h('p', { class: 'flex w-max text-currency-primary justify-end font-light ml-auto' }, formatCurrency(totalAllPage.value))
         ])
       ]);
     }
@@ -63,6 +71,7 @@ const columnsTransactions = [
     header: 'Free Trial',
     enableSorting: true,
     enableGlobalFilter: false,
+    colSpan: 4,
     cell: (info) =>
       h('input', {
         type: 'checkbox',
@@ -77,7 +86,8 @@ const columnsTransactions = [
     enableSorting: true,
     enableGlobalFilter: false,
     meta: { filterVariant: 'range' },
-    filterFn: dateRangeFilterFn
+    filterFn: dateRangeFilterFn,
+    cellClass: 'hidden-column'
   },
   {
     accessorKey: 'expiresDate',
@@ -89,11 +99,13 @@ const columnsTransactions = [
       return 'Unlimited time';
     },
     enableSorting: true,
-    enableGlobalFilter: false
+    enableGlobalFilter: false,
+    cellClass: 'hidden-column'
   },
   {
     accessorKey: 'type',
-    header: 'Renewal'
+    header: 'Renewal',
+    cellClass: 'hidden-column'
   }
 ];
 

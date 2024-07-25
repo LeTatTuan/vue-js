@@ -67,13 +67,12 @@ const refresh = async () => {
 
 <template>
   <div v-bind="$attrs">
-    <div class="flex justify-end float-right py-20 px-5 mb-5">
+    <div class="flex justify-end float-right py-20 px-5">
       <button
-        class="flex items-center bg-green-500 p-2 text-white rounded text-sm hover:bg-green-600"
+        class="flex items-center bg-green-500 p-2 text-white rounded-full text-sm hover:bg-green-600"
         @click="openCreateNewUser"
       >
         <Plus />
-        Create New
       </button>
     </div>
     <data-table

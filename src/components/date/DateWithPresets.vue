@@ -1,7 +1,7 @@
 <script setup>
 import { Calendar as CalendarIcon } from 'lucide-vue-next';
-import { CalendarDate, DateFormatter, getLocalTimeZone, today } from '@internationalized/date';
-import { ref, watch } from 'vue';
+import { CalendarDate, DateFormatter, getLocalTimeZone } from '@internationalized/date';
+import { computed, ref, watch } from 'vue';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { RangeCalendar } from '@/components/ui/range-calendar';
@@ -11,44 +11,35 @@ import { Calendar } from '@/components/ui/calendar';
 import { DATE_PICKER_PRESETS } from '@/constants';
 
 const props = defineProps({
-  column: Object
+  column: Object,
+  setDateDefault: Boolean
 });
 
+const emit = defineEmits(['reset']);
 const items = [
-  { value: DATE_PICKER_PRESETS.today, label: 'Today', isDateRange: false },
-  { value: DATE_PICKER_PRESETS.tomorrow, label: 'Tomorrow', isDateRange: false },
-  { value: DATE_PICKER_PRESETS.in3days, label: 'In 3 days', isDateRange: false },
-  { value: DATE_PICKER_PRESETS.in7days, label: 'In a week', isDateRange: false },
-  { value: DATE_PICKER_PRESETS.onlyStartDay, label: 'Only start day', isDateRange: false },
-  { value: DATE_PICKER_PRESETS.onlyEndDay, label: 'Only end day', isDateRange: false },
+  { value: DATE_PICKER_PRESETS.onlyStartDay, label: 'Begin at', isDateRange: false },
+  { value: DATE_PICKER_PRESETS.onlyEndDay, label: 'Finish at', isDateRange: false },
   { value: DATE_PICKER_PRESETS.rangeDate, label: 'Custom range day', isDateRange: true }
 ];
-const itemSelected = ref(items[6]);
+
+const selectDefault = ref(items[2]);
+const itemSelected = computed(() => {
+  if (props.setDateDefault) {
+    return items[2];
+  }
+  return selectDefault.value;
+});
+
+
 const df = new DateFormatter('en-US', {
   dateStyle: 'medium'
 });
-
 const endDate = new Date(new Date().getTime());
-const calendarDate = new CalendarDate(endDate.getFullYear(), endDate.getMonth() + 1, endDate.getDate());
-
 const dateRange = ref({
-  start: calendarDate.subtract({ months: 1 }),
-  end: calendarDate
+  start: props.column.getFilterValue()[0],
+  end: props.column.getFilterValue()[1]
 });
 const singleDate = ref();
-
-watch(
-  () => props.column.getFilterValue(),
-  (newValue) => {
-    if (!newValue) {
-      itemSelected.value = items[6];
-      dateRange.value = {
-        start: calendarDate.subtract({ months: 1 }),
-        end: calendarDate
-      };
-    }
-  }
-);
 
 const updateFilterValue = (value) => {
   dateRange.value.start = value.start;
@@ -76,17 +67,13 @@ const updateSingleDate = (value) => {
   updateFilterValue(dateRange);
 };
 
+watch(() => props.column.getFilterValue(), newVal => {
+  dateRange.value = { start: newVal[0], end: newVal[1] };
+});
+
 const handleSelectFilterDate = (value) => {
-  itemSelected.value = items.find(item => item.value == value);
-  switch (+value) {
-    case DATE_PICKER_PRESETS.today:
-    case DATE_PICKER_PRESETS.tomorrow:
-    case DATE_PICKER_PRESETS.in3days:
-    case DATE_PICKER_PRESETS.in7days:
-      singleDate.value = today(getLocalTimeZone()).add({ days: Number(value) });
-      updateFilterValue({ end: singleDate.value });
-      break;
-  }
+  selectDefault.value = items.find(option => option.value.toString() === value);
+  emit('reset', false);
 };
 </script>
 
@@ -130,17 +117,23 @@ const handleSelectFilterDate = (value) => {
       </PopoverTrigger>
       <PopoverContent class="w-auto p-0" align="end">
         <Select
+          :model-value="itemSelected.value.toString()"
           @update:model-value="handleSelectFilterDate"
         >
           <SelectTrigger>
-            <SelectValue placeholder="Select the filter time" />
+            <SelectValue :placeholder="itemSelected.label || 'Select the filter time'" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem v-for="item in items" :key="item.value" :value="item.value.toString()">
+            <SelectItem
+              v-for="item in items"
+              :key="item.value"
+              :value="item.value.toString()"
+            >
               {{ item.label }}
             </SelectItem>
           </SelectContent>
         </Select>
+
         <div>
           <RangeCalendar
             v-if="itemSelected.isDateRange"
@@ -156,7 +149,8 @@ const handleSelectFilterDate = (value) => {
             v-else
             v-model="singleDate"
             @update:model-value="(value) => updateSingleDate(value)"
-            initial-focus />
+            initial-focus
+          />
         </div>
       </PopoverContent>
     </Popover>

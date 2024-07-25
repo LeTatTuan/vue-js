@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import DataTableFacetedFilter from '@/components/table/DataTableFacetedFilter.vue';
 import DateWithPresets from '@/components/date/DateWithPresets.vue';
 import { ListRestart, X } from 'lucide-vue-next';
@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 const props = defineProps({
   table: Object,
   globalSearchText: String,
+  filtering: Boolean,
   options: {
     type: Object,
     default: () => ({}),
@@ -19,15 +20,26 @@ const props = defineProps({
   }
 });
 
-const isFiltered = computed(() => props.table.getState().columnFilters.length > 0);
-const emit = defineEmits(['updateGlobalSearchText', 'refresh']);
+const isFiltered = computed(() =>
+  props.filtering || props.table.getState().globalFilter.length > 0);
 
+const emit = defineEmits(['updateGlobalSearchText', 'refresh', 'reset']);
+const setDefault = ref(false);
 const onInput = (event) => {
   emit('updateGlobalSearchText', event.target.value);
 };
 
 const refresh = () => {
+  setDefault.value = true;
   emit('refresh');
+};
+
+const reset = () => {
+  setDefault.value = true;
+  emit('reset');
+};
+const resetDefaultDate = (value) => {
+  setDefault.value = value;
 };
 </script>
 
@@ -54,9 +66,11 @@ const refresh = () => {
         <DateWithPresets
           :v-if="table.getColumn(options.columnFilterDate)"
           :column="table.getColumn(options.columnFilterDate)"
+          :set-date-default="setDefault"
+          @reset="resetDefaultDate"
         />
       </div>
-      <Button v-if="isFiltered" variant="ghost" class="h-8 px-2 lg:px-3" @click="table.resetColumnFilters()">
+      <Button v-if="isFiltered" variant="ghost" class="h-8 px-2 lg:px-3" @click.prevent="reset">
         Reset
         <X class="ml-2 h-4 w-4" />
       </Button>
